@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>The Quiet Study — Poems by Aparyx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wood-dark:#241609; --wood-mid:#3d2814; --wood-light:#5a3b20;
+    --leather:#5c1c1c; --leather-dark:#3f1212;
+    --brass:#b08d3e; --brass-light:#e0c584;
+    --parchment:#f2e8d0; --parchment-dark:#e6d8b8; --parchment-shadow:#cdbb8f;
+    --ink:#2b2118; --ink-soft:#4a3c2c; --forest:#1e2f22;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--wood-dark); color:var(--parchment); font-family:'EB Garamond', serif; overflow-x:hidden; }
+  ::selection{ background:var(--brass); color:var(--ink); }
+  .label{ font-family:'Cormorant SC', serif; letter-spacing:0.28em; text-transform:uppercase; font-size:0.78rem; color:var(--brass-light); }
+  button{ font-family:inherit; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; min-height:88vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 38%, rgba(224,197,132,0.16), transparent 70%),
+      repeating-linear-gradient(90deg, #2a1a0c 0px, #2a1a0c 3px, #24160a 3px, #24160a 6px),
+      linear-gradient(180deg, #1c1108, #241609 40%, #1a0f07);
+    padding:2rem; overflow:hidden;
+  }
+  .motes span{ position:absolute; bottom:-10px; border-radius:50%; background:var(--brass-light); opacity:0.35; animation:drift linear infinite; }
+  @keyframes drift{ 0%{transform:translateY(0) translateX(0); opacity:0;} 10%{opacity:0.45;} 100%{transform:translateY(-110vh) translateX(20px); opacity:0;} }
+  .lamp{ width:14px; height:14px; border-radius:50%; background:radial-gradient(circle,#fff3d0, var(--brass-light) 55%, transparent 75%); box-shadow:0 0 30px 14px rgba(224,197,132,0.35); margin:0 auto 1.6rem; animation:flicker 3.2s ease-in-out infinite; }
+  @keyframes flicker{ 0%,100%{opacity:1; box-shadow:0 0 30px 14px rgba(224,197,132,0.35);} 45%{opacity:0.85; box-shadow:0 0 24px 10px rgba(224,197,132,0.28);} 50%{opacity:1;} 78%{opacity:0.9;} }
+  .hero h1{ font-family:'Playfair Display', serif; font-weight:900; font-size:clamp(2.2rem,7vw,5.2rem); color:var(--parchment); text-shadow:0 2px 30px rgba(0,0,0,0.5); }
+  .hero .sub{ font-style:italic; font-size:clamp(0.95rem,2vw,1.25rem); color:var(--parchment-shadow); margin-top:1rem; max-width:32em; }
+  .hero .byline{ margin-top:2rem; }
+  .scroll-cue{
+    margin-top:2.6rem; display:inline-flex; align-items:center; gap:0.6rem; color:var(--brass-light);
+    font-family:'Cormorant SC', serif; letter-spacing:0.25em; font-size:0.8rem; text-transform:uppercase;
+    border:1px solid rgba(224,197,132,0.4); padding:0.7rem 1.4rem; border-radius:2px; cursor:pointer; background:none;
+    transition:background 0.3s;
+  }
+  .scroll-cue:hover{ background:rgba(224,197,132,0.12); }
+  .scroll-cue .arrow{ display:inline-block; animation:bob 1.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(4px);} }
+
+  /* ---------- EPIGRAPH ---------- */
+  .epigraph{
+    background:linear-gradient(180deg, #1a0f07, var(--wood-dark));
+    padding:3.2rem 1.5rem; text-align:center;
+    border-top:1px solid rgba(224,197,132,0.15); border-bottom:1px solid rgba(224,197,132,0.15);
+  }
+  .epigraph blockquote{
+    max-width:44em; margin:0 auto; font-family:'Playfair Display', serif; font-style:italic;
+    font-size:clamp(1.05rem,2.4vw,1.4rem); color:var(--parchment); line-height:1.7;
+  }
+  .epigraph cite{ display:block; margin-top:1rem; font-style:normal; }
+
+  /* ---------- SHELF SECTION ---------- */
+  .shelf-section{ padding:5rem 1.2rem 2rem; background:linear-gradient(180deg, var(--wood-dark) 0%, var(--wood-mid) 100%); }
+  .shelf-intro{ text-align:center; max-width:40em; margin:0 auto 2.2rem; }
+  .shelf-intro h2{ font-family:'Playfair Display', serif; font-size:clamp(1.6rem,3.4vw,2.4rem); color:var(--parchment); margin-top:0.8rem; }
+  .shelf-intro p{ color:var(--parchment-shadow); margin-top:0.9rem; font-size:1.02rem; line-height:1.7; }
+
+  .catalog-bar{ max-width:640px; margin:0 auto 1.2rem; display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; }
+  .catalog-bar input[type="text"], .catalog-bar select{
+    font-family:'EB Garamond', serif; font-size:1rem; padding:0.65rem 1rem; border-radius:3px;
+    border:1px solid var(--brass); background:rgba(0,0,0,0.25); color:var(--parchment); min-width:220px; flex:1;
+  }
+  .catalog-bar input::placeholder{ color:var(--parchment-shadow); }
+  .catalog-bar select{ cursor:pointer; }
+  .catalog-bar select option{ background:var(--wood-dark); color:var(--parchment); }
+
+  .admin-bar{
+    max-width:640px; margin:0 auto 2.6rem; display:none; gap:0.6rem; flex-wrap:wrap; justify-content:center;
+    background:rgba(0,0,0,0.2); border:1px dashed var(--brass); border-radius:4px; padding:0.9rem;
+  }
+  body.edit-mode .admin-bar{ display:flex; }
+  .admin-bar button{
+    background:var(--forest); color:var(--parchment); border:1px solid var(--brass-light);
+    padding:0.5rem 0.9rem; border-radius:3px; cursor:pointer; font-size:0.85rem;
+  }
+  .admin-bar button:hover{ filter:brightness(1.15); }
+
+  .bookcase{ max-width:1000px; margin:0 auto 2.2rem; }
+  .library-frame{
+    position:relative; padding:2.4rem 1.4rem 0.6rem;
+    border-left:12px solid var(--wood-light); border-right:12px solid var(--wood-light);
+    background:linear-gradient(180deg, rgba(255,255,255,0.025), transparent 14%);
+    box-shadow:inset 0 0 50px rgba(0,0,0,0.35);
+  }
+  .library-frame::before{ content:""; position:absolute; left:-12px; right:-12px; top:-12px; height:12px; background:linear-gradient(180deg, var(--wood-light), var(--wood-dark)); box-shadow:0 4px 10px rgba(0,0,0,0.4); }
+  .library-frame::after{ content:""; position:absolute; left:-12px; right:-12px; bottom:0; height:18px; background:linear-gradient(180deg, var(--wood-mid), var(--wood-dark)); box-shadow:0 -2px 6px rgba(0,0,0,0.3) inset, 0 8px 16px rgba(0,0,0,0.5); }
+  .shelf-row{ position:relative; margin-bottom:3.2rem; }
+  .shelf-row.hidden-row{ display:none; }
+  .aisle-sign-wrap{ display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1.4rem; flex-wrap:wrap; }
+  .aisle-sign{
+    display:flex; align-items:center; gap:0.7rem; width:fit-content; max-width:90%;
+    background:linear-gradient(180deg, var(--leather), var(--leather-dark));
+    border:1px solid var(--brass); padding:0.5rem 1.2rem; border-radius:2px;
+    position:relative; box-shadow:0 6px 14px rgba(0,0,0,0.4);
+  }
+  .aisle-sign::before{ content:""; position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:2px; height:9px; background:var(--brass); }
+  .aisle-sign .call-no{ font-family:'Cormorant SC', serif; color:var(--brass-light); font-size:0.74rem; letter-spacing:0.12em; border-right:1px solid rgba(224,197,132,0.4); padding-right:0.7rem; white-space:nowrap; }
+  .aisle-sign .sign-title{ font-family:'Playfair Display', serif; font-style:italic; color:var(--parchment); font-size:0.92rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mini-btn{
+    background:rgba(0,0,0,0.3); color:var(--brass-light); border:1px solid var(--brass);
+    border-radius:50%; width:26px; height:26px; font-size:0.8rem; cursor:pointer; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mini-btn:hover{ background:rgba(0,0,0,0.5); }
+  .section-divider{ height:1px; max-width:900px; margin:0 auto 3.2rem; background:linear-gradient(90deg, transparent, rgba(224,197,132,0.35), transparent); }
+
+  .spines{
+    display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:center;
+    gap:16px 12px; padding:10px 10px 16px; min-height:190px; position:relative;
+  }
+  .plank{ position:absolute; left:-12px; right:-12px; bottom:0; height:16px; background:linear-gradient(180deg, var(--wood-light), var(--wood-mid) 60%, var(--wood-dark)); border-radius:2px; box-shadow:0 10px 18px rgba(0,0,0,0.5), 0 -2px 0 rgba(255,255,255,0.05) inset; z-index:0; }
+  .spine{
+    writing-mode:vertical-rl; text-orientation:mixed; display:flex; align-items:center; justify-content:space-between;
+    padding:14px 8px; border-radius:3px 3px 0 0; cursor:pointer; font-family:'Cormorant SC', serif; letter-spacing:0.07em;
+    color:var(--parchment); border:1px solid rgba(0,0,0,0.35);
+    box-shadow:inset -3px 0 6px rgba(0,0,0,0.25), inset 2px 0 0 rgba(255,255,255,0.06);
+    transition:transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    position:relative; flex-shrink:0; z-index:1;
+  }
+  .spine:hover, .spine:focus-visible{ transform:translateY(-14px) rotate(-1.5deg); filter:brightness(1.12); box-shadow:0 10px 16px rgba(0,0,0,0.45), inset -3px 0 6px rgba(0,0,0,0.25); outline:none; }
+  .spine .gold-rule{ width:70%; height:1px; background:rgba(224,197,132,0.55); }
+  .spine .title-txt{ font-size:0.9rem; font-weight:600; }
+  .spine.locked{ background:linear-gradient(180deg,#1c1c1c,#0a0a0a) !important; border:1px solid var(--brass); }
+  .spine.locked .title-txt::before{ content:"🔒 "; }
+  .spine.add-spine{
+    writing-mode:horizontal-tb; background:transparent !important; border:2px dashed rgba(224,197,132,0.5);
+    color:var(--brass-light); font-size:1.4rem; height:100px !important; width:44px !important;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .no-results{ text-align:center; color:var(--parchment-shadow); font-style:italic; padding:2rem; display:none; }
+  .add-section-row{ text-align:center; margin:1.4rem 0 0; }
+  .add-section-row button{
+    background:var(--leather); color:var(--brass-light); border:1px solid var(--brass);
+    padding:0.6rem 1.3rem; border-radius:3px; cursor:pointer; font-size:0.9rem;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-section{ background:linear-gradient(180deg, var(--wood-mid), var(--forest) 120%); padding:5rem 1.5rem; display:flex; justify-content:center; }
+  .about-card{ max-width:640px; border:1px solid rgba(224,197,132,0.18); padding:3rem clamp(1.5rem,4vw,3.5rem); text-align:center; border-radius:4px; }
+  .about-card .label{ display:block; margin-bottom:1rem; }
+  .about-card h3{ font-family:'Playfair Display', serif; font-size:clamp(1.4rem,2.6vw,1.9rem); color:var(--parchment); margin-bottom:1.2rem; }
+  .about-card p{ color:var(--parchment-shadow); line-height:1.85; font-size:1.05rem; }
+
+  footer{ background:var(--wood-dark); padding:2.6rem 1.5rem 2.2rem; text-align:center; border-top:1px solid rgba(224,197,132,0.15); }
+  .plate{ display:inline-block; padding:0.5rem 1.6rem; border:1px solid var(--brass); color:var(--brass-light); font-family:'Cormorant SC', serif; letter-spacing:0.2em; font-size:0.78rem; border-radius:2px; margin-bottom:1rem; }
+  footer p{ color:var(--parchment-shadow); font-size:0.9rem; }
+
+  /* floating admin toggle */
+  .admin-toggle{
+    position:fixed; bottom:18px; right:18px; width:42px; height:42px; border-radius:50%;
+    background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); font-size:1.1rem;
+    cursor:pointer; z-index:60; box-shadow:0 6px 16px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;
+  }
+  body.edit-mode .admin-toggle{ background:var(--forest); }
+
+  /* ---------- MODAL: OPEN BOOK ---------- */
+  .modal-backdrop{ position:fixed; inset:0; background:rgba(10,6,2,0.8); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:1.2rem; z-index:100; opacity:0; pointer-events:none; transition:opacity 0.35s ease; }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  .book{
+    width:min(920px,100%); max-height:90vh;
+    background:linear-gradient(90deg, var(--parchment-dark), var(--parchment) 4%, var(--parchment) 96%, var(--parchment-dark));
+    border-radius:6px; box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 0 8px var(--leather-dark), 0 0 0 10px var(--brass);
+    position:relative; display:flex; flex-direction:column; overflow:hidden;
+    transform:scale(0.92) translateY(20px); transition:transform 0.4s cubic-bezier(.2,.9,.25,1.1);
+  }
+  .modal-backdrop.open .book{ transform:scale(1) translateY(0); }
+  .book-header{ display:flex; align-items:center; justify-content:space-between; gap:0.6rem; padding:0.8rem 1.1rem; border-bottom:1px solid var(--parchment-shadow); background:rgba(0,0,0,0.03); }
+  .book-header .bh-title{ font-family:'Cormorant SC', serif; letter-spacing:0.12em; text-transform:uppercase; font-size:0.75rem; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .header-btns{ display:flex; gap:0.4rem; flex-shrink:0; }
+  .header-btns button{ font-size:0.78rem; padding:0.35rem 0.7rem; border-radius:3px; cursor:pointer; border:1px solid var(--brass); background:var(--leather); color:var(--brass-light); }
+  .close-btn{ width:28px; height:28px; border-radius:50%; background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); font-size:0.95rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+
+  .pages-wrap{ display:grid; grid-template-columns:1fr 1fr; flex:1; min-height:0; position:relative; }
+  .pages-wrap::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:32px; transform:translateX(-50%); background:linear-gradient(90deg, rgba(0,0,0,0.16), rgba(0,0,0,0.03) 30%, transparent 50%, rgba(0,0,0,0.03) 70%, rgba(0,0,0,0.16)); pointer-events:none; z-index:2; }
+  .page{ padding:clamp(1.2rem,3vw,2.2rem); overflow-y:auto; color:var(--ink); min-height:0; }
+  .cover-content{ display:flex; flex-direction:column; justify-content:center; height:100%; text-align:center; }
+  .cover-content .coll-label{ font-family:'Cormorant SC', serif; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-soft); font-size:0.72rem; }
+  .cover-content h2{ font-family:'Playfair Display', serif; font-style:italic; font-size:clamp(1.3rem,3vw,1.9rem); margin:0.6rem 0 1rem; color:var(--leather-dark); }
+  .cover-content .desc{ font-size:0.92rem; line-height:1.75; color:var(--ink-soft); }
+  .empty-page{ display:flex; align-items:center; justify-content:center; height:100%; color:var(--parchment-shadow); font-style:italic; }
+  h3.poem-title{ font-family:'Playfair Display', serif; font-weight:700; font-size:1.25rem; margin-bottom:0.2rem; }
+  .poem-meta{ font-family:'Cormorant SC', serif; letter-spacing:0.12em; font-size:0.66rem; text-transform:uppercase; color:var(--ink-soft); margin-bottom:1rem; display:block; }
+  .poem-text{ font-size:0.98rem; line-height:1.82; white-space:pre-line; }
+  .poem-text::first-letter{ font-family:'Playfair Display', serif; font-size:2.6rem; float:left; line-height:0.8; padding-right:0.12em; padding-top:0.06em; color:var(--leather-dark); font-weight:900; }
+  .book-nav{ display:flex; align-items:center; justify-content:center; gap:1.2rem; padding:0.7rem; border-top:1px solid var(--parchment-shadow); background:rgba(0,0,0,0.03); }
+  .book-nav button{ background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); padding:0.5rem 1.1rem; border-radius:3px; cursor:pointer; font-size:0.92rem; }
+  .book-nav button:hover:not(:disabled){ background:var(--leather-dark); }
+  .book-nav button:disabled{ opacity:0.35; cursor:default; }
+  .book-nav .spread-count{ font-family:'Cormorant SC', serif; letter-spacing:0.1em; font-size:0.76rem; color:var(--ink-soft); }
+
+  /* ---------- EDIT PANEL (inside book modal) ---------- */
+  .edit-panel{ flex:1; overflow-y:auto; padding:1.4rem clamp(1rem,3vw,2.2rem); color:var(--ink); }
+  .edit-panel label{ font-family:'Cormorant SC', serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.7rem; color:var(--ink-soft); display:block; margin-bottom:0.3rem; }
+  .edit-panel input[type="text"], .edit-panel textarea{
+    width:100%; font-family:'EB Garamond', serif; font-size:1rem; padding:0.55rem 0.7rem; border-radius:3px;
+    border:1px solid var(--ink-soft); margin-bottom:1rem; background:#fffdf6;
+  }
+  .edit-panel textarea{ min-height:130px; resize:vertical; line-height:1.6; }
+  .poem-edit-block{ border:1px solid var(--parchment-shadow); border-radius:4px; padding:1rem; margin-bottom:1.2rem; position:relative; background:rgba(255,255,255,0.4); }
+  .poem-edit-block .del-poem{ position:absolute; top:0.6rem; right:0.6rem; background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); border-radius:3px; padding:0.25rem 0.6rem; font-size:0.78rem; cursor:pointer; }
+  .edit-actions{ display:flex; gap:0.7rem; flex-wrap:wrap; margin-top:0.6rem; }
+  .edit-actions button{ padding:0.6rem 1.1rem; border-radius:3px; cursor:pointer; font-size:0.9rem; border:1px solid var(--brass); }
+  .btn-save{ background:var(--forest); color:var(--parchment); }
+  .btn-add{ background:var(--leather); color:var(--brass-light); }
+  .btn-cancel{ background:transparent; color:var(--ink-soft); border-color:var(--ink-soft); }
+  .btn-danger{ background:#5c1c1c; color:var(--brass-light); }
+
+  /* ---------- PASSWORD MODAL ---------- */
+  .pw-box{ width:min(380px,100%); background:var(--parchment); border-radius:6px; padding:2.2rem 1.8rem; text-align:center; color:var(--ink); box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 0 8px var(--leather-dark), 0 0 0 10px var(--brass); transform:scale(0.92); transition:transform 0.35s cubic-bezier(.2,.9,.25,1.1); }
+  .modal-backdrop.open .pw-box{ transform:scale(1); }
+  .pw-box .lock-icon{ font-size:2rem; margin-bottom:0.6rem; }
+  .pw-box h3{ font-family:'Playfair Display', serif; font-style:italic; margin-bottom:0.5rem; }
+  .pw-box p{ color:var(--ink-soft); font-size:0.92rem; margin-bottom:1.2rem; line-height:1.6; }
+  .pw-box input{ width:100%; padding:0.65rem 0.8rem; border-radius:3px; border:1px solid var(--ink-soft); font-family:'EB Garamond', serif; font-size:1rem; margin-bottom:0.8rem; }
+  .pw-box button{ background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); padding:0.6rem 1.4rem; border-radius:3px; cursor:pointer; font-size:0.95rem; width:100%; }
+  .pw-box .pw-error{ color:var(--leather); font-size:0.85rem; margin-top:0.6rem; min-height:1.2em; }
+  .pw-box.shake{ animation:shake 0.4s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 75%{transform:translateX(8px);} }
+  #importFile{ display:none; }
+
+  @media (max-width:720px){
+    .pages-wrap{ grid-template-columns:1fr; }
+    .pages-wrap::before{ display:none; }
+    .page{ display:none; }
+    .page.active-mobile{ display:block; }
+    .library-frame{ border-left-width:7px; border-right-width:7px; padding-left:0.6rem; padding-right:0.6rem; }
+    .poem-text{ font-size:0.92rem; }
+  }
+  @media (max-width:480px){
+    .aisle-sign .sign-title{ font-size:0.8rem; }
+    .aisle-sign .call-no{ font-size:0.64rem; padding-right:0.5rem; }
+    .catalog-bar input, .catalog-bar select{ min-width:0; width:100%; }
+    .poem-text{ font-size:0.88rem; line-height:1.72; }
+    .poem-text::first-letter{ font-size:2.1rem; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .lamp{ animation:none; } .motes span{ animation:none; opacity:0; } .scroll-cue .arrow{ animation:none; } html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="motes" aria-hidden="true"></div>
+  <div class="lamp" aria-hidden="true"></div>
+  <span class="label">A Personal Collection</span>
+  <h1>The Quiet Study</h1>
+  <p class="sub">Poems kept close, now left open on the desk — come in, the lamp is lit and the chair is free.</p>
+  <p class="byline label">— Aparyx —</p>
+  <button id="stepInside" class="scroll-cue">Step Inside <span class="arrow">↓</span></button>
+</section>
+
+<section class="epigraph">
+  <blockquote>
+    "If honesty is a sin, then I've sinned in every poem on this shelf — and I'd do it again, in the same ink, without once asking to be forgiven."
+    <cite class="label">— Aparyx</cite>
+  </blockquote>
+</section>
+
+<section class="shelf-section" id="shelf">
+  <div class="shelf-intro">
+    <span class="label">811 — Poetry Collection</span>
+    <h2>Browse the sections</h2>
+    <p>Arranged the way a library arranges its shelves — by subject, with its own call number.</p>
+  </div>
+
+  <div class="catalog-bar">
+    <input type="text" id="searchBox" placeholder="Search by title...">
+    <select id="jumpSelect"><option value="">Jump to a section...</option></select>
+  </div>
+
+  <div class="admin-bar">
+    <button id="exportBtn">⬇ Export Backup</button>
+    <button id="importBtn">⬆ Import Backup</button>
+    <button id="changePwBtn">🔑 Change Password</button>
+    <input type="file" id="importFile" accept="application/json">
+  </div>
+
+  <div class="bookcase">
+    <div class="library-frame" id="libraryFrame"></div>
+    <p class="no-results" id="noResults">No poems match that search.</p>
+    <div class="add-section-row" id="addSectionRow" style="display:none;">
+      <button id="addSectionBtn">+ Add New Section</button>
+    </div>
+  </div>
+
+  <div class="bookcase" style="margin-top:-1rem;">
+    <div class="library-frame" id="restrictedFrame"></div>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="about-card">
+    <span class="label">About</span>
+    <h3>A word from me</h3>
+    <p>I'm Aparyx. I write because some things only make sense once they're on paper — and even then, only barely. These shelves hold what I couldn't say any other way. Most of it is open to read. A little of it is locked, on purpose. Come back whenever you like; the lamp stays lit.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="plate">Est. 2026</div>
+  <p>The Quiet Study · a home for poems by Aparyx</p>
+</footer>
+
+<button class="admin-toggle" id="adminToggle" title="Admin">🔒</button>
+
+<!-- BOOK READER / EDITOR MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="book" role="dialog" aria-modal="true" aria-label="Open book">
+    <div class="book-header">
+      <span class="bh-title" id="bhTitle">Title</span>
+      <div class="header-btns" id="headerBtns"></div>
+      <button class="close-btn" id="closeBtn" aria-label="Close book">✕</button>
+    </div>
+    <div class="pages-wrap" id="pagesWrap">
+      <div class="page left active-mobile" id="pageLeft"></div>
+      <div class="page right" id="pageRight"></div>
+    </div>
+    <div class="edit-panel" id="editPanel" style="display:none;"></div>
+    <div class="book-nav" id="bookNav">
+      <button id="prevBtn">‹ Prev</button>
+      <span class="spread-count" id="spreadCount">Page 1</span>
+      <button id="nextBtn">Next ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-backdrop" id="pwBackdrop">
+  <div class="pw-box" id="pwBox">
+    <div class="lock-icon" id="pwIcon">🔒</div>
+    <h3 id="pwHeading">Restricted Shelf</h3>
+    <p id="pwText">This collection is kept locked. Enter the password to open it.</p>
+    <input type="password" id="pwInput" placeholder="Password">
+    <input type="password" id="pwInput2" placeholder="Confirm new password" style="display:none;">
+    <button id="pwSubmit">Unlock</button>
+    <div class="pw-error" id="pwError"></div>
+    <button style="background:none;border:none;color:var(--ink-soft);margin-top:0.6rem;cursor:pointer;text-decoration:underline;font-size:0.85rem;" id="pwCancel">Cancel</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   This site is fully editable from the page itself once you unlock the
+   admin lock (bottom-right 🔒 button) with your password. No code editing
+   needed after this point — everything below is just the starting content
+   and it gets overwritten by whatever you save through the site.
+   ========================================================================= */
+
+const DEFAULT_LIBRARY = [
+  { callNo:"811.54", section:"Seasons & Solitude", books:[
+    { title:"Autumn & Absence", poems:[
+      { title:"November", text:"The trees have stopped pretending.\nThey let the leaves go the way you let go\nof a hand you were already missing —\nwithout ceremony, without looking back.\n\nI sweep the porch each morning now,\nnot because it needs it,\nbut because my hands have grown used to\nholding something that isn't there." },
+      { title:"What the Rain Knows", text:"It doesn't fall to be forgiven.\nIt falls because the sky was carrying\nmore than it could hold, and this —\nthis is simply what letting go looks like\nwhen you're made of water." },
+      { title:"Bare Branches", text:"No one warns a tree\nbefore it's asked to let everything go at once.\nIt just wakes up lighter,\nand calls that survival.\n\nI've been trying to learn that trick all year —\nhow to lose things\nand still call it standing." },
+      { title:"The Last Warm Day", text:"We didn't know it was the last one.\nWe just sat outside a little longer,\ntalked a little slower,\nas if some part of us already knew\nto make room for the memory." }
+    ]},
+    { title:"Winter's Ledger", poems:[
+      { title:"Frost", text:"Overnight the world balances its books —\nevery leaf accounted for,\nevery warm thing quietly repossessed.\nI wake to a lawn made of glass\nand understand: some seasons\nonly speak in inventory." },
+      { title:"What Snow Remembers", text:"It falls the same on every roof,\nplayground and grave alike,\nas if to say: I don't keep score,\nI only cover things gently\nuntil someone is ready to see them again." }
+    ]}
+  ]},
+  { callNo:"811.6", section:"The Heart Shelf", books:[
+    { title:"Love, Unfolded", poems:[
+      { title:"Tide", text:"You are the kind of good\nI did not have a name for.\nNow I keep finding it everywhere —\nin the second cup of tea I make from habit,\nin the space on the bed I no longer sleep across." },
+      { title:"Small Weathers", text:"Not the grand kind of love —\nnot fireworks, not the film score swelling.\nJust you, reaching for the light switch\nbefore I ask." },
+      { title:"Anchor", text:"I used to think I needed to be someone's harbor.\nTurns out I just needed to be someone's anchor —\nthe unglamorous weight\nthat keeps a person from drifting\nfurther than they meant to." },
+      { title:"The Long Way Home", text:"We take the longer road on purpose now,\nnot because we're lost,\nbut because arriving\nhas started to feel like an ending,\nand we're in no hurry to end anything." }
+    ]},
+    { title:"Letters I Didn't Send", poems:[
+      { title:"Unsent", text:"There's a drawer in me\nfull of things I meant to say —\nfolded neatly, stamped, addressed,\nand never once mailed.\nI'm not sure if that's restraint or cowardice.\nMaybe some days it's both." },
+      { title:"If You're Reading This", text:"Then I finally found the nerve,\nor you finally found the drawer.\nEither way — I meant every word,\nI just needed more time\nthan a stamp can wait for." }
+    ]}
+  ]},
+  { callNo:"811.7", section:"Memory & Time", books:[
+    { title:"The Attic Hour", poems:[
+      { title:"The Attic Hour", text:"There is an hour that belongs to no clock —\nsomewhere past midnight, before the birds\nremember their jobs —\nwhen the house exhales\nand every room I have ever slept in\ncomes to sit at the foot of the bed." },
+      { title:"Morning, Unhurried", text:"Some mornings ask nothing of me.\nThe kettle takes its time.\nThe light comes in sideways, unbothered,\nand lands on the same chair\nit has always preferred." },
+      { title:"Old Photographs", text:"We look younger than we remember feeling.\nThat's the trick a photograph plays —\nit keeps the face\nbut lets the worry go undeveloped." },
+      { title:"The Clock in the Hallway", text:"It has kept the wrong time for years\nand somehow no one's fixed it,\nlike we all secretly agreed\nthis house gets to run\non its own private hour." }
+    ]},
+    { title:"Ghosts I Keep", poems:[
+      { title:"The House Remembers", text:"Long after the boxes are packed,\nthe house keeps humming the old arrangement —\nwhere the table sat, where the light fell,\nwhere someone used to laugh\nloud enough to warm the whole kitchen." },
+      { title:"What I Never Said", text:"Grief doesn't ask permission to visit.\nIt just shows up mid-afternoon,\nwearing your old jacket,\nand sits with me a while,\nas if that were ever a kindness." }
+    ]}
+  ]},
+  { callNo:"811.8", section:"Night & the In-Between", books:[
+    { title:"Insomnia Notes", poems:[
+      { title:"3 A.M.", text:"This is the hour that tells the truth,\nmostly because no one else is awake\nto talk me out of it." },
+      { title:"The Space Between Sleep", text:"I live here more than I'd like to admit —\nthe narrow hallway between awake and dreaming,\nwhere every thought I avoided all day\nfinally gets its turn to speak." },
+      { title:"Streetlights", text:"They keep a kind of vigil I admire —\nstaying lit for no one in particular,\njust in case someone,\nlike me, still needed the light\nto find their way back in." }
+    ]}
+  ]}
+];
+
+const STORAGE_KEY_LIBRARY = "quiet-study-library-v1";
+const STORAGE_KEY_PRIVATE = "quiet-study-private-v1";
+
+const DEFAULT_PRIVATE_HASH = "a515f4cdbe2c73d830bb898166a0a3912902fa1e7a3b410ba31d8235add9bd5a";
+const DEFAULT_PRIVATE_CIPHER = "CwlDBwEVAgtDXk9MYRsZTiEYVCcLFUYAUzIWFxdwMBQHSCwHAARGQ04FAA4WG1VOSEckCRoAVx8TAzVSCABIDQENCgELTkURCA8aBBFIFh8MFlMHABcJI1IAAQ0PSRpBFgoPQw1LCAAFVAlFAwkWHxFBLgoMHDMWGA0PDQREGwZOB0seAxYXDQ0fDRcWBU8FDSQaQQQAABoLFwEdTl4bHkkdElQGCgRBARYWCwtEJB1BAAAOGU4AChYBSRFLFwoDWjQLPw8fClcWHRFwGgAFDUEaBgREBAteVInu+1cYAREVExIfGxZcRi0v";
+const PRIVATE_BOOK_TITLE = "Locked Collection";
+
+let LIBRARY = JSON.parse(JSON.stringify(DEFAULT_LIBRARY));
+let privateHash = DEFAULT_PRIVATE_HASH;
+let privateCipher = DEFAULT_PRIVATE_CIPHER;
+let isAdmin = false;
+let adminPassword = null;
+
+/* ---------- storage helpers (fall back silently if storage unavailable) ---------- */
+async function storageGet(key){
+  try{
+    const res = await window.storage.get(key, false);
+    return res ? res.value : null;
+  }catch(e){ return null; }
+}
+async function storageSet(key, value){
+  try{ await window.storage.set(key, value, false); }catch(e){ /* ignore, keep working in-memory */ }
+}
+
+async function loadData(){
+  const libRaw = await storageGet(STORAGE_KEY_LIBRARY);
+  if(libRaw){ try{ LIBRARY = JSON.parse(libRaw); }catch(e){} }
+  else { await storageSet(STORAGE_KEY_LIBRARY, JSON.stringify(LIBRARY)); }
+
+  const privRaw = await storageGet(STORAGE_KEY_PRIVATE);
+  if(privRaw){ try{ const p = JSON.parse(privRaw); privateHash = p.hash; privateCipher = p.cipher; }catch(e){} }
+  else { await storageSet(STORAGE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher})); }
+}
+async function saveLibrary(){ await storageSet(STORAGE_KEY_LIBRARY, JSON.stringify(LIBRARY)); }
+async function savePrivate(){ await storageSet(STORAGE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher})); }
+
+/* ---------- deterministic pseudo-random for spine variety ---------- */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
+const SPINE_COLORS = [
+  ["#5c1c1c","#3f1212"], ["#3a4a2e","#24301c"], ["#2c3f52","#182533"],
+  ["#5c4a1c","#382e10"], ["#4a3220","#2e1e11"], ["#3d2b52","#241833"],
+  ["#1e4a4a","#0f2b2b"], ["#5a2e46","#331a29"]
+];
+
+/* ---------- render bookcase ---------- */
+const libraryFrame = document.getElementById('libraryFrame');
+const jumpSelect = document.getElementById('jumpSelect');
+const noResults = document.getElementById('noResults');
+const addSectionRow = document.getElementById('addSectionRow');
+
+function renderLibrary(){
+  libraryFrame.innerHTML = '';
+  jumpSelect.innerHTML = '<option value="">Jump to a section...</option>';
+  addSectionRow.style.display = isAdmin ? 'block' : 'none';
+
+  LIBRARY.forEach((sec, secIdx) => {
+    const row = document.createElement('div');
+    row.className = 'shelf-row';
+    row.id = 'section-' + secIdx;
+    row.dataset.sectionTitle = sec.section.toLowerCase();
+
+    const signWrap = document.createElement('div');
+    signWrap.className = 'aisle-sign-wrap';
+    const sign = document.createElement('div');
+    sign.className = 'aisle-sign';
+    sign.innerHTML = `<span class="call-no">${sec.callNo}</span><span class="sign-title">${sec.section}</span>`;
+    signWrap.appendChild(sign);
+    if(isAdmin){
+      const editBtn = document.createElement('button');
+      editBtn.className = 'mini-btn'; editBtn.title = 'Rename section'; editBtn.textContent = '✎';
+      editBtn.addEventListener('click', ()=>renameSection(secIdx));
+      const delBtn = document.createElement('button');
+      delBtn.className = 'mini-btn'; delBtn.title = 'Delete section'; delBtn.textContent = '🗑';
+      delBtn.addEventListener('click', ()=>deleteSection(secIdx));
+      signWrap.appendChild(editBtn); signWrap.appendChild(delBtn);
+    }
+    row.appendChild(signWrap);
+
+    const spinesWrap = document.createElement('div');
+    spinesWrap.className = 'spines';
+    spinesWrap.innerHTML = '<div class="plank"></div>';
+
+    sec.books.forEach((book) => {
+      const seed = hashStr(sec.section + book.title);
+      const color = SPINE_COLORS[seed % SPINE_COLORS.length];
+      const height = 150 + (seed % 55);
+      const width = 46 + (seed % 20);
+      const spine = document.createElement('div');
+      spine.className = 'spine';
+      spine.tabIndex = 0;
+      spine.dataset.title = book.title.toLowerCase();
+      spine.dataset.poemTitles = book.poems.map(p=>p.title.toLowerCase()).join(' ');
+      spine.style.height = height + 'px';
+      spine.style.width = width + 'px';
+      spine.style.background = `linear-gradient(180deg, ${color[0]}, ${color[1]})`;
+      spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">${book.title}</span><span class="gold-rule"></span>`;
+      spine.addEventListener('click', ()=>openBook(secIdx, book.title));
+      spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openBook(secIdx, book.title); } });
+      spinesWrap.appendChild(spine);
+    });
+
+    if(isAdmin){
+      const addSpine = document.createElement('div');
+      addSpine.className = 'spine add-spine';
+      addSpine.tabIndex = 0;
+      addSpine.textContent = '+';
+      addSpine.title = 'Add a book to this section';
+      addSpine.addEventListener('click', ()=>addBook(secIdx));
+      spinesWrap.appendChild(addSpine);
+    }
+
+    row.appendChild(spinesWrap);
+    libraryFrame.appendChild(row);
+
+    if(secIdx < LIBRARY.length - 1){
+      const divider = document.createElement('div');
+      divider.className = 'section-divider';
+      libraryFrame.appendChild(divider);
+    }
+
+    const opt = document.createElement('option');
+    opt.value = 'section-' + secIdx;
+    opt.textContent = sec.callNo + ' — ' + sec.section;
+    jumpSelect.appendChild(opt);
+  });
+}
+
+function renderRestricted(){
+  const restrictedFrame = document.getElementById('restrictedFrame');
+  restrictedFrame.innerHTML = `
+    <div class="shelf-row">
+      <div class="aisle-sign-wrap"><div class="aisle-sign"><span class="call-no">★ Restricted</span><span class="sign-title">Private Access Only</span></div></div>
+      <div class="spines">
+        <div class="plank"></div>
+        <div class="spine locked" tabindex="0" style="height:180px;width:52px;">
+          <span class="gold-rule"></span><span class="title-txt">${PRIVATE_BOOK_TITLE}</span><span class="gold-rule"></span>
+        </div>
+      </div>
+    </div>`;
+  const lockedSpine = restrictedFrame.querySelector('.spine.locked');
+  lockedSpine.addEventListener('click', ()=> isAdmin ? openPrivateForEdit() : openPasswordPrompt());
+  lockedSpine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); isAdmin ? openPrivateForEdit() : openPasswordPrompt(); } });
+}
+
+/* ---------- section / book admin actions ---------- */
+function renameSection(secIdx){
+  const sec = LIBRARY[secIdx];
+  const newTitle = prompt('Section name:', sec.section);
+  if(newTitle === null || !newTitle.trim()) return;
+  const newCallNo = prompt('Call number / label:', sec.callNo);
+  if(newCallNo === null) return;
+  sec.section = newTitle.trim();
+  sec.callNo = newCallNo.trim() || sec.callNo;
+  saveLibrary(); renderLibrary();
+}
+function deleteSection(secIdx){
+  const sec = LIBRARY[secIdx];
+  if(!confirm(`Delete the whole section "${sec.section}" and everything on it? This can't be undone.`)) return;
+  LIBRARY.splice(secIdx,1);
+  saveLibrary(); renderLibrary();
+}
+function addSection(){
+  const title = prompt('New section name (e.g. "Grief & Gratitude"):');
+  if(!title || !title.trim()) return;
+  const callNo = prompt('Call number / label (e.g. "811.9"):', '811.' + (LIBRARY.length + 1));
+  LIBRARY.push({ callNo: (callNo||'').trim() || ('811.'+(LIBRARY.length+1)), section: title.trim(), books: [] });
+  saveLibrary(); renderLibrary();
+}
+function addBook(secIdx){
+  const title = prompt('New book / collection title:');
+  if(!title || !title.trim()) return;
+  LIBRARY[secIdx].books.push({ title: title.trim(), poems: [] });
+  saveLibrary(); renderLibrary();
+  openBook(secIdx, title.trim());
+  setTimeout(()=>toggleEditPanel(true), 150);
+}
+
+/* ---------- search + jump ---------- */
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('#libraryFrame .shelf-row').forEach(row=>{
+    const spines = row.querySelectorAll('.spine:not(.add-spine)');
+    let rowHasMatch = false;
+    spines.forEach(sp=>{
+      const match = !q || sp.dataset.title.includes(q) || sp.dataset.poemTitles.includes(q) || row.dataset.sectionTitle.includes(q);
+      sp.style.display = match ? '' : 'none';
+      if(match) rowHasMatch = true;
+    });
+    row.classList.toggle('hidden-row', !rowHasMatch && !!q);
+    if(rowHasMatch || !q) anyVisible = true;
+  });
+  document.querySelectorAll('#libraryFrame .section-divider').forEach(d=> d.style.display = q ? 'none' : '');
+  noResults.style.display = (!anyVisible && q) ? 'block' : 'none';
+});
+jumpSelect.addEventListener('change', (e)=>{
+  if(!e.target.value) return;
+  document.getElementById(e.target.value).scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+document.getElementById('stepInside').addEventListener('click', ()=>{
+  document.getElementById('shelf').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* ---------- dust motes ---------- */
+const motesEl = document.querySelector('.motes');
+for(let i=0;i<16;i++){
+  const s = document.createElement('span');
+  const size = 2 + Math.random()*3;
+  s.style.width = size+'px'; s.style.height = size+'px'; s.style.left = (Math.random()*100)+'%';
+  s.style.animationDuration = (9 + Math.random()*10)+'s';
+  s.style.animationDelay = (Math.random()*10)+'s';
+  motesEl.appendChild(s);
+}
+
+/* ---------- book reader / editor ---------- */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const bhTitle = document.getElementById('bhTitle');
+const headerBtns = document.getElementById('headerBtns');
+const pageLeft = document.getElementById('pageLeft');
+const pageRight = document.getElementById('pageRight');
+const pagesWrap = document.getElementById('pagesWrap');
+const editPanel = document.getElementById('editPanel');
+const bookNav = document.getElementById('bookNav');
+const spreadCount = document.getElementById('spreadCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let currentPages = [];
+let currentIndex = 0;
+let currentSectionIdx = null;   // null when it's the private book
+let currentBookTitle = '';
+let currentIsPrivate = false;
+let draftBook = null;
+let editingBook = false;
+
+function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
+
+function findBook(secIdx, title){ return LIBRARY[secIdx].books.find(b=>b.title===title); }
+
+function buildPages(sectionLabel, book){
+  const pages = [{ type:'cover', section: sectionLabel, title: book.title, count: book.poems.length }];
+  book.poems.forEach(p => pages.push({ type:'poem', poem: p }));
+  return pages;
+}
+function renderPageContent(container, pageObj, pageIndex){
+  if(!pageObj){ container.innerHTML = '<div class="empty-page">The End</div>'; return; }
+  if(pageObj.type === 'cover'){
+    container.innerHTML = `<div class="cover-content"><span class="coll-label">${pageObj.section}</span><h2>${pageObj.title}</h2><p class="desc">${pageObj.count} poem${pageObj.count===1?'':'s'} in this collection.</p></div>`;
+  } else {
+    container.innerHTML = `<h3 class="poem-title">${pageObj.poem.title}</h3><span class="poem-meta">Page ${pageIndex}</span><p class="poem-text">${pageObj.poem.text}</p>`;
+  }
+}
+function renderSpread(){
+  const mobile = isMobile();
+  renderPageContent(pageLeft, currentPages[currentIndex], currentIndex);
+  pageLeft.classList.add('active-mobile');
+  if(mobile){
+    pageRight.classList.remove('active-mobile');
+    spreadCount.textContent = `Page ${currentIndex+1} of ${currentPages.length}`;
+    prevBtn.disabled = currentIndex <= 0;
+    nextBtn.disabled = currentIndex >= currentPages.length - 1;
+  } else {
+    renderPageContent(pageRight, currentPages[currentIndex+1], currentIndex+1);
+    pageRight.classList.add('active-mobile');
+    const totalSpreads = Math.ceil(currentPages.length/2);
+    const thisSpread = Math.floor(currentIndex/2)+1;
+    spreadCount.textContent = `Spread ${thisSpread} of ${totalSpreads}`;
+    prevBtn.disabled = currentIndex <= 0;
+    nextBtn.disabled = currentIndex + 2 >= currentPages.length;
+  }
+}
+
+function renderHeaderBtns(){
+  headerBtns.innerHTML = '';
+  if(!isAdmin) return;
+  const btn = document.createElement('button');
+  btn.textContent = editingBook ? 'Reading View' : '✎ Edit';
+  btn.addEventListener('click', ()=> toggleEditPanel(!editingBook));
+  headerBtns.appendChild(btn);
+}
+
+function openBook(secIdx, title){
+  currentSectionIdx = secIdx;
+  currentIsPrivate = false;
+  const sectionLabel = LIBRARY[secIdx].section;
+  const book = findBook(secIdx, title);
+  currentBookTitle = title;
+  currentPages = buildPages(sectionLabel, book);
+  currentIndex = 0;
+  editingBook = false;
+  bhTitle.textContent = sectionLabel + ' · ' + book.title;
+  renderHeaderBtns();
+  toggleEditPanel(false);
+  renderSpread();
+  modalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function openPrivateForEdit(){
+  let poems;
+  try{ poems = JSON.parse(xorDecrypt(privateCipher, adminPassword)); }catch(e){ poems = []; }
+  currentSectionIdx = null;
+  currentIsPrivate = true;
+  currentBookTitle = PRIVATE_BOOK_TITLE;
+  currentPages = buildPages('Restricted', { title: PRIVATE_BOOK_TITLE, poems });
+  currentIndex = 0;
+  editingBook = false;
+  bhTitle.textContent = 'Restricted · ' + PRIVATE_BOOK_TITLE;
+  renderHeaderBtns();
+  toggleEditPanel(false);
+  renderSpread();
+  modalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function openPrivateForRead(poems){
+  currentSectionIdx = null;
+  currentIsPrivate = true;
+  currentBookTitle = PRIVATE_BOOK_TITLE;
+  currentPages = buildPages('Restricted', { title: PRIVATE_BOOK_TITLE, poems });
+  currentIndex = 0;
+  editingBook = false;
+  bhTitle.textContent = 'Restricted · ' + PRIVATE_BOOK_TITLE;
+  renderHeaderBtns();
+  toggleEditPanel(false);
+  renderSpread();
+  modalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeBook(){
+  modalBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  editingBook = false;
+}
+prevBtn.addEventListener('click', ()=>{ const step = isMobile()?1:2; currentIndex = Math.max(0, currentIndex-step); renderSpread(); });
+nextBtn.addEventListener('click', ()=>{ const step = isMobile()?1:2; currentIndex = Math.min(currentPages.length-1, currentIndex+step); renderSpread(); });
+document.getElementById('closeBtn').addEventListener('click', closeBook);
+modalBackdrop.addEventListener('click', (e)=>{ if(e.target === modalBackdrop) closeBook(); });
+document.addEventListener('keydown', (e)=>{
+  if(!modalBackdrop.classList.contains('open') || editingBook) return;
+  if(e.key === 'Escape') closeBook();
+  if(e.key === 'ArrowRight') nextBtn.click();
+  if(e.key === 'ArrowLeft') prevBtn.click();
+});
+window.addEventListener('resize', ()=>{ if(modalBackdrop.classList.contains('open') && !editingBook) renderSpread(); });
+
+/* ---------- editing a book's poems ---------- */
+function toggleEditPanel(on){
+  editingBook = on && isAdmin;
+  pagesWrap.style.display = editingBook ? 'none' : 'grid';
+  bookNav.style.display = editingBook ? 'none' : 'flex';
+  editPanel.style.display = editingBook ? 'block' : 'none';
+  renderHeaderBtns();
+  if(editingBook){
+    const poemObjs = currentPages.filter(p=>p.type==='poem').map(p=>p.poem);
+    draftBook = { title: currentBookTitle, poems: JSON.parse(JSON.stringify(poemObjs)) };
+    renderEditPanel();
+  }
+}
+function renderEditPanel(){
+  editPanel.innerHTML = '';
+  const titleLabel = document.createElement('label');
+  titleLabel.textContent = 'Book title';
+  const titleInput = document.createElement('input');
+  titleInput.type = 'text'; titleInput.value = draftBook.title;
+  titleInput.addEventListener('input', e=> draftBook.title = e.target.value);
+  editPanel.appendChild(titleLabel); editPanel.appendChild(titleInput);
+
+  draftBook.poems.forEach((poem, i)=>{
+    const block = document.createElement('div');
+    block.className = 'poem-edit-block';
+    const del = document.createElement('button');
+    del.className = 'del-poem'; del.textContent = 'Delete poem';
+    del.addEventListener('click', ()=>{ draftBook.poems.splice(i,1); renderEditPanel(); });
+    const l1 = document.createElement('label'); l1.textContent = 'Poem title';
+    const t1 = document.createElement('input'); t1.type='text'; t1.value = poem.title;
+    t1.addEventListener('input', e=> poem.title = e.target.value);
+    const l2 = document.createElement('label'); l2.textContent = 'Poem text';
+    const t2 = document.createElement('textarea'); t2.value = poem.text;
+    t2.addEventListener('input', e=> poem.text = e.target.value);
+    block.appendChild(del); block.appendChild(l1); block.appendChild(t1); block.appendChild(l2); block.appendChild(t2);
+    editPanel.appendChild(block);
+  });
+
+  const actions = document.createElement('div');
+  actions.className = 'edit-actions';
+  const addPoemBtn = document.createElement('button'); addPoemBtn.className='btn-add'; addPoemBtn.textContent='+ Add Poem';
+  addPoemBtn.addEventListener('click', ()=>{ draftBook.poems.push({title:'New Poem', text:''}); renderEditPanel(); });
+  const saveBtn = document.createElement('button'); saveBtn.className='btn-save'; saveBtn.textContent='Save Changes';
+  saveBtn.addEventListener('click', saveDraftBook);
+  const cancelBtn = document.createElement('button'); cancelBtn.className='btn-cancel'; cancelBtn.textContent='Cancel';
+  cancelBtn.addEventListener('click', ()=> toggleEditPanel(false));
+  actions.appendChild(addPoemBtn); actions.appendChild(saveBtn); actions.appendChild(cancelBtn);
+
+  if(!currentIsPrivate){
+    const delBookBtn = document.createElement('button'); delBookBtn.className='btn-danger'; delBookBtn.textContent='Delete Entire Book';
+    delBookBtn.addEventListener('click', deleteCurrentBook);
+    actions.appendChild(delBookBtn);
+  }
+  editPanel.appendChild(actions);
+}
+async function saveDraftBook(){
+  if(currentIsPrivate){
+    privateCipher = xorEncrypt(JSON.stringify(draftBook.poems), adminPassword);
+    await savePrivate();
+    openPrivateForEdit();
+  } else {
+    const book = findBook(currentSectionIdx, currentBookTitle);
+    book.title = draftBook.title.trim() || book.title;
+    book.poems = draftBook.poems;
+    await saveLibrary();
+    renderLibrary();
+    openBook(currentSectionIdx, book.title);
+  }
+  toggleEditPanel(false);
+}
+function deleteCurrentBook(){
+  if(!confirm(`Delete "${currentBookTitle}" and all its poems? This can't be undone.`)) return;
+  const sec = LIBRARY[currentSectionIdx];
+  sec.books = sec.books.filter(b=>b.title!==currentBookTitle);
+  saveLibrary(); renderLibrary();
+  closeBook();
+}
+
+/* ---------- crypto helpers ---------- */
+async function sha256Hex(str){
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function xorDecrypt(b64, key){
+  const binStr = atob(b64);
+  const bytes = new Uint8Array(binStr.length);
+  for(let i=0;i<binStr.length;i++) bytes[i] = binStr.charCodeAt(i);
+  const keyBytes = new TextEncoder().encode(key);
+  const outBytes = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) outBytes[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+  return new TextDecoder('utf-8').decode(outBytes);
+}
+function xorEncrypt(plaintext, key){
+  const data = new TextEncoder().encode(plaintext);
+  const keyBytes = new TextEncoder().encode(key);
+  const out = new Uint8Array(data.length);
+  for(let i=0;i<data.length;i++) out[i] = data[i] ^ keyBytes[i % keyBytes.length];
+  let binStr = '';
+  out.forEach(b=> binStr += String.fromCharCode(b));
+  return btoa(binStr);
+}
+
+/* ---------- password modal (multi-purpose: read private / admin login / change password) ---------- */
+const pwBackdrop = document.getElementById('pwBackdrop');
+const pwBox = document.getElementById('pwBox');
+const pwHeading = document.getElementById('pwHeading');
+const pwText = document.getElementById('pwText');
+const pwInput = document.getElementById('pwInput');
+const pwInput2 = document.getElementById('pwInput2');
+const pwError = document.getElementById('pwError');
+const pwSubmit = document.getElementById('pwSubmit');
+let pwMode = 'read'; // 'read' | 'admin' | 'changepw'
+
+function openPasswordPrompt(){
+  pwMode = 'read';
+  pwHeading.textContent = 'Restricted Shelf';
+  pwText.textContent = 'This collection is kept locked. Enter the password to open it.';
+  pwInput2.style.display = 'none';
+  pwSubmit.textContent = 'Unlock';
+  pwInput.value = ''; pwInput2.value = ''; pwError.textContent = '';
+  pwBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(()=>pwInput.focus(), 200);
+}
+function openAdminPrompt(){
+  pwMode = 'admin';
+  pwHeading.textContent = 'Admin Access';
+  pwText.textContent = 'Enter your password to edit the library.';
+  pwInput2.style.display = 'none';
+  pwSubmit.textContent = 'Unlock';
+  pwInput.value=''; pwInput2.value=''; pwError.textContent='';
+  pwBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(()=>pwInput.focus(), 200);
+}
+function openChangePwPrompt(){
+  pwMode = 'changepw';
+  pwHeading.textContent = 'Change Password';
+  pwText.textContent = 'Choose a new password for the restricted shelf and admin access.';
+  pwInput.placeholder = 'New password';
+  pwInput2.style.display = 'block';
+  pwSubmit.textContent = 'Save New Password';
+  pwInput.value=''; pwInput2.value=''; pwError.textContent='';
+  pwBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(()=>pwInput.focus(), 200);
+}
+function closePasswordPrompt(){
+  pwBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+  pwInput.placeholder = 'Password';
+}
+async function submitPassword(){
+  if(pwMode === 'changepw'){
+    const p1 = pwInput.value, p2 = pwInput2.value;
+    if(!p1 || p1.length < 4){ pwError.textContent = 'Please choose at least 4 characters.'; return; }
+    if(p1 !== p2){ pwError.textContent = "Passwords don't match."; return; }
+    let poems;
+    try{ poems = JSON.parse(xorDecrypt(privateCipher, adminPassword)); }catch(e){ poems = []; }
+    privateHash = await sha256Hex(p1);
+    privateCipher = xorEncrypt(JSON.stringify(poems), p1);
+    adminPassword = p1;
+    await savePrivate();
+    closePasswordPrompt();
+    return;
+  }
+  const val = pwInput.value;
+  if(!val){ pwError.textContent = 'Please enter a password.'; return; }
+  const hex = await sha256Hex(val);
+  if(hex === privateHash){
+    if(pwMode === 'admin'){
+      isAdmin = true; adminPassword = val;
+      document.body.classList.add('edit-mode');
+      document.getElementById('adminToggle').textContent = '🔓';
+      closePasswordPrompt();
+      renderLibrary(); renderRestricted();
+    } else {
+      let poems;
+      try{ poems = JSON.parse(xorDecrypt(privateCipher, val)); }catch(e){ poems = []; }
+      closePasswordPrompt();
+      openPrivateForRead(poems);
+    }
+  } else {
+    pwError.textContent = 'Incorrect password.';
+    pwBox.classList.remove('shake'); void pwBox.offsetWidth; pwBox.classList.add('shake');
+  }
+}
+pwSubmit.addEventListener('click', submitPassword);
+pwInput.addEventListener('keydown', e=>{ if(e.key==='Enter') submitPassword(); });
+document.getElementById('pwCancel').addEventListener('click', closePasswordPrompt);
+pwBackdrop.addEventListener('click', (e)=>{ if(e.target===pwBackdrop) closePasswordPrompt(); });
+
+/* ---------- admin toggle ---------- */
+document.getElementById('adminToggle').addEventListener('click', ()=>{
+  if(isAdmin){
+    isAdmin = false; adminPassword = null;
+    document.body.classList.remove('edit-mode');
+    document.getElementById('adminToggle').textContent = '🔒';
+    renderLibrary(); renderRestricted();
+  } else {
+    openAdminPrompt();
+  }
+});
+document.getElementById('addSectionBtn').addEventListener('click', addSection);
+document.getElementById('changePwBtn').addEventListener('click', openChangePwPrompt);
+
+/* ---------- export / import backup ---------- */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const data = { library: LIBRARY, private: { hash: privateHash, cipher: privateCipher } };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'quiet-study-backup.json';
+  a.click();
+});
+document.getElementById('importBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const text = await file.text();
+  try{
+    const data = JSON.parse(text);
+    if(data.library){ LIBRARY = data.library; await saveLibrary(); }
+    if(data.private){ privateHash = data.private.hash; privateCipher = data.private.cipher; await savePrivate(); }
+    renderLibrary(); renderRestricted();
+    alert('Backup imported successfully.');
+  }catch(err){
+    alert('That file could not be read as a valid backup.');
+  }
+});
+
+/* ---------- init ---------- */
+(async function init(){
+  await loadData();
+  renderLibrary();
+  renderRestricted();
+})();
+</script>
+
+</body>
+</html>
