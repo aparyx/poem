@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>The Quiet Study — Poems by Aparyx</title>
- <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -377,9 +376,31 @@ DEFAULT_LIBRARY.forEach(sec=>{
   }
 })();
 
+// Fallback runtime functions to ensure configuration doesn't crash if they are defined elsewhere
+let LIBRARY = DEFAULT_LIBRARY;
+let privateHash = null;
+let privateCipher = null;
+let SETTINGS = {};
+let DEFAULT_SETTINGS = {};
+let restrictedUnlocked = false;
+let isAdmin = false;
+let adminPassword = null;
+
+function saveLibrary() {}
+function savePrivate() {}
+function saveSettings() {}
+function applySettings() {}
+function renderLibrary() {}
+function renderRestricted() {}
+function openTextEditor(type) {}
+function openAdminPrompt() {}
+function addSection() {}
+function openChangePwPrompt() {}
+async function loadData() {}
+
 document.querySelectorAll('[data-editform]').forEach(btn=>{
    btn.addEventListener('click', ()=> openTextEditor(btn.dataset.editform));
- });
+});
   
  /* ---------- admin toggle ---------- */
  document.getElementById('adminToggle').addEventListener('click', ()=>{
