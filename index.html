@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>The Quiet Study — Poems by Aparyx</title>
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -280,6 +281,7 @@
 
 <button class="admin-toggle" id="adminToggle" title="Admin">🔒</button>
 
+<!-- BOOK READER / EDITOR MODAL -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="book" role="dialog" aria-modal="true" aria-label="Open book">
     <div class="book-header">
@@ -300,6 +302,7 @@
   </div>
 </div>
 
+<!-- GENERIC DIALOG MODAL (password / change password / site text editing) -->
 <div class="modal-backdrop" id="pwBackdrop">
   <div class="pw-box" id="pwBox"></div>
 </div>
@@ -370,85 +373,712 @@ DEFAULT_LIBRARY.forEach(sec=>{
   if(heartShelf){
     const idx1 = heartShelf.books.findIndex(b=>b.title==="Untitled 1");
     const bookOfSin = { title:"Book of Sin", poems:[
-      { title:"The Same Sin We Hate the Best", text:"What is it that human hearts desire?\nWe walk through worlds of cruelty and fire.\nWith different faiths and conflicting views,\nWe twist the truth to fit the paths we choose.\nSome fear the Seven Sins as ancient law,\nWhile others claim a lie is all they saw.\nSome stay ascetic in a world gone wild,\nAnd blame the ancestors who cursed the child.\n\nNo scale can weigh which vice is small or great,\nFor every sin inflicts the selfsame weight.\nWe cannot separate the wrong from wrong,\nYet to our flaws, we blindly dance along.\nWe quickly cast our own regrets away,\nTo point at others and hold them at bay.\nWho bears the blame for this divided mind?\nWhat cures the blindness of the human kind?\nNo answer comes, no certainty is caught,\nYet we still hate the sins that we were taught." }
+      { title:"The Same Sin We Hate the Best", text:"What is it that human hearts desire?\nWe walk through worlds of cruelty and fire.\nWith different faiths and conflicting views,\nWe twist the truth to fit the paths we choose.\nSome fear the Seven Sins as ancient law,\nWhile others claim a lie is all they saw.\nSome stay ascetic in a world gone wild,\nAnd blame the ancestors who cursed the child.\n\nNo scale can weigh which vice is small or great,\nFor every sin inflicts the selfsame weight.\nWe cannot separate the wrong from wrong,\nYet to our flaws, we blindly dance along.\nWe quickly cast our own regrets away,\nTo point at others and hold them at bay.\nWho bears the blame for this divided mind?\nWhat cures the blindness of the human kind?\nNo answer comes, no certainty is caught,\nYet in the end, we're in the same trap caught:\nWe curse the vice that echoes in our chest,\nAnd commit the very sin we hate the best." }
     ]};
-    if(idx1 !== -1) heartShelf.books[idx1] = bookOfSin;
+    if(idx1 > -1) heartShelf.books[idx1] = bookOfSin;
+    else heartShelf.books.push(bookOfSin);
+
+    const letters = heartShelf.books.find(b=>b.title==="Letters I Didn't Send");
+    if(letters){
+      const unsent = letters.poems.find(p=>p.title==="Unsent");
+      const newText = "There are letters left unwritten,\nAnd the messages unsent,\nThe broken gifts of promises\nWe never truly meant.\n\nThe hidden depths of feeling,\nAnd the tears we chose to hide,\nThe quiet truths unspoken\nThat we choked down deep inside.\n\nI wore the armor of the cruel,\nA shield to keep you far,\nBut in the dark, I struck myself\nAnd left a deeper scar.\n\nSo call me villain if you must,\nAnd hate the part I played—\nA sinner in a lonely room,\nRepenting choices made.";
+      if(unsent) unsent.text = newText;
+      else letters.poems.push({ title:"Unsent", text:newText });
+    }
   }
 })();
 
-// Fallback runtime functions to ensure configuration doesn't crash if they are defined elsewhere
-let LIBRARY = DEFAULT_LIBRARY;
-let privateHash = null;
-let privateCipher = null;
-let SETTINGS = {};
-let DEFAULT_SETTINGS = {};
-let restrictedUnlocked = false;
+const DEFAULT_SETTINGS = {
+  heroTitle:"The Quiet Study",
+  heroSub:"Poems kept close, now left open on the desk — come in, the lamp is lit and the chair is free.",
+  byline:"Aparyx",
+  epigraphQuote:"If honesty is a sin, then I've sinned in every poem on this shelf — and I'd do it again, in the same ink, without once asking to be forgiven.",
+  epigraphAuthor:"Aparyx",
+  aboutHeading:"A word from me",
+  aboutText:"I'm Aparyx. I write because some things only make sense once they're on paper — and even then, only barely. These shelves hold what I couldn't say any other way. Most of it is open to read. A little of it is locked, on purpose. Come back whenever you like; the lamp stays lit.",
+  footerTagline:"The Quiet Study · a home for poems by Aparyx"
+};
+
+/* =========================================================================
+   IMPORTANT — ONE-TIME SETUP:
+   After you deploy the Worker (see the setup steps you were given), put its
+   web address here. Example: "https://api.yourdomain.com.np"
+   Until you fill this in, the site saves only to this browser, same as before.
+   ========================================================================= */
+const API_BASE = "";
+
+const CACHE_KEY_LIBRARY = "quiet-study-library-v3";
+const CACHE_KEY_PRIVATE = "quiet-study-private-v2";
+const CACHE_KEY_SETTINGS = "quiet-study-settings-v2";
+
+const DEFAULT_PRIVATE_HASH = "a515f4cdbe2c73d830bb898166a0a3912902fa1e7a3b410ba31d8235add9bd5a";
+const DEFAULT_PRIVATE_CIPHER = "CwlDBwEVAgtDXk9MYRsZTiEYVCcLFUYAUzIWFxdwMBQHSCwHAARGQ04FBAQLAgRWUkUrGlEHHhseAXJIQVEpQT4BBAlPIUkYEk42GAFIJhEPUyESDhZGfFJDBw0ZGkxbRE06Tx0YTh8WEw1FGRJTHxgMGQE0UgMWCwAbHQREHAFKEUseABIZG0URExYdUBtSFjUTBQpIBwEcQQVPHU8RBwhBKxo0CyIEAx8WDBdEJBoIAEgRAg8CAQcBSxAOHE8AHRwNUBYbEgMKBAEiUhgcHUYcC0EKABoHBg4PCw5UHApQEhscAE8TCikdDxZIGAsaTzgBIUkYEk4WGAFIDREXFlMDBxdEOxcYU4rh+k4NDRsLVRUHAhZZVhVJUBpRBx4bHgFySEFRLBMPCBVITztJEgIABgQcDQFSTVNRAwoKEHJIQVE7DgMLQRAHAVITAxocVxAHC1cVUwQWAQZEJB1BEQ1BHgEECRxOXhEfQDMZIAAACUEZBgQbUhMxHBVTGw4DCxYMChxCVBobBhIASBEfQQAaAzMcET4GCB9IGAEbRhYKTlURCgoWVwAHRQMJEgMSTwYMNR9BGgYVAU4SCwILUxwCAAgrGhEKBUEQHAIDFkQ4Ew8XSBUBTgBEHBpVFQUJCgVaShgtHF9TDE0GDSQeBFFSQUw6CQ0BCVRUIk4nFgINC1cVUyAWBhZEHwcVUyQOGwpDSE9MVxsOAxxVTkg+C0MHGgMDF0ZqUkMmBhUHGg0BC0wLVEkaCg8ASl9QQyEWBwMTBzVSFRsBEk4ZCBAHTlAcChoKAREaRQkOBlQBClIGNRcPUwsAHBwYDQEJexoKAAtXHAkTFQ9UB1cJHRE+FkEHAAROHAgDBxoHBwMLAxFUDgoCQQoWA0EuCgQaCABIDgALQQgADUwHRU47HxUcQgNBBxsSTwUMPx4EUxgOBwAVSk0Tegk2";
+
+let LIBRARY = JSON.parse(JSON.stringify(DEFAULT_LIBRARY));
+let PRIVATE_LIBRARY = [];
+let privateHash = DEFAULT_PRIVATE_HASH;
+let privateCipher = DEFAULT_PRIVATE_CIPHER;
+let SETTINGS = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
 let isAdmin = false;
 let adminPassword = null;
+let restrictedUnlocked = false;
+let apiOnline = false;
 
-function saveLibrary() {}
-function savePrivate() {}
-function saveSettings() {}
-function applySettings() {}
-function renderLibrary() {}
-function renderRestricted() {}
-function openTextEditor(type) {}
-function openAdminPrompt() {}
-function addSection() {}
-function openChangePwPrompt() {}
-async function loadData() {}
+/* ---------- local cache (used offline, or until the Worker URL is set) ---------- */
+function cacheAvailable(){
+  try{ const t='__t__'; localStorage.setItem(t,t); localStorage.removeItem(t); return true; }
+  catch(e){ return false; }
+}
+const CACHE_OK = cacheAvailable();
+function cacheGet(key){ if(!CACHE_OK) return null; try{ return localStorage.getItem(key); }catch(e){ return null; } }
+function cacheSet(key, value){ if(!CACHE_OK) return; try{ localStorage.setItem(key, value); }catch(e){} }
+
+function showBanner(msg){
+  const b = document.getElementById('storageBanner');
+  b.textContent = msg;
+  b.classList.add('show');
+}
+function hideBanner(){ document.getElementById('storageBanner').classList.remove('show'); }
+
+/* ---------- load: try the shared backend first, fall back to local cache/defaults ---------- */
+async function loadData(){
+  if(!API_BASE){
+    showBanner('⚙ This site isn\'t connected to its shared backend yet, so changes only save in this browser. Add your Worker address to API_BASE in the code once, and this message goes away for good.');
+    loadFromCacheOrDefaults();
+    return;
+  }
+  try{
+    const res = await fetch(API_BASE + '/data');
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    apiOnline = true;
+    hideBanner();
+
+    if(data.library){ LIBRARY = data.library; }
+    else { await apiSave({ library: LIBRARY, bootstrapHash: privateHash }); }
+
+    if(data.privateData){ privateHash = data.privateData.hash; privateCipher = data.privateData.cipher; }
+    else { await apiSave({ privateData: {hash:privateHash, cipher:privateCipher}, bootstrapHash: privateHash }); }
+
+    if(data.settings){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, data.settings); }
+    else { await apiSave({ settings: SETTINGS, bootstrapHash: privateHash }); }
+
+    cacheSet(CACHE_KEY_LIBRARY, JSON.stringify(LIBRARY));
+    cacheSet(CACHE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher}));
+    cacheSet(CACHE_KEY_SETTINGS, JSON.stringify(SETTINGS));
+  }catch(err){
+    apiOnline = false;
+    showBanner('⚠ Could not reach the shared backend right now, so you\'re seeing a local copy. Changes will only save in this browser until the connection is back.');
+    loadFromCacheOrDefaults();
+  }
+}
+function loadFromCacheOrDefaults(){
+  const libRaw = cacheGet(CACHE_KEY_LIBRARY);
+  if(libRaw){ try{ LIBRARY = JSON.parse(libRaw); }catch(e){} }
+  const privRaw = cacheGet(CACHE_KEY_PRIVATE);
+  if(privRaw){ try{ const p = JSON.parse(privRaw); privateHash = p.hash; privateCipher = p.cipher; }catch(e){} }
+  const setRaw = cacheGet(CACHE_KEY_SETTINGS);
+  if(setRaw){ try{ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, JSON.parse(setRaw)); }catch(e){} }
+}
+
+/* ---------- save: send to the shared backend (needs the admin password), always refresh local cache too ---------- */
+async function apiSave(payload){
+  cacheSet(CACHE_KEY_LIBRARY, JSON.stringify(LIBRARY));
+  cacheSet(CACHE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher}));
+  cacheSet(CACHE_KEY_SETTINGS, JSON.stringify(SETTINGS));
+  if(!API_BASE) return { ok:false, offline:true };
+  try{
+    const res = await fetch(API_BASE + '/save', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if(!data.ok) showBanner('⚠ ' + (data.error || 'The shared backend rejected that change.'));
+    else hideBanner();
+    return data;
+  }catch(err){
+    showBanner('⚠ Could not reach the shared backend — this change only saved in your own browser for now.');
+    return { ok:false, offline:true };
+  }
+}
+function saveLibrary(){ return apiSave({ password: adminPassword, library: LIBRARY }); }
+function savePrivate(){ return apiSave({ password: adminPassword, privateData: {hash:privateHash, cipher:privateCipher} }); }
+function saveSettings(){ return apiSave({ password: adminPassword, settings: SETTINGS }); }
+
+function applySettings(){
+  document.getElementById('heroTitleEl').textContent = SETTINGS.heroTitle;
+  document.getElementById('heroSubEl').textContent = SETTINGS.heroSub;
+  document.getElementById('bylineEl').textContent = SETTINGS.byline;
+  document.getElementById('epigraphQuoteEl').textContent = '"' + SETTINGS.epigraphQuote.replace(/^"|"$/g,'') + '"';
+  document.getElementById('epigraphAuthorEl').textContent = SETTINGS.epigraphAuthor;
+  document.getElementById('aboutHeadingEl').textContent = SETTINGS.aboutHeading;
+  document.getElementById('aboutTextEl').textContent = SETTINGS.aboutText;
+  document.getElementById('footerTaglineEl').textContent = SETTINGS.footerTagline;
+}
+
+/* ---------- deterministic pseudo-random for spine variety ---------- */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
+const SPINE_COLORS = [
+  ["#5c1c1c","#3f1212"], ["#3a4a2e","#24301c"], ["#2c3f52","#182533"],
+  ["#5c4a1c","#382e10"], ["#4a3220","#2e1e11"], ["#3d2b52","#241833"],
+  ["#1e4a4a","#0f2b2b"], ["#5a2e46","#331a29"]
+];
+
+/* ---------- generalized book-array access (public sections OR private shelf) ---------- */
+function getBooksArray(secIdx){ return secIdx === -1 ? PRIVATE_LIBRARY : LIBRARY[secIdx].books; }
+function findBook(secIdx, title){ return getBooksArray(secIdx).find(b=>b.title===title); }
+function persistFor(secIdx){ if(secIdx === -1){ privateCipher = xorEncrypt(JSON.stringify(PRIVATE_LIBRARY), adminPassword); savePrivate(); } else saveLibrary(); }
+
+/* ---------- render public bookcase ---------- */
+const libraryFrame = document.getElementById('libraryFrame');
+const jumpSelect = document.getElementById('jumpSelect');
+const noResults = document.getElementById('noResults');
+const addSectionRow = document.getElementById('addSectionRow');
+
+function renderSpinesInto(spinesWrap, secIdx, books){
+  books.forEach((book, bookIdx) => {
+    const seed = hashStr(String(secIdx) + book.title);
+    const color = SPINE_COLORS[seed % SPINE_COLORS.length];
+    const height = 150 + (seed % 55);
+    const width = 46 + (seed % 20);
+    const slot = document.createElement('div');
+    slot.className = 'spine-slot';
+    if(isAdmin){
+      const rb = document.createElement('div'); rb.className = 'reorder-btns';
+      const left = document.createElement('button'); left.textContent='◀'; left.title='Move left';
+      left.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, -1); });
+      const right = document.createElement('button'); right.textContent='▶'; right.title='Move right';
+      right.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, 1); });
+      rb.appendChild(left); rb.appendChild(right); slot.appendChild(rb);
+    }
+    const spine = document.createElement('div');
+    spine.className = 'spine';
+    spine.tabIndex = 0;
+    spine.dataset.title = book.title.toLowerCase();
+    spine.dataset.poemTitles = book.poems.map(p=>p.title.toLowerCase()).join(' ');
+    spine.style.height = height + 'px';
+    spine.style.width = width + 'px';
+    spine.style.background = `linear-gradient(180deg, ${color[0]}, ${color[1]})`;
+    spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">${book.title}</span><span class="gold-rule"></span>`;
+    spine.addEventListener('click', ()=>openBook(secIdx, book.title));
+    spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openBook(secIdx, book.title); } });
+    slot.appendChild(spine);
+    spinesWrap.appendChild(slot);
+  });
+}
+
+function renderLibrary(){
+  libraryFrame.innerHTML = '';
+  jumpSelect.innerHTML = '<option value="">Jump to a section...</option>';
+  addSectionRow.style.display = isAdmin ? 'block' : 'none';
+
+  LIBRARY.forEach((sec, secIdx) => {
+    const row = document.createElement('div');
+    row.className = 'shelf-row';
+    row.id = 'section-' + secIdx;
+    row.dataset.sectionTitle = sec.section.toLowerCase();
+
+    const signWrap = document.createElement('div');
+    signWrap.className = 'aisle-sign-wrap';
+    const sign = document.createElement('div');
+    sign.className = 'aisle-sign';
+    sign.innerHTML = `<span class="call-no">${sec.callNo}</span><span class="sign-title">${sec.section}</span>`;
+    signWrap.appendChild(sign);
+    if(isAdmin){
+      const upBtn = document.createElement('button'); upBtn.className='mini-btn'; upBtn.title='Move section up'; upBtn.textContent='▲';
+      upBtn.addEventListener('click', ()=>moveSection(secIdx,-1));
+      const downBtn = document.createElement('button'); downBtn.className='mini-btn'; downBtn.title='Move section down'; downBtn.textContent='▼';
+      downBtn.addEventListener('click', ()=>moveSection(secIdx,1));
+      const editBtn = document.createElement('button'); editBtn.className='mini-btn'; editBtn.title='Rename section'; editBtn.textContent='✎';
+      editBtn.addEventListener('click', ()=>renameSection(secIdx));
+      const delBtn = document.createElement('button'); delBtn.className='mini-btn'; delBtn.title='Delete section'; delBtn.textContent='🗑';
+      delBtn.addEventListener('click', ()=>deleteSection(secIdx));
+      signWrap.appendChild(upBtn); signWrap.appendChild(downBtn); signWrap.appendChild(editBtn); signWrap.appendChild(delBtn);
+    }
+    row.appendChild(signWrap);
+
+    const spinesWrap = document.createElement('div');
+    spinesWrap.className = 'spines';
+    spinesWrap.innerHTML = '<div class="plank"></div>';
+    renderSpinesInto(spinesWrap, secIdx, sec.books);
+
+    if(isAdmin){
+      const addSlot = document.createElement('div'); addSlot.className='spine-slot';
+      const addSpine = document.createElement('div');
+      addSpine.className = 'spine add-spine'; addSpine.tabIndex = 0; addSpine.textContent = '+';
+      addSpine.title = 'Add a book to this section';
+      addSpine.addEventListener('click', ()=>addBook(secIdx));
+      addSlot.appendChild(addSpine);
+      spinesWrap.appendChild(addSlot);
+    }
+
+    row.appendChild(spinesWrap);
+    libraryFrame.appendChild(row);
+
+    if(secIdx < LIBRARY.length - 1){
+      const divider = document.createElement('div'); divider.className = 'section-divider';
+      libraryFrame.appendChild(divider);
+    }
+
+    const opt = document.createElement('option');
+    opt.value = 'section-' + secIdx; opt.textContent = sec.callNo + ' — ' + sec.section;
+    jumpSelect.appendChild(opt);
+  });
+}
+
+function renderRestricted(){
+  const restrictedFrame = document.getElementById('restrictedFrame');
+  restrictedFrame.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'shelf-row';
+  const signWrap = document.createElement('div'); signWrap.className = 'aisle-sign-wrap';
+  signWrap.innerHTML = `<div class="aisle-sign"><span class="call-no">★ Restricted</span><span class="sign-title">Private Access Only</span></div>`;
+  row.appendChild(signWrap);
+
+  const spinesWrap = document.createElement('div');
+  spinesWrap.className = 'spines';
+  spinesWrap.innerHTML = '<div class="plank"></div>';
+
+  if(!isAdmin && !restrictedUnlocked){
+    const slot = document.createElement('div'); slot.className='spine-slot';
+    const spine = document.createElement('div');
+    spine.className = 'spine locked'; spine.tabIndex = 0;
+    spine.style.height='180px'; spine.style.width='60px';
+    spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">Enter Password</span><span class="gold-rule"></span>`;
+    spine.addEventListener('click', openPasswordPrompt);
+    spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPasswordPrompt(); } });
+    slot.appendChild(spine); spinesWrap.appendChild(slot);
+  } else {
+    renderSpinesInto(spinesWrap, -1, PRIVATE_LIBRARY);
+    if(isAdmin){
+      const addSlot = document.createElement('div'); addSlot.className='spine-slot';
+      const addSpine = document.createElement('div');
+      addSpine.className = 'spine add-spine'; addSpine.tabIndex = 0; addSpine.textContent = '+';
+      addSpine.title = 'Add a private book';
+      addSpine.addEventListener('click', ()=>addBook(-1));
+      addSlot.appendChild(addSpine); spinesWrap.appendChild(addSlot);
+    }
+  }
+  row.appendChild(spinesWrap);
+  restrictedFrame.appendChild(row);
+}
+
+/* ---------- section / book admin actions ---------- */
+function renameSection(secIdx){
+  const sec = LIBRARY[secIdx];
+  const newTitle = prompt('Section name:', sec.section);
+  if(newTitle === null || !newTitle.trim()) return;
+  const newCallNo = prompt('Call number / label:', sec.callNo);
+  if(newCallNo === null) return;
+  sec.section = newTitle.trim(); sec.callNo = newCallNo.trim() || sec.callNo;
+  saveLibrary(); renderLibrary();
+}
+function deleteSection(secIdx){
+  const sec = LIBRARY[secIdx];
+  if(!confirm(`Delete the whole section "${sec.section}" and everything on it? This can't be undone.`)) return;
+  LIBRARY.splice(secIdx,1);
+  saveLibrary(); renderLibrary();
+}
+function addSection(){
+  const title = prompt('New section name (e.g. "Grief & Gratitude"):');
+  if(!title || !title.trim()) return;
+  const callNo = prompt('Call number / label (e.g. "811.9"):', '811.' + (LIBRARY.length + 1));
+  LIBRARY.push({ callNo: (callNo||'').trim() || ('811.'+(LIBRARY.length+1)), section: title.trim(), books: [] });
+  saveLibrary(); renderLibrary();
+}
+function moveSection(secIdx, dir){
+  const j = secIdx + dir;
+  if(j < 0 || j >= LIBRARY.length) return;
+  [LIBRARY[secIdx], LIBRARY[j]] = [LIBRARY[j], LIBRARY[secIdx]];
+  saveLibrary(); renderLibrary();
+}
+function addBook(secIdx){
+  const title = prompt('New book / collection title:');
+  if(!title || !title.trim()) return;
+  getBooksArray(secIdx).push({ title: title.trim(), poems: [] });
+  persistFor(secIdx);
+  if(secIdx === -1) renderRestricted(); else renderLibrary();
+  openBook(secIdx, title.trim());
+  setTimeout(()=>toggleEditPanel(true), 150);
+}
+function moveBook(secIdx, bookIdx, dir){
+  const arr = getBooksArray(secIdx);
+  const j = bookIdx + dir;
+  if(j < 0 || j >= arr.length) return;
+  [arr[bookIdx], arr[j]] = [arr[j], arr[bookIdx]];
+  persistFor(secIdx);
+  if(secIdx === -1) renderRestricted(); else renderLibrary();
+}
+
+/* ---------- search + jump ---------- */
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('#libraryFrame .shelf-row').forEach(row=>{
+    const spines = row.querySelectorAll('.spine:not(.add-spine)');
+    let rowHasMatch = false;
+    spines.forEach(sp=>{
+      const match = !q || sp.dataset.title.includes(q) || sp.dataset.poemTitles.includes(q) || row.dataset.sectionTitle.includes(q);
+      sp.closest('.spine-slot').style.display = match ? '' : 'none';
+      if(match) rowHasMatch = true;
+    });
+    row.classList.toggle('hidden-row', !rowHasMatch && !!q);
+    if(rowHasMatch || !q) anyVisible = true;
+  });
+  document.querySelectorAll('#libraryFrame .section-divider').forEach(d=> d.style.display = q ? 'none' : '');
+  noResults.style.display = (!anyVisible && q) ? 'block' : 'none';
+});
+jumpSelect.addEventListener('change', (e)=>{ if(!e.target.value) return; document.getElementById(e.target.value).scrollIntoView({behavior:'smooth', block:'center'}); });
+document.getElementById('stepInside').addEventListener('click', ()=>{ document.getElementById('shelf').scrollIntoView({behavior:'smooth', block:'start'}); });
+
+/* ---------- dust motes ---------- */
+const motesEl = document.querySelector('.motes');
+for(let i=0;i<16;i++){
+  const s = document.createElement('span');
+  const size = 2 + Math.random()*3;
+  s.style.width = size+'px'; s.style.height = size+'px'; s.style.left = (Math.random()*100)+'%';
+  s.style.animationDuration = (9 + Math.random()*10)+'s'; s.style.animationDelay = (Math.random()*10)+'s';
+  motesEl.appendChild(s);
+}
+
+/* ---------- book reader / editor ---------- */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const bhTitle = document.getElementById('bhTitle');
+const headerBtns = document.getElementById('headerBtns');
+const pageLeft = document.getElementById('pageLeft');
+const pageRight = document.getElementById('pageRight');
+const pagesWrap = document.getElementById('pagesWrap');
+const editPanel = document.getElementById('editPanel');
+const bookNav = document.getElementById('bookNav');
+const spreadCount = document.getElementById('spreadCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let currentPages = [];
+let currentIndex = 0;
+let currentSectionIdx = null;
+let currentBookTitle = '';
+let draftBook = null;
+let editingBook = false;
+
+function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
+function buildPages(sectionLabel, book){
+  const pages = [{ type:'cover', section: sectionLabel, title: book.title, count: book.poems.length }];
+  book.poems.forEach(p => pages.push({ type:'poem', poem: p }));
+  return pages;
+}
+function renderPageContent(container, pageObj, pageIndex){
+  if(!pageObj){ container.innerHTML = '<div class="empty-page">The End</div>'; return; }
+  if(pageObj.type === 'cover'){
+    container.innerHTML = `<div class="cover-content"><span class="coll-label">${pageObj.section}</span><h2>${pageObj.title}</h2><p class="desc">${pageObj.count} poem${pageObj.count===1?'':'s'} in this collection.</p></div>`;
+  } else {
+    container.innerHTML = `<h3 class="poem-title">${pageObj.poem.title}</h3><span class="poem-meta">Page ${pageIndex}</span><p class="poem-text">${pageObj.poem.text}</p>`;
+  }
+}
+function renderSpread(){
+  const mobile = isMobile();
+  renderPageContent(pageLeft, currentPages[currentIndex], currentIndex);
+  pageLeft.classList.add('active-mobile');
+  if(mobile){
+    pageRight.classList.remove('active-mobile');
+    spreadCount.textContent = `Page ${currentIndex+1} of ${currentPages.length}`;
+    prevBtn.disabled = currentIndex <= 0; nextBtn.disabled = currentIndex >= currentPages.length - 1;
+  } else {
+    renderPageContent(pageRight, currentPages[currentIndex+1], currentIndex+1);
+    pageRight.classList.add('active-mobile');
+    const totalSpreads = Math.ceil(currentPages.length/2);
+    const thisSpread = Math.floor(currentIndex/2)+1;
+    spreadCount.textContent = `Spread ${thisSpread} of ${totalSpreads}`;
+    prevBtn.disabled = currentIndex <= 0; nextBtn.disabled = currentIndex + 2 >= currentPages.length;
+  }
+}
+function renderHeaderBtns(){
+  headerBtns.innerHTML = '';
+  if(!isAdmin) return;
+  const btn = document.createElement('button');
+  btn.textContent = editingBook ? 'Reading View' : '✎ Edit';
+  btn.addEventListener('click', ()=> toggleEditPanel(!editingBook));
+  headerBtns.appendChild(btn);
+}
+function openBook(secIdx, title){
+  currentSectionIdx = secIdx;
+  const sectionLabel = secIdx === -1 ? 'Restricted' : LIBRARY[secIdx].section;
+  const book = findBook(secIdx, title);
+  currentBookTitle = title;
+  currentPages = buildPages(sectionLabel, book);
+  currentIndex = 0; editingBook = false;
+  bhTitle.textContent = sectionLabel + ' · ' + book.title;
+  renderHeaderBtns(); toggleEditPanel(false); renderSpread();
+  modalBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeBook(){ modalBackdrop.classList.remove('open'); document.body.style.overflow = ''; editingBook = false; }
+prevBtn.addEventListener('click', ()=>{ const step = isMobile()?1:2; currentIndex = Math.max(0, currentIndex-step); renderSpread(); });
+nextBtn.addEventListener('click', ()=>{ const step = isMobile()?1:2; currentIndex = Math.min(currentPages.length-1, currentIndex+step); renderSpread(); });
+document.getElementById('closeBtn').addEventListener('click', closeBook);
+modalBackdrop.addEventListener('click', (e)=>{ if(e.target === modalBackdrop) closeBook(); });
+document.addEventListener('keydown', (e)=>{
+  if(!modalBackdrop.classList.contains('open') || editingBook) return;
+  if(e.key === 'Escape') closeBook();
+  if(e.key === 'ArrowRight') nextBtn.click();
+  if(e.key === 'ArrowLeft') prevBtn.click();
+});
+window.addEventListener('resize', ()=>{ if(modalBackdrop.classList.contains('open') && !editingBook) renderSpread(); });
+
+/* ---------- editing a book's poems ---------- */
+function toggleEditPanel(on){
+  editingBook = on && isAdmin;
+  pagesWrap.style.display = editingBook ? 'none' : 'grid';
+  bookNav.style.display = editingBook ? 'none' : 'flex';
+  editPanel.style.display = editingBook ? 'block' : 'none';
+  renderHeaderBtns();
+  if(editingBook){
+    const poemObjs = currentPages.filter(p=>p.type==='poem').map(p=>p.poem);
+    draftBook = { title: currentBookTitle, poems: JSON.parse(JSON.stringify(poemObjs)) };
+    renderEditPanel();
+  }
+}
+function renderEditPanel(){
+  editPanel.innerHTML = '';
+  const titleLabel = document.createElement('label'); titleLabel.textContent = 'Book title';
+  const titleInput = document.createElement('input'); titleInput.type = 'text'; titleInput.value = draftBook.title;
+  titleInput.addEventListener('input', e=> draftBook.title = e.target.value);
+  editPanel.appendChild(titleLabel); editPanel.appendChild(titleInput);
+
+  draftBook.poems.forEach((poem, i)=>{
+    const block = document.createElement('div'); block.className = 'poem-edit-block';
+    const del = document.createElement('button'); del.className = 'del-poem'; del.textContent = 'Delete poem';
+    del.addEventListener('click', ()=>{ draftBook.poems.splice(i,1); renderEditPanel(); });
+    const l1 = document.createElement('label'); l1.textContent = 'Poem title';
+    const t1 = document.createElement('input'); t1.type='text'; t1.value = poem.title;
+    t1.addEventListener('input', e=> poem.title = e.target.value);
+    const l2 = document.createElement('label'); l2.textContent = 'Poem text';
+    const t2 = document.createElement('textarea'); t2.value = poem.text;
+    t2.addEventListener('input', e=> poem.text = e.target.value);
+    block.appendChild(del); block.appendChild(l1); block.appendChild(t1); block.appendChild(l2); block.appendChild(t2);
+    editPanel.appendChild(block);
+  });
+
+  const actions = document.createElement('div'); actions.className = 'edit-actions';
+  const addPoemBtn = document.createElement('button'); addPoemBtn.className='btn-add'; addPoemBtn.textContent='+ Add Poem';
+  addPoemBtn.addEventListener('click', ()=>{ draftBook.poems.push({title:'New Poem', text:''}); renderEditPanel(); });
+  const saveBtn = document.createElement('button'); saveBtn.className='btn-save'; saveBtn.textContent='Save Changes';
+  saveBtn.addEventListener('click', saveDraftBook);
+  const cancelBtn = document.createElement('button'); cancelBtn.className='btn-cancel'; cancelBtn.textContent='Cancel';
+  cancelBtn.addEventListener('click', ()=> toggleEditPanel(false));
+  actions.appendChild(addPoemBtn); actions.appendChild(saveBtn); actions.appendChild(cancelBtn);
+
+  const delBookBtn = document.createElement('button'); delBookBtn.className='btn-danger'; delBookBtn.textContent='Delete Entire Book';
+  delBookBtn.addEventListener('click', deleteCurrentBook);
+  actions.appendChild(delBookBtn);
+  editPanel.appendChild(actions);
+}
+function saveDraftBook(){
+  const book = findBook(currentSectionIdx, currentBookTitle);
+  book.title = draftBook.title.trim() || book.title;
+  book.poems = draftBook.poems;
+  persistFor(currentSectionIdx);
+  if(currentSectionIdx === -1) renderRestricted(); else renderLibrary();
+  openBook(currentSectionIdx, book.title);
+  toggleEditPanel(false);
+}
+function deleteCurrentBook(){
+  if(!confirm(`Delete "${currentBookTitle}" and all its poems? This can't be undone.`)) return;
+  const arr = getBooksArray(currentSectionIdx);
+  const idx = arr.findIndex(b=>b.title===currentBookTitle);
+  if(idx > -1) arr.splice(idx,1);
+  persistFor(currentSectionIdx);
+  if(currentSectionIdx === -1) renderRestricted(); else renderLibrary();
+  closeBook();
+}
+
+/* ---------- crypto helpers ---------- */
+async function sha256Hex(str){
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function xorDecrypt(b64, key){
+  const binStr = atob(b64);
+  const bytes = new Uint8Array(binStr.length);
+  for(let i=0;i<binStr.length;i++) bytes[i] = binStr.charCodeAt(i);
+  const keyBytes = new TextEncoder().encode(key);
+  const outBytes = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) outBytes[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+  return new TextDecoder('utf-8').decode(outBytes);
+}
+function xorEncrypt(plaintext, key){
+  const data = new TextEncoder().encode(plaintext);
+  const keyBytes = new TextEncoder().encode(key);
+  const out = new Uint8Array(data.length);
+  for(let i=0;i<data.length;i++) out[i] = data[i] ^ keyBytes[i % keyBytes.length];
+  let binStr = ''; out.forEach(b=> binStr += String.fromCharCode(b));
+  return btoa(binStr);
+}
+
+/* ---------- generic dialog modal: password / change-password / site text ---------- */
+const pwBackdrop = document.getElementById('pwBackdrop');
+const pwBox = document.getElementById('pwBox');
+
+function closeDialog(){ pwBackdrop.classList.remove('open'); document.body.style.overflow = ''; }
+function shakeBox(){ pwBox.classList.remove('shake'); void pwBox.offsetWidth; pwBox.classList.add('shake'); }
+
+function openPasswordPrompt(){
+  pwBox.innerHTML = `
+    <div class="lock-icon">🔒</div>
+    <h3>Restricted Shelf</h3>
+    <p>This shelf is kept locked. Enter the password to open it.</p>
+    <input type="password" id="dlgPw" placeholder="Password">
+    <button class="main-btn" id="dlgSubmit">Unlock</button>
+    <div class="pw-error" id="dlgError"></div>
+    <button style="background:none;border:none;color:var(--ink-soft);margin-top:0.6rem;cursor:pointer;text-decoration:underline;font-size:0.85rem;" id="dlgCancel">Cancel</button>`;
+  pwBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
+  const pwIn = document.getElementById('dlgPw');
+  setTimeout(()=>pwIn.focus(), 150);
+  const submit = async ()=>{
+    const val = pwIn.value;
+    if(!val){ document.getElementById('dlgError').textContent = 'Please enter a password.'; return; }
+    const hex = await sha256Hex(val);
+    if(hex === privateHash){
+      try{ PRIVATE_LIBRARY = JSON.parse(xorDecrypt(privateCipher, val)); }catch(e){ PRIVATE_LIBRARY = []; }
+      restrictedUnlocked = true; closeDialog(); renderRestricted();
+    } else {
+      document.getElementById('dlgError').textContent = 'Incorrect password.'; shakeBox();
+    }
+  };
+  document.getElementById('dlgSubmit').addEventListener('click', submit);
+  pwIn.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+  document.getElementById('dlgCancel').addEventListener('click', closeDialog);
+}
+function openAdminPrompt(){
+  pwBox.innerHTML = `
+    <div class="lock-icon">🔒</div>
+    <h3>Admin Access</h3>
+    <p>Enter your password to edit the library.</p>
+    <input type="password" id="dlgPw" placeholder="Password">
+    <button class="main-btn" id="dlgSubmit">Unlock</button>
+    <div class="pw-error" id="dlgError"></div>
+    <button style="background:none;border:none;color:var(--ink-soft);margin-top:0.6rem;cursor:pointer;text-decoration:underline;font-size:0.85rem;" id="dlgCancel">Cancel</button>`;
+  pwBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
+  const pwIn = document.getElementById('dlgPw');
+  setTimeout(()=>pwIn.focus(), 150);
+  const submit = async ()=>{
+    const val = pwIn.value;
+    if(!val){ document.getElementById('dlgError').textContent = 'Please enter a password.'; return; }
+    const hex = await sha256Hex(val);
+    if(hex === privateHash){
+      isAdmin = true; adminPassword = val; restrictedUnlocked = true;
+      try{ PRIVATE_LIBRARY = JSON.parse(xorDecrypt(privateCipher, val)); }catch(e){ PRIVATE_LIBRARY = []; }
+      document.body.classList.add('edit-mode');
+      document.getElementById('adminToggle').textContent = '🔓';
+      closeDialog(); renderLibrary(); renderRestricted();
+    } else {
+      document.getElementById('dlgError').textContent = 'Incorrect password.'; shakeBox();
+    }
+  };
+  document.getElementById('dlgSubmit').addEventListener('click', submit);
+  pwIn.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+  document.getElementById('dlgCancel').addEventListener('click', closeDialog);
+}
+function openChangePwPrompt(){
+  pwBox.innerHTML = `
+    <div class="lock-icon">🔑</div>
+    <h3>Change Password</h3>
+    <p>This password protects both the restricted shelf and admin editing.</p>
+    <input type="password" id="dlgPw" placeholder="New password">
+    <input type="password" id="dlgPw2" placeholder="Confirm new password">
+    <button class="main-btn" id="dlgSubmit">Save New Password</button>
+    <div class="pw-error" id="dlgError"></div>
+    <button style="background:none;border:none;color:var(--ink-soft);margin-top:0.6rem;cursor:pointer;text-decoration:underline;font-size:0.85rem;" id="dlgCancel">Cancel</button>`;
+  pwBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('dlgSubmit').addEventListener('click', async ()=>{
+    const p1 = document.getElementById('dlgPw').value, p2 = document.getElementById('dlgPw2').value;
+    if(!p1 || p1.length < 4){ document.getElementById('dlgError').textContent = 'Please choose at least 4 characters.'; return; }
+    if(p1 !== p2){ document.getElementById('dlgError').textContent = "Passwords don't match."; return; }
+    const oldPassword = adminPassword;
+    const newHash = await sha256Hex(p1);
+    const newCipher = xorEncrypt(JSON.stringify(PRIVATE_LIBRARY), p1);
+    const result = await apiSave({ password: oldPassword, newPassword: p1, privateData: { hash:newHash, cipher:newCipher } });
+    if(result.ok || result.offline){
+      privateHash = newHash; privateCipher = newCipher; adminPassword = p1;
+      closeDialog();
+    } else {
+      document.getElementById('dlgError').textContent = result.error || 'Could not change the password.';
+    }
+  });
+  document.getElementById('dlgCancel').addEventListener('click', closeDialog);
+}
+function openTextEditor(which){
+  const fields = {
+    hero: [ ['heroTitle','Hero title','input'], ['heroSub','Hero subtitle','textarea'], ['byline','Your name (byline)','input'] ],
+    epigraph: [ ['epigraphQuote','Quote','textarea'], ['epigraphAuthor','Attributed to','input'] ],
+    about: [ ['aboutHeading','About heading','input'], ['aboutText','About text','textarea'], ['footerTagline','Footer tagline','input'] ]
+  }[which];
+  let html = `<div class="lock-icon">✎</div><h3>Edit Site Text</h3>`;
+  fields.forEach(([key,label,type])=>{
+    html += `<label>${label}</label>`;
+    if(type === 'textarea') html += `<textarea id="fld_${key}">${SETTINGS[key]}</textarea>`;
+    else html += `<input type="text" id="fld_${key}" value="${SETTINGS[key].replace(/"/g,'&quot;')}">`;
+  });
+  html += `<button class="main-btn" id="dlgSubmit">Save</button><div class="pw-error" id="dlgError"></div>
+    <button style="background:none;border:none;color:var(--ink-soft);margin-top:0.6rem;cursor:pointer;text-decoration:underline;font-size:0.85rem;" id="dlgCancel">Cancel</button>`;
+  pwBox.innerHTML = html;
+  pwBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('dlgSubmit').addEventListener('click', ()=>{
+    fields.forEach(([key])=>{ SETTINGS[key] = document.getElementById('fld_'+key).value; });
+    saveSettings(); applySettings(); closeDialog();
+  });
+  document.getElementById('dlgCancel').addEventListener('click', closeDialog);
+}
+pwBackdrop.addEventListener('click', (e)=>{ if(e.target===pwBackdrop) closeDialog(); });
 
 document.querySelectorAll('[data-editform]').forEach(btn=>{
-   btn.addEventListener('click', ()=> openTextEditor(btn.dataset.editform));
+  btn.addEventListener('click', ()=> openTextEditor(btn.dataset.editform));
 });
-  
- /* ---------- admin toggle ---------- */
- document.getElementById('adminToggle').addEventListener('click', ()=>{
-   if(isAdmin){
-     isAdmin = false; adminPassword = null;
-     document.body.classList.remove('edit-mode');
-     document.getElementById('adminToggle').textContent = '🔒';
-     renderLibrary(); renderRestricted();
-   } else {
-     openAdminPrompt();
-   }
- });
- document.getElementById('addSectionBtn').addEventListener('click', addSection);
- document.getElementById('changePwBtn').addEventListener('click', openChangePwPrompt);
-  
- /* ---------- export / import backup ---------- */
- document.getElementById('exportBtn').addEventListener('click', ()=>{
-   const data = { library: LIBRARY, private: { hash: privateHash, cipher: privateCipher }, settings: SETTINGS };
-   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'quiet-study-backup.json'; a.click();
- });
- document.getElementById('importBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
- document.getElementById('importFile').addEventListener('change', async (e)=>{
-   const file = e.target.files[0]; if(!file) return;
-   const text = await file.text();
-   try{
-     const data = JSON.parse(text);
-     if(data.library){ LIBRARY = data.library; saveLibrary(); }
-     if(data.private){ privateHash = data.private.hash; privateCipher = data.private.cipher; savePrivate(); }
-     if(data.settings){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, data.settings); saveSettings(); applySettings(); }
-     restrictedUnlocked = false;
-     renderLibrary(); renderRestricted();
-     alert('Backup imported successfully.');
-   }catch(err){ alert('That file could not be read as a valid backup.'); }
- });
-  
- /* ---------- init ---------- */
- window.API_BASE = "https://api.aprashanna.com.np";
 
- (async function(){
-   if(typeof loadData === 'function') {
-     await loadData();
-   }
-   if(typeof applySettings === 'function') applySettings();
-   if(typeof renderLibrary === 'function') renderLibrary();
-   if(typeof renderRestricted === 'function') renderRestricted();
- })();
- </script>
-  
- </body>
- </html>
+/* ---------- admin toggle ---------- */
+document.getElementById('adminToggle').addEventListener('click', ()=>{
+  if(isAdmin){
+    isAdmin = false; adminPassword = null;
+    document.body.classList.remove('edit-mode');
+    document.getElementById('adminToggle').textContent = '🔒';
+    renderLibrary(); renderRestricted();
+  } else {
+    openAdminPrompt();
+  }
+});
+document.getElementById('addSectionBtn').addEventListener('click', addSection);
+document.getElementById('changePwBtn').addEventListener('click', openChangePwPrompt);
+
+/* ---------- export / import backup ---------- */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const data = { library: LIBRARY, private: { hash: privateHash, cipher: privateCipher }, settings: SETTINGS };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'quiet-study-backup.json'; a.click();
+});
+document.getElementById('importBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', async (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  const text = await file.text();
+  try{
+    const data = JSON.parse(text);
+    if(data.library){ LIBRARY = data.library; saveLibrary(); }
+    if(data.private){ privateHash = data.private.hash; privateCipher = data.private.cipher; savePrivate(); }
+    if(data.settings){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, data.settings); saveSettings(); applySettings(); }
+    restrictedUnlocked = false;
+    renderLibrary(); renderRestricted();
+    alert('Backup imported successfully.');
+  }catch(err){ alert('That file could not be read as a valid backup.'); }
+});
+
+/* ---------- init ---------- */
+(async function(){
+  await loadData();
+  applySettings();
+  renderLibrary();
+  renderRestricted();
+})();
+</script>
+
+</body>
+</html>
