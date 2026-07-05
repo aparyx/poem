@@ -407,6 +407,7 @@ const DEFAULT_SETTINGS = {
    Until you fill this in, the site saves only to this browser, same as before.
    ========================================================================= */
 const API_BASE = "https://api.aprashanna.com.np";
+window.API_BASE = API_BASE;
 
 const CACHE_KEY_LIBRARY = "quiet-study-library-v3";
 const CACHE_KEY_PRIVATE = "quiet-study-private-v2";
@@ -458,11 +459,12 @@ async function loadData(){
     if(data.library){ LIBRARY = data.library; }
     else { await apiSave({ library: LIBRARY, bootstrapHash: privateHash }); }
 
+    // Private shelf and site-text settings are only ever written by an
+    // authenticated admin save (which includes the real password), so if
+    // the server doesn't have them yet, we simply keep using the local
+    // defaults in memory rather than attempting an unauthenticated write.
     if(data.privateData){ privateHash = data.privateData.hash; privateCipher = data.privateData.cipher; }
-    else { await apiSave({ privateData: {hash:privateHash, cipher:privateCipher}, bootstrapHash: privateHash }); }
-
     if(data.settings){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, data.settings); }
-    else { await apiSave({ settings: SETTINGS, bootstrapHash: privateHash }); }
 
     cacheSet(CACHE_KEY_LIBRARY, JSON.stringify(LIBRARY));
     cacheSet(CACHE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher}));
@@ -1083,7 +1085,6 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
 });
 
 /* ---------- init ---------- */
-  window.API_BASE = "https://api.aprashanna.com.np";
 (async function(){
   await loadData();
   applySettings();
