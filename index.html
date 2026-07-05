@@ -101,8 +101,9 @@
   .mini-btn:hover{ background:rgba(0,0,0,0.5); }
   .section-divider{ height:1px; max-width:900px; margin:0 auto 3.2rem; background:linear-gradient(90deg, transparent, rgba(224,197,132,0.35), transparent); }
 
-  .spines{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:center; gap:16px 12px; padding:22px 10px 16px; min-height:190px; position:relative; }
-  .plank{ position:absolute; left:-12px; right:-12px; bottom:0; height:16px; background:linear-gradient(180deg, var(--wood-light), var(--wood-mid) 60%, var(--wood-dark)); border-radius:2px; box-shadow:0 10px 18px rgba(0,0,0,0.5), 0 -2px 0 rgba(255,255,255,0.05) inset; z-index:0; }
+  .spines-wrap{ display:flex; flex-direction:column; gap:22px; }
+  .shelf-line{ display:flex; flex-wrap:nowrap; align-items:flex-end; gap:14px; padding:22px 14px 16px; min-height:190px; position:relative; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .plank{ position:absolute; left:0; right:0; bottom:0; height:16px; background:linear-gradient(180deg, var(--wood-light), var(--wood-mid) 60%, var(--wood-dark)); border-radius:2px; box-shadow:0 10px 18px rgba(0,0,0,0.5), 0 -2px 0 rgba(255,255,255,0.05) inset; z-index:0; }
   .spine-slot{ position:relative; flex-shrink:0; }
   .spine{ writing-mode:vertical-rl; text-orientation:mixed; display:flex; align-items:center; justify-content:space-between; padding:14px 8px; border-radius:3px 3px 0 0; cursor:pointer; font-family:'Cormorant SC', serif; letter-spacing:0.07em; color:var(--parchment); border:1px solid rgba(0,0,0,0.35); box-shadow:inset -3px 0 6px rgba(0,0,0,0.25), inset 2px 0 0 rgba(255,255,255,0.06); transition:transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease; position:relative; z-index:1; }
   .spine:hover, .spine:focus-visible{ transform:translateY(-14px) rotate(-1.5deg); filter:brightness(1.12); box-shadow:0 10px 16px rgba(0,0,0,0.45), inset -3px 0 6px rgba(0,0,0,0.25); outline:none; }
@@ -405,7 +406,7 @@ const DEFAULT_SETTINGS = {
    web address here. Example: "https://api.yourdomain.com.np"
    Until you fill this in, the site saves only to this browser, same as before.
    ========================================================================= */
-const API_BASE = "";
+const API_BASE = "https://api.aprashanna.com.np";
 
 const CACHE_KEY_LIBRARY = "quiet-study-library-v3";
 const CACHE_KEY_PRIVATE = "quiet-study-private-v2";
@@ -536,36 +537,68 @@ const jumpSelect = document.getElementById('jumpSelect');
 const noResults = document.getElementById('noResults');
 const addSectionRow = document.getElementById('addSectionRow');
 
-function renderSpinesInto(spinesWrap, secIdx, books){
-  books.forEach((book, bookIdx) => {
-    const seed = hashStr(String(secIdx) + book.title);
-    const color = SPINE_COLORS[seed % SPINE_COLORS.length];
-    const height = 150 + (seed % 55);
-    const width = 46 + (seed % 20);
-    const slot = document.createElement('div');
-    slot.className = 'spine-slot';
-    if(isAdmin){
-      const rb = document.createElement('div'); rb.className = 'reorder-btns';
-      const left = document.createElement('button'); left.textContent='◀'; left.title='Move left';
-      left.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, -1); });
-      const right = document.createElement('button'); right.textContent='▶'; right.title='Move right';
-      right.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, 1); });
-      rb.appendChild(left); rb.appendChild(right); slot.appendChild(rb);
-    }
-    const spine = document.createElement('div');
-    spine.className = 'spine';
-    spine.tabIndex = 0;
-    spine.dataset.title = book.title.toLowerCase();
-    spine.dataset.poemTitles = book.poems.map(p=>p.title.toLowerCase()).join(' ');
-    spine.style.height = height + 'px';
-    spine.style.width = width + 'px';
-    spine.style.background = `linear-gradient(180deg, ${color[0]}, ${color[1]})`;
-    spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">${book.title}</span><span class="gold-rule"></span>`;
-    spine.addEventListener('click', ()=>openBook(secIdx, book.title));
-    spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openBook(secIdx, book.title); } });
-    slot.appendChild(spine);
-    spinesWrap.appendChild(slot);
-  });
+const SHELF_CHUNK_SIZE = 8;
+
+function buildSpineSlot(secIdx, book, bookIdx){
+  const seed = hashStr(String(secIdx) + book.title);
+  const color = SPINE_COLORS[seed % SPINE_COLORS.length];
+  const height = 150 + (seed % 55);
+  const width = 46 + (seed % 20);
+  const slot = document.createElement('div');
+  slot.className = 'spine-slot';
+  if(isAdmin){
+    const rb = document.createElement('div'); rb.className = 'reorder-btns';
+    const left = document.createElement('button'); left.textContent='◀'; left.title='Move left';
+    left.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, -1); });
+    const right = document.createElement('button'); right.textContent='▶'; right.title='Move right';
+    right.addEventListener('click', (e)=>{ e.stopPropagation(); moveBook(secIdx, bookIdx, 1); });
+    rb.appendChild(left); rb.appendChild(right); slot.appendChild(rb);
+  }
+  const spine = document.createElement('div');
+  spine.className = 'spine';
+  spine.tabIndex = 0;
+  spine.dataset.title = book.title.toLowerCase();
+  spine.dataset.poemTitles = book.poems.map(p=>p.title.toLowerCase()).join(' ');
+  spine.style.height = height + 'px';
+  spine.style.width = width + 'px';
+  spine.style.background = `linear-gradient(180deg, ${color[0]}, ${color[1]})`;
+  spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">${book.title}</span><span class="gold-rule"></span>`;
+  spine.addEventListener('click', ()=>openBook(secIdx, book.title));
+  spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openBook(secIdx, book.title); } });
+  slot.appendChild(spine);
+  return slot;
+}
+function buildAddSlot(onClick, title){
+  const slot = document.createElement('div'); slot.className = 'spine-slot';
+  const addSpine = document.createElement('div');
+  addSpine.className = 'spine add-spine'; addSpine.tabIndex = 0; addSpine.textContent = '+';
+  addSpine.title = title;
+  addSpine.addEventListener('click', onClick);
+  addSpine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onClick(); } });
+  slot.appendChild(addSpine);
+  return slot;
+}
+/* Renders books as proper stacked shelves: each row holds a fixed number of
+   books and gets its own wooden plank, so nothing ever floats without a
+   shelf under it, no matter how many books a section has. */
+function buildShelvesForBooks(secIdx, books, addOnClick, addTitle){
+  const wrap = document.createElement('div');
+  wrap.className = 'spines-wrap';
+  const items = books.map((book, bookIdx) => ({ type:'book', book, bookIdx }));
+  if(addOnClick) items.push({ type:'add' });
+  const rowCount = Math.max(1, Math.ceil(items.length / SHELF_CHUNK_SIZE));
+  for(let r = 0; r < rowCount; r++){
+    const line = document.createElement('div');
+    line.className = 'shelf-line';
+    line.innerHTML = '<div class="plank"></div>';
+    const chunk = items.slice(r * SHELF_CHUNK_SIZE, r * SHELF_CHUNK_SIZE + SHELF_CHUNK_SIZE);
+    chunk.forEach(item=>{
+      if(item.type === 'book') line.appendChild(buildSpineSlot(secIdx, item.book, item.bookIdx));
+      else line.appendChild(buildAddSlot(addOnClick, addTitle));
+    });
+    wrap.appendChild(line);
+  }
+  return wrap;
 }
 
 function renderLibrary(){
@@ -598,22 +631,8 @@ function renderLibrary(){
     }
     row.appendChild(signWrap);
 
-    const spinesWrap = document.createElement('div');
-    spinesWrap.className = 'spines';
-    spinesWrap.innerHTML = '<div class="plank"></div>';
-    renderSpinesInto(spinesWrap, secIdx, sec.books);
-
-    if(isAdmin){
-      const addSlot = document.createElement('div'); addSlot.className='spine-slot';
-      const addSpine = document.createElement('div');
-      addSpine.className = 'spine add-spine'; addSpine.tabIndex = 0; addSpine.textContent = '+';
-      addSpine.title = 'Add a book to this section';
-      addSpine.addEventListener('click', ()=>addBook(secIdx));
-      addSlot.appendChild(addSpine);
-      spinesWrap.appendChild(addSlot);
-    }
-
-    row.appendChild(spinesWrap);
+    const shelves = buildShelvesForBooks(secIdx, sec.books, isAdmin ? ()=>addBook(secIdx) : null, 'Add a book to this section');
+    row.appendChild(shelves);
     libraryFrame.appendChild(row);
 
     if(secIdx < LIBRARY.length - 1){
@@ -636,11 +655,10 @@ function renderRestricted(){
   signWrap.innerHTML = `<div class="aisle-sign"><span class="call-no">★ Restricted</span><span class="sign-title">Private Access Only</span></div>`;
   row.appendChild(signWrap);
 
-  const spinesWrap = document.createElement('div');
-  spinesWrap.className = 'spines';
-  spinesWrap.innerHTML = '<div class="plank"></div>';
-
   if(!isAdmin && !restrictedUnlocked){
+    const wrap = document.createElement('div'); wrap.className = 'spines-wrap';
+    const line = document.createElement('div'); line.className = 'shelf-line';
+    line.innerHTML = '<div class="plank"></div>';
     const slot = document.createElement('div'); slot.className='spine-slot';
     const spine = document.createElement('div');
     spine.className = 'spine locked'; spine.tabIndex = 0;
@@ -648,19 +666,12 @@ function renderRestricted(){
     spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">Enter Password</span><span class="gold-rule"></span>`;
     spine.addEventListener('click', openPasswordPrompt);
     spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPasswordPrompt(); } });
-    slot.appendChild(spine); spinesWrap.appendChild(slot);
+    slot.appendChild(spine); line.appendChild(slot); wrap.appendChild(line);
+    row.appendChild(wrap);
   } else {
-    renderSpinesInto(spinesWrap, -1, PRIVATE_LIBRARY);
-    if(isAdmin){
-      const addSlot = document.createElement('div'); addSlot.className='spine-slot';
-      const addSpine = document.createElement('div');
-      addSpine.className = 'spine add-spine'; addSpine.tabIndex = 0; addSpine.textContent = '+';
-      addSpine.title = 'Add a private book';
-      addSpine.addEventListener('click', ()=>addBook(-1));
-      addSlot.appendChild(addSpine); spinesWrap.appendChild(addSlot);
-    }
+    const shelves = buildShelvesForBooks(-1, PRIVATE_LIBRARY, isAdmin ? ()=>addBook(-1) : null, 'Add a private book');
+    row.appendChild(shelves);
   }
-  row.appendChild(spinesWrap);
   restrictedFrame.appendChild(row);
 }
 
