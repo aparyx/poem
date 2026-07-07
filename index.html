@@ -145,67 +145,32 @@
   .admin-toggle{ position:fixed; bottom:18px; right:18px; width:46px; height:46px; border-radius:50%; background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); font-size:1.2rem; cursor:pointer; z-index:60; box-shadow:0 6px 16px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; }
   body.edit-mode .admin-toggle{ background:var(--forest); }
 
-  /* ---------- MODAL: OPEN BOOK ---------- */
-  .modal-backdrop{ position:fixed; inset:0; background:rgba(10,6,2,0.8); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:1.2rem; z-index:100; opacity:0; pointer-events:none; transition:opacity 0.35s ease; perspective:1800px; }
+  /* ---------- MODAL: OPEN BOOK - SIMPLIFIED ---------- */
+  .modal-backdrop{ position:fixed; inset:0; background:rgba(10,6,2,0.7); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:1.2rem; z-index:100; opacity:0; pointer-events:none; transition:opacity 0.4s ease; }
   .modal-backdrop.open{ opacity:1; pointer-events:auto; }
-  .book{ width:min(920px,100%); max-height:90vh; max-height:90dvh; background:linear-gradient(90deg, var(--parchment-dark), var(--parchment) 4%, var(--parchment) 96%, var(--parchment-dark)); border-radius:6px; box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 0 8px var(--leather-dark), 0 0 0 10px var(--brass); position:relative; display:flex; flex-direction:column; overflow:hidden; transform:scale(0.92) translateY(20px); transition:transform 0.22s cubic-bezier(.2,.9,.25,1.1); }
-  .book.landed{ animation:bookSettle 0.3s cubic-bezier(.3,.7,.3,1.2); }
-  @keyframes bookSettle{
-    0%{ transform:scale(1.1) rotate(-2deg); }
-    100%{ transform:scale(1) rotate(0deg); }
+  
+  .book{ 
+    width:min(920px,100%); max-height:90vh; max-height:90dvh; 
+    background:linear-gradient(90deg, var(--parchment-dark), var(--parchment) 4%, var(--parchment) 96%, var(--parchment-dark)); 
+    border-radius:4px 8px 8px 4px; 
+    box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 0 8px var(--leather-dark), 0 0 0 10px var(--brass); 
+    position:relative; display:flex; flex-direction:column; overflow:hidden; 
+    opacity:0; transform:scale(0.92) translateY(20px); 
+    transition:opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
   }
-  .book.materializing{ opacity:0; transform:scale(0.35) !important; }
+  .modal-backdrop.open .book{ opacity:1; transform:scale(1) translateY(0); }
 
-  /* ---- teleport flash: quick afterimages jump left/right across the
-     screen, then the book snaps into place already open, Instant
-     Transmission style. ---- */
-  .teleport-ghost{
-    position:fixed; z-index:200; border-radius:6px; pointer-events:none;
-    border:3px solid var(--brass); display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 45px 14px rgba(224,197,132,0.6);
-    animation:teleportFlash 0.16s ease-out forwards;
-  }
-  .teleport-ghost .ghost-emblem{
-    width:38%; aspect-ratio:1; border-radius:50%; border:2px solid var(--brass-light);
-    background:radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%);
-    color:var(--brass-light); display:flex; align-items:center; justify-content:center; font-size:1.3rem;
-  }
-  @keyframes teleportFlash{
-    0%{ opacity:0; transform:translate(-50%,-50%) scale(0.5); }
-    35%{ opacity:1; transform:translate(-50%,-50%) scale(1.08); }
-    100%{ opacity:0; transform:translate(-50%,-50%) scale(1.2); }
-  }
-  .spark{
-    position:fixed; z-index:201; border-radius:50%; pointer-events:none;
-    background:radial-gradient(circle, #fff6da, var(--brass-light) 55%, transparent 75%);
-    animation:sparkBurst 0.6s ease-out forwards;
-  }
-  @keyframes sparkBurst{
-    0%{ transform:translate(-50%,-50%) translate(0,0) scale(1); opacity:1; }
-    100%{ transform:translate(-50%,-50%) translate(var(--sdx), var(--sdy)) scale(0.2); opacity:0; }
-  }
-  .glow-burst{
-    position:fixed; z-index:199; left:var(--gx); top:var(--gy); width:10px; height:10px; border-radius:50%;
-    transform:translate(-50%,-50%); pointer-events:none;
-    background:radial-gradient(circle, rgba(255,244,214,0.9), rgba(224,197,132,0.4) 40%, transparent 70%);
-    animation:glowPulse 0.55s ease-out forwards;
-  }
-  @keyframes glowPulse{
-    0%{ width:10px; height:10px; opacity:0.9; }
-    100%{ width:420px; height:420px; opacity:0; }
-  }
-  .modal-backdrop.open .book{ transform:scale(1) translateY(0); }
   .book-header{ display:flex; align-items:center; justify-content:space-between; gap:0.6rem; padding:0.8rem 1.1rem; border-bottom:1px solid var(--parchment-shadow); background:rgba(0,0,0,0.03); }
   .book-header .bh-title{ font-family:'Cormorant SC', serif; letter-spacing:0.12em; text-transform:uppercase; font-size:0.75rem; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
   .header-btns{ display:flex; gap:0.4rem; flex-shrink:0; }
   .header-btns button{ font-size:0.78rem; padding:0.35rem 0.7rem; border-radius:3px; cursor:pointer; border:1px solid var(--brass); background:var(--leather); color:var(--brass-light); }
   .close-btn{ width:28px; height:28px; border-radius:50%; background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); font-size:0.95rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 
-  .pages-wrap{ display:grid; grid-template-columns:1fr 1fr; flex:1; min-height:0; position:relative; perspective:1600px; }
-  .page{ transform-style:preserve-3d; backface-visibility:hidden; transition:transform 0.22s ease, opacity 0.22s ease; }
-  .page.flip-out{ transform:rotateY(-85deg); opacity:0.15; }
-  .pages-wrap::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:32px; transform:translateX(-50%); background:linear-gradient(90deg, rgba(0,0,0,0.16), rgba(0,0,0,0.03) 30%, transparent 50%, rgba(0,0,0,0.03) 70%, rgba(0,0,0,0.16)); pointer-events:none; z-index:2; }
-  .page{ padding:clamp(1.2rem,3vw,2.2rem); overflow-y:auto; color:var(--ink); min-height:0; }
+  .pages-wrap{ display:grid; grid-template-columns:1fr 1fr; flex:1; min-height:0; position:relative; background:var(--parchment); }
+  .pages-wrap::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:32px; transform:translateX(-50%); background:linear-gradient(90deg, rgba(0,0,0,0.10), transparent 30%, transparent 70%, rgba(0,0,0,0.10)); pointer-events:none; z-index:2; }
+  .page{ padding:clamp(1.2rem,3vw,2.2rem); overflow-y:auto; color:var(--ink); min-height:0; background:var(--parchment); }
+  .page.flip-out{ transform:rotateY(-85deg); opacity:0.15; transition:transform 0.2s ease, opacity 0.2s ease; }
+
   .cover-content{ display:flex; flex-direction:column; justify-content:center; height:100%; text-align:center; }
   .cover-content .coll-label{ font-family:'Cormorant SC', serif; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-soft); font-size:0.72rem; }
   .cover-content h2{ font-family:'Playfair Display', serif; font-style:italic; font-size:clamp(1.3rem,3vw,1.9rem); margin:0.6rem 0 1rem; color:var(--leather-dark); }
@@ -215,15 +180,15 @@
   .poem-meta{ font-family:'Cormorant SC', serif; letter-spacing:0.12em; font-size:0.66rem; text-transform:uppercase; color:var(--ink-soft); margin-bottom:1rem; display:block; }
   .poem-text{ font-size:0.98rem; line-height:1.82; white-space:pre-line; }
   .poem-text::first-letter{ font-family:'Playfair Display', serif; font-size:2.6rem; float:left; line-height:0.8; padding-right:0.12em; padding-top:0.06em; color:var(--leather-dark); font-weight:900; }
+
   .book-nav{ display:flex; align-items:center; justify-content:center; gap:1.2rem; padding:0.7rem; border-top:1px solid var(--parchment-shadow); background:rgba(0,0,0,0.03); }
   .book-nav button{ background:var(--leather); color:var(--brass-light); border:1px solid var(--brass); padding:0.5rem 1.1rem; border-radius:3px; cursor:pointer; font-size:0.92rem; }
   .book-nav button:hover:not(:disabled){ background:var(--leather-dark); }
-  .book-nav button:active:not(:disabled){ background:var(--leather-dark); filter:brightness(1.2); }
   .book-nav button:disabled{ opacity:0.35; cursor:default; }
   .book-nav .spread-count{ font-family:'Cormorant SC', serif; letter-spacing:0.1em; font-size:0.76rem; color:var(--ink-soft); }
 
   /* ---------- EDIT PANEL ---------- */
-  .edit-panel{ flex:1; overflow-y:auto; padding:1.4rem clamp(1rem,3vw,2.2rem); color:var(--ink); }
+  .edit-panel{ flex:1; overflow-y:auto; padding:1.4rem clamp(1rem,3vw,2.2rem); color:var(--ink); background:var(--parchment); }
   .edit-panel label{ font-family:'Cormorant SC', serif; letter-spacing:0.1em; text-transform:uppercase; font-size:0.7rem; color:var(--ink-soft); display:block; margin-bottom:0.3rem; }
   .edit-panel input[type="text"], .edit-panel textarea{ width:100%; font-family:'EB Garamond', serif; font-size:1rem; padding:0.55rem 0.7rem; border-radius:3px; border:1px solid var(--ink-soft); margin-bottom:1rem; background:#fffdf6; }
   .edit-panel textarea{ min-height:130px; resize:vertical; line-height:1.6; }
@@ -236,7 +201,7 @@
   .btn-cancel{ background:transparent; color:var(--ink-soft); border-color:var(--ink-soft); }
   .btn-danger{ background:#5c1c1c; color:var(--brass-light); }
 
-  /* ---------- PASSWORD / TEXT-EDIT MODAL (shared parchment box) ---------- */
+  /* ---------- PASSWORD / TEXT-EDIT MODAL ---------- */
   .pw-box{ width:min(420px,92vw); max-height:85vh; overflow-y:auto; background:var(--parchment); border-radius:6px; padding:2.2rem 1.8rem; text-align:center; color:var(--ink); box-shadow:0 30px 70px rgba(0,0,0,0.6), 0 0 0 8px var(--leather-dark), 0 0 0 10px var(--brass); transform:scale(0.92); transition:transform 0.35s cubic-bezier(.2,.9,.25,1.1); }
   .modal-backdrop.open .pw-box{ transform:scale(1); }
   .pw-box .lock-icon{ font-size:2rem; margin-bottom:0.6rem; }
@@ -265,8 +230,7 @@
   }
   @media (prefers-reduced-motion: reduce){
     .lamp{ animation:none; } .motes span{ animation:none; opacity:0; } .scroll-cue .arrow{ animation:none; } html{ scroll-behavior:auto; }
-    .teleport-ghost, .spark, .glow-burst, .book.landed{ animation:none !important; }
-    .book.materializing{ opacity:1 !important; transform:none !important; }
+    .modal-backdrop.open .book{ opacity:1; transform:scale(1) translateY(0); transition:none; }
   }
 </style>
 </head>
@@ -365,16 +329,14 @@
   </div>
 </div>
 
-<!-- GENERIC DIALOG MODAL (password / change password / site text editing) -->
+<!-- GENERIC DIALOG MODAL -->
 <div class="modal-backdrop" id="pwBackdrop">
   <div class="pw-box" id="pwBox"></div>
 </div>
 
 <script>
 /* =========================================================================
-   Everything below is just starting content. Once you unlock Admin mode
-   (the 🔒 button, bottom-right) you can add, edit, reorder, and delete
-   sections, books, and poems directly on the page — no code required.
+   FULL LIBRARY — 4 sections with 20 books each
    ========================================================================= */
 
 const DEFAULT_LIBRARY = [
@@ -423,9 +385,7 @@ const DEFAULT_LIBRARY = [
   ]}
 ];
 
-/* Fill every section with 20 blank, unwritten books so there's plenty of
-   room to write directly on the site — just click a spine, hit Edit, and
-   fill in the title and poems yourself. */
+/* Fill every section with 20 blank books */
 DEFAULT_LIBRARY.forEach(sec=>{
   for(let i=1;i<=20;i++){ sec.books.push({ title:"Untitled " + i, poems:[] }); }
 });
@@ -463,10 +423,7 @@ const DEFAULT_SETTINGS = {
 };
 
 /* =========================================================================
-   IMPORTANT — ONE-TIME SETUP:
-   After you deploy the Worker (see the setup steps you were given), put its
-   web address here. Example: "https://api.yourdomain.com.np"
-   Until you fill this in, the site saves only to this browser, same as before.
+   API & STORAGE
    ========================================================================= */
 const API_BASE = "https://api.aprashanna.com.np";
 window.API_BASE = API_BASE;
@@ -488,7 +445,7 @@ let adminPassword = null;
 let restrictedUnlocked = false;
 let apiOnline = false;
 
-/* ---------- local cache (used offline, or until the Worker URL is set) ---------- */
+/* ---------- local cache ---------- */
 function cacheAvailable(){
   try{ const t='__t__'; localStorage.setItem(t,t); localStorage.removeItem(t); return true; }
   catch(e){ return false; }
@@ -504,7 +461,6 @@ function showBanner(msg){
 }
 function hideBanner(){ document.getElementById('storageBanner').classList.remove('show'); }
 
-/* ---------- load: try the shared backend first, fall back to local cache/defaults ---------- */
 async function loadData(){
   if(!API_BASE){
     showBanner('⚙ This site isn\'t connected to its shared backend yet, so changes only save in this browser. Add your Worker address to API_BASE in the code once, and this message goes away for good.');
@@ -521,10 +477,6 @@ async function loadData(){
     if(data.library){ LIBRARY = data.library; }
     else { await apiSave({ library: LIBRARY, bootstrapHash: privateHash }); }
 
-    // Private shelf and site-text settings are only ever written by an
-    // authenticated admin save (which includes the real password), so if
-    // the server doesn't have them yet, we simply keep using the local
-    // defaults in memory rather than attempting an unauthenticated write.
     if(data.privateData){ privateHash = data.privateData.hash; privateCipher = data.privateData.cipher; }
     if(data.settings){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, data.settings); }
 
@@ -546,7 +498,6 @@ function loadFromCacheOrDefaults(){
   if(setRaw){ try{ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, JSON.parse(setRaw)); }catch(e){} }
 }
 
-/* ---------- save: send to the shared backend (needs the admin password), always refresh local cache too ---------- */
 async function apiSave(payload){
   cacheSet(CACHE_KEY_LIBRARY, JSON.stringify(LIBRARY));
   cacheSet(CACHE_KEY_PRIVATE, JSON.stringify({hash:privateHash, cipher:privateCipher}));
@@ -582,7 +533,7 @@ function applySettings(){
   document.getElementById('footerTaglineEl').textContent = SETTINGS.footerTagline;
 }
 
-/* ---------- deterministic pseudo-random for spine variety ---------- */
+/* ---------- helpers ---------- */
 function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return Math.abs(h); }
 const SPINE_COLORS = [
   ["#6b3a1e","#3f2110"], ["#8a4a1e","#5c2f10"],
@@ -590,20 +541,17 @@ const SPINE_COLORS = [
   ["#6e4423","#40260f"], ["#7a5220","#4a3010"], ["#503322","#301c12"]
 ];
 const RED_COLOR = ["#6e2a1e","#4a1a12"];
-/* Every book in the same section shares one color, so the section reads as
-   a matching set on the shelf. Seasons & Solitude gets a warm, muted red. */
 function getSectionColor(label){
   if(label.trim().toLowerCase() === 'seasons & solitude') return RED_COLOR;
   const seed = hashStr(label);
   return SPINE_COLORS[seed % SPINE_COLORS.length];
 }
 
-/* ---------- generalized book-array access (public sections OR private shelf) ---------- */
 function getBooksArray(secIdx){ return secIdx === -1 ? PRIVATE_LIBRARY : LIBRARY[secIdx].books; }
 function findBook(secIdx, title){ return getBooksArray(secIdx).find(b=>b.title===title); }
 function persistFor(secIdx){ if(secIdx === -1){ privateCipher = xorEncrypt(JSON.stringify(PRIVATE_LIBRARY), adminPassword); savePrivate(); } else saveLibrary(); }
 
-/* ---------- render public bookcase ---------- */
+/* ---------- render ---------- */
 const libraryFrame = document.getElementById('libraryFrame');
 const jumpSelect = document.getElementById('jumpSelect');
 const noResults = document.getElementById('noResults');
@@ -635,11 +583,12 @@ function buildSpineSlot(secIdx, book, bookIdx, sectionLabel){
   spine.style.width = width + 'px';
   spine.style.background = `linear-gradient(180deg, ${color[0]}, ${color[1]})`;
   spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">${book.title}</span><span class="gold-rule"></span>`;
-  spine.addEventListener('click', ()=>flyThenOpen(spine, secIdx, book.title));
-  spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); flyThenOpen(spine, secIdx, book.title); } });
+  spine.addEventListener('click', ()=>openBook(secIdx, book.title));
+  spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openBook(secIdx, book.title); } });
   slot.appendChild(spine);
   return slot;
 }
+
 function buildAddSlot(onClick, title){
   const slot = document.createElement('div'); slot.className = 'spine-slot';
   const addSpine = document.createElement('div');
@@ -650,9 +599,7 @@ function buildAddSlot(onClick, title){
   slot.appendChild(addSpine);
   return slot;
 }
-/* Renders books as proper stacked shelves: each row holds a fixed number of
-   books and gets its own wooden plank, so nothing ever floats without a
-   shelf under it, no matter how many books a section has. */
+
 function buildShelvesForBooks(secIdx, books, addOnClick, addTitle, sectionLabel){
   const wrap = document.createElement('div');
   wrap.className = 'spines-wrap';
@@ -664,7 +611,7 @@ function buildShelvesForBooks(secIdx, books, addOnClick, addTitle, sectionLabel)
     line.className = 'shelf-line';
     const inner = document.createElement('div');
     inner.className = 'shelf-line-inner';
-        const chunk = items.slice(r * SHELF_CHUNK_SIZE, r * SHELF_CHUNK_SIZE + SHELF_CHUNK_SIZE);
+    const chunk = items.slice(r * SHELF_CHUNK_SIZE, r * SHELF_CHUNK_SIZE + SHELF_CHUNK_SIZE);
     chunk.forEach(item=>{
       if(item.type === 'book') inner.appendChild(buildSpineSlot(secIdx, item.book, item.bookIdx, sectionLabel));
       else inner.appendChild(buildAddSlot(addOnClick, addTitle));
@@ -733,7 +680,7 @@ function renderRestricted(){
     const wrap = document.createElement('div'); wrap.className = 'spines-wrap';
     const line = document.createElement('div'); line.className = 'shelf-line';
     const inner = document.createElement('div'); inner.className = 'shelf-line-inner';
-        const slot = document.createElement('div'); slot.className='spine-slot';
+    const slot = document.createElement('div'); slot.className='spine-slot';
     const spine = document.createElement('div');
     spine.className = 'spine locked'; spine.tabIndex = 0;
     spine.style.height='180px'; spine.style.width='60px';
@@ -749,7 +696,7 @@ function renderRestricted(){
   restrictedFrame.appendChild(row);
 }
 
-/* ---------- section / book admin actions ---------- */
+/* ---------- admin actions ---------- */
 function renameSection(secIdx){
   const sec = LIBRARY[secIdx];
   const newTitle = prompt('Section name:', sec.section);
@@ -796,7 +743,7 @@ function moveBook(secIdx, bookIdx, dir){
   if(secIdx === -1) renderRestricted(); else renderLibrary();
 }
 
-/* ---------- search + jump ---------- */
+/* ---------- search ---------- */
 document.getElementById('searchBox').addEventListener('input', (e)=>{
   const q = e.target.value.trim().toLowerCase();
   let anyVisible = false;
@@ -827,7 +774,7 @@ for(let i=0;i<16;i++){
   motesEl.appendChild(s);
 }
 
-/* ---------- book reader / editor ---------- */
+/* ---------- book reader ---------- */
 const modalBackdrop = document.getElementById('modalBackdrop');
 const bookEl = modalBackdrop.querySelector('.book');
 const bhTitle = document.getElementById('bhTitle');
@@ -850,87 +797,28 @@ let editingBook = false;
 
 function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
 
-/* ---------- fly the clicked spine toward the screen, then open the book ---------- */
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function spawnSparks(x, y){
-  const count = 14;
-  for(let i=0;i<count;i++){
-    const s = document.createElement('div');
-    s.className = 'spark';
-    const angle = (Math.PI * 2 * i / count) + (Math.random()*0.5);
-    const dist = 60 + Math.random()*90;
-    const size = 4 + Math.random()*7;
-    s.style.left = x + 'px'; s.style.top = y + 'px';
-    s.style.width = size + 'px'; s.style.height = size + 'px';
-    s.style.setProperty('--sdx', Math.cos(angle)*dist + 'px');
-    s.style.setProperty('--sdy', Math.sin(angle)*dist + 'px');
-    s.style.animationDelay = (Math.random()*0.08) + 's';
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(), 750);
-  }
-  const glow = document.createElement('div');
-  glow.className = 'glow-burst';
-  glow.style.setProperty('--gx', x + 'px');
-  glow.style.setProperty('--gy', y + 'px');
-  document.body.appendChild(glow);
-  setTimeout(()=>glow.remove(), 600);
-}
-
-function spawnGhost(x, y, w, h, bg){
-  const g = document.createElement('div');
-  g.className = 'teleport-ghost';
-  g.style.left = x + 'px';
-  g.style.top = y + 'px';
-  g.style.width = w + 'px';
-  g.style.height = h + 'px';
-  g.style.background = bg;
-  const emblem = document.createElement('div');
-  emblem.className = 'ghost-emblem';
-  emblem.textContent = '✦';
-  g.appendChild(emblem);
-  document.body.appendChild(g);
-  setTimeout(()=>g.remove(), 200);
-}
-
-function flyThenOpen(spineEl, secIdx, title){
-  if(reducedMotion){ openBook(secIdx, title, false); return; }
-
-  const spineRect = spineEl.getBoundingClientRect();
-  const computed = getComputedStyle(spineEl);
-  const spineBg = computed.backgroundImage !== 'none' ? computed.backgroundImage : computed.backgroundColor;
-
-  // Render the real, fully-open book now, but keep it invisible until the
-  // teleport sequence lands — it should arrive already open, not unfold.
-  openBook(secIdx, title, false, false);
-  bookEl.classList.add('materializing');
+/* ---------- SIMPLIFIED BOOK OPENING ---------- */
+function openBook(secIdx, title) {
+  currentSectionIdx = secIdx;
+  const sectionLabel = secIdx === -1 ? 'Restricted' : LIBRARY[secIdx].section;
+  const book = findBook(secIdx, title);
+  if (!book) return;
+  currentBookTitle = title;
+  currentPages = buildPages(sectionLabel, book);
+  currentIndex = 0; 
+  editingBook = false;
+  bhTitle.textContent = sectionLabel + ' · ' + book.title;
+  renderHeaderBtns(); 
+  toggleEditPanel(false); 
+  renderSpread();
   modalBackdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
 
-  const finalRect = bookEl.getBoundingClientRect();
-  const cx = finalRect.left + finalRect.width/2;
-  const cy = finalRect.top + finalRect.height/2;
-  const w = finalRect.width, h = finalRect.height;
-
-  const steps = [
-    { x: spineRect.left + spineRect.width/2, y: spineRect.top + spineRect.height/2, scale: 0.28, delay: 0 },
-    { x: window.innerWidth * 0.14,  y: cy - Math.min(60, h*0.15), scale: 0.5,  delay: 90 },
-    { x: window.innerWidth * 0.86,  y: cy + Math.min(50, h*0.12), scale: 0.68, delay: 175 },
-    { x: window.innerWidth * 0.28,  y: cy,                        scale: 0.85, delay: 260 },
-    { x: cx, y: cy, scale: 1, delay: 340 }
-  ];
-  steps.forEach(s => setTimeout(()=> spawnGhost(s.x, s.y, w*s.scale, h*s.scale, spineBg), s.delay));
-
-  setTimeout(()=>{
-    spawnSparks(cx, cy);
-    bookEl.style.transition = 'transform 0.22s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease';
-    bookEl.classList.remove('materializing');
-    setTimeout(()=>{ bookEl.style.transition = ''; }, 240);
-    bookEl.classList.remove('landed');
-    void bookEl.offsetWidth;
-    bookEl.classList.add('landed');
-    setTimeout(()=>bookEl.classList.remove('landed'), 380);
-  }, 420);
+function closeBook(){ 
+  modalBackdrop.classList.remove('open'); 
+  document.body.style.overflow = ''; 
+  editingBook = false; 
 }
 
 function buildPages(sectionLabel, book){
@@ -938,6 +826,7 @@ function buildPages(sectionLabel, book){
   book.poems.forEach(p => pages.push({ type:'poem', poem: p }));
   return pages;
 }
+
 function renderPageContent(container, pageObj, pageIndex){
   if(!pageObj){ container.innerHTML = '<div class="empty-page">The End</div>'; return; }
   if(pageObj.type === 'cover'){
@@ -946,6 +835,7 @@ function renderPageContent(container, pageObj, pageIndex){
     container.innerHTML = `<h3 class="poem-title">${pageObj.poem.title}</h3><span class="poem-meta">Page ${pageIndex}</span><p class="poem-text">${pageObj.poem.text}</p>`;
   }
 }
+
 function renderSpread(){
   const mobile = isMobile();
   renderPageContent(pageLeft, currentPages[currentIndex], currentIndex);
@@ -953,16 +843,19 @@ function renderSpread(){
   if(mobile){
     pageRight.classList.remove('active-mobile');
     spreadCount.textContent = `Page ${currentIndex+1} of ${currentPages.length}`;
-    prevBtn.disabled = currentIndex <= 0; nextBtn.disabled = currentIndex >= currentPages.length - 1;
+    prevBtn.disabled = currentIndex <= 0; 
+    nextBtn.disabled = currentIndex >= currentPages.length - 1;
   } else {
     renderPageContent(pageRight, currentPages[currentIndex+1], currentIndex+1);
     pageRight.classList.add('active-mobile');
     const totalSpreads = Math.ceil(currentPages.length/2);
     const thisSpread = Math.floor(currentIndex/2)+1;
     spreadCount.textContent = `Spread ${thisSpread} of ${totalSpreads}`;
-    prevBtn.disabled = currentIndex <= 0; nextBtn.disabled = currentIndex + 2 >= currentPages.length;
+    prevBtn.disabled = currentIndex <= 0; 
+    nextBtn.disabled = currentIndex + 2 >= currentPages.length;
   }
 }
+
 function renderHeaderBtns(){
   headerBtns.innerHTML = '';
   if(!isAdmin) return;
@@ -971,19 +864,7 @@ function renderHeaderBtns(){
   btn.addEventListener('click', ()=> toggleEditPanel(!editingBook));
   headerBtns.appendChild(btn);
 }
-function openBook(secIdx, title, animateOpen, preReveal){
-  currentSectionIdx = secIdx;
-  const sectionLabel = secIdx === -1 ? 'Restricted' : LIBRARY[secIdx].section;
-  const book = findBook(secIdx, title);
-  currentBookTitle = title;
-  currentPages = buildPages(sectionLabel, book);
-  currentIndex = 0; editingBook = false;
-  bhTitle.textContent = sectionLabel + ' · ' + book.title;
-  renderHeaderBtns(); toggleEditPanel(false); renderSpread();
-  bookEl.classList.toggle('pre-reveal', !!preReveal);
-  modalBackdrop.classList.add('open'); document.body.style.overflow = 'hidden';
-}
-function closeBook(){ modalBackdrop.classList.remove('open'); document.body.style.overflow = ''; editingBook = false; }
+
 function turnPage(dir){
   const step = isMobile() ? 1 : 2;
   const nextIndex = dir < 0 ? Math.max(0, currentIndex-step) : Math.min(currentPages.length-1, currentIndex+step);
@@ -996,6 +877,7 @@ function turnPage(dir){
     pagesToFlip.forEach(p=>p.classList.remove('flip-out'));
   }, 200);
 }
+
 prevBtn.addEventListener('click', ()=> turnPage(-1));
 nextBtn.addEventListener('click', ()=> turnPage(1));
 document.getElementById('closeBtn').addEventListener('click', closeBook);
@@ -1008,7 +890,7 @@ document.addEventListener('keydown', (e)=>{
 });
 window.addEventListener('resize', ()=>{ if(modalBackdrop.classList.contains('open') && !editingBook) renderSpread(); });
 
-/* ---------- editing a book's poems ---------- */
+/* ---------- editing ---------- */
 function toggleEditPanel(on){
   editingBook = on && isAdmin;
   pagesWrap.style.display = editingBook ? 'none' : 'grid';
@@ -1021,6 +903,7 @@ function toggleEditPanel(on){
     renderEditPanel();
   }
 }
+
 function renderEditPanel(){
   editPanel.innerHTML = '';
   const titleLabel = document.createElement('label'); titleLabel.textContent = 'Book title';
@@ -1056,6 +939,7 @@ function renderEditPanel(){
   actions.appendChild(delBookBtn);
   editPanel.appendChild(actions);
 }
+
 function saveDraftBook(){
   const book = findBook(currentSectionIdx, currentBookTitle);
   book.title = draftBook.title.trim() || book.title;
@@ -1065,6 +949,7 @@ function saveDraftBook(){
   openBook(currentSectionIdx, book.title);
   toggleEditPanel(false);
 }
+
 function deleteCurrentBook(){
   if(!confirm(`Delete "${currentBookTitle}" and all its poems? This can't be undone.`)) return;
   const arr = getBooksArray(currentSectionIdx);
@@ -1075,7 +960,7 @@ function deleteCurrentBook(){
   closeBook();
 }
 
-/* ---------- crypto helpers ---------- */
+/* ---------- crypto ---------- */
 async function sha256Hex(str){
   const enc = new TextEncoder().encode(str);
   const buf = await crypto.subtle.digest('SHA-256', enc);
@@ -1099,7 +984,7 @@ function xorEncrypt(plaintext, key){
   return btoa(binStr);
 }
 
-/* ---------- generic dialog modal: password / change-password / site text ---------- */
+/* ---------- dialogs ---------- */
 const pwBackdrop = document.getElementById('pwBackdrop');
 const pwBox = document.getElementById('pwBox');
 
@@ -1133,6 +1018,7 @@ function openPasswordPrompt(){
   pwIn.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
   document.getElementById('dlgCancel').addEventListener('click', closeDialog);
 }
+
 function openAdminPrompt(){
   pwBox.innerHTML = `
     <div class="lock-icon">🔒</div>
@@ -1163,6 +1049,7 @@ function openAdminPrompt(){
   pwIn.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
   document.getElementById('dlgCancel').addEventListener('click', closeDialog);
 }
+
 function openChangePwPrompt(){
   pwBox.innerHTML = `
     <div class="lock-icon">🔑</div>
@@ -1191,6 +1078,7 @@ function openChangePwPrompt(){
   });
   document.getElementById('dlgCancel').addEventListener('click', closeDialog);
 }
+
 function openTextEditor(which){
   const fields = {
     hero: [ ['heroTitle','Hero title','input'], ['heroSub','Hero subtitle','textarea'], ['byline','Your name (byline)','input'] ],
@@ -1233,7 +1121,7 @@ document.getElementById('adminToggle').addEventListener('click', ()=>{
 document.getElementById('addSectionBtn').addEventListener('click', addSection);
 document.getElementById('changePwBtn').addEventListener('click', openChangePwPrompt);
 
-/* ---------- export / import backup ---------- */
+/* ---------- export / import ---------- */
 document.getElementById('exportBtn').addEventListener('click', ()=>{
   const data = { library: LIBRARY, private: { hash: privateHash, cipher: privateCipher }, settings: SETTINGS };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -1262,6 +1150,5 @@ document.getElementById('importFile').addEventListener('change', async (e)=>{
   renderRestricted();
 })();
 </script>
-
 </body>
 </html>
