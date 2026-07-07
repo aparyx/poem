@@ -104,7 +104,8 @@
   .section-divider{ height:1px; max-width:900px; margin:0 auto 3.2rem; background:linear-gradient(90deg, transparent, rgba(224,197,132,0.35), transparent); }
 
   .spines-wrap{ display:flex; flex-direction:column; gap:22px; }
-  .shelf-line{ display:flex; flex-wrap:nowrap; align-items:flex-end; gap:14px; padding:22px 14px 16px; min-height:190px; position:relative; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .shelf-line{ overflow-x:auto; -webkit-overflow-scrolling:touch; padding-top:22px; }
+  .shelf-line-inner{ position:relative; display:flex; flex-wrap:nowrap; align-items:flex-end; gap:14px; padding:0 14px 16px; min-height:168px; width:max-content; min-width:100%; }
   .plank{ position:absolute; left:0; right:0; bottom:0; height:16px; background:linear-gradient(180deg, var(--wood-light), var(--wood-mid) 60%, var(--wood-dark)); border-radius:2px; box-shadow:0 10px 18px rgba(0,0,0,0.5), 0 -2px 0 rgba(255,255,255,0.05) inset; z-index:0; }
   .spine-slot{ position:relative; flex-shrink:0; }
   .spine{ writing-mode:vertical-rl; text-orientation:mixed; display:flex; align-items:center; justify-content:space-between; padding:14px 8px; border-radius:3px 3px 0 0; cursor:pointer; font-family:'Cormorant SC', serif; letter-spacing:0.07em; color:var(--parchment); border:1px solid rgba(0,0,0,0.35); box-shadow:inset -3px 0 6px rgba(0,0,0,0.25), inset 2px 0 0 rgba(255,255,255,0.06); transition:transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease; position:relative; z-index:1; }
@@ -656,12 +657,15 @@ function buildShelvesForBooks(secIdx, books, addOnClick, addTitle, sectionLabel)
   for(let r = 0; r < rowCount; r++){
     const line = document.createElement('div');
     line.className = 'shelf-line';
-    line.innerHTML = '<div class="plank"></div>';
+    const inner = document.createElement('div');
+    inner.className = 'shelf-line-inner';
+    inner.innerHTML = '<div class="plank"></div>';
     const chunk = items.slice(r * SHELF_CHUNK_SIZE, r * SHELF_CHUNK_SIZE + SHELF_CHUNK_SIZE);
     chunk.forEach(item=>{
-      if(item.type === 'book') line.appendChild(buildSpineSlot(secIdx, item.book, item.bookIdx, sectionLabel));
-      else line.appendChild(buildAddSlot(addOnClick, addTitle));
+      if(item.type === 'book') inner.appendChild(buildSpineSlot(secIdx, item.book, item.bookIdx, sectionLabel));
+      else inner.appendChild(buildAddSlot(addOnClick, addTitle));
     });
+    line.appendChild(inner);
     wrap.appendChild(line);
   }
   return wrap;
@@ -724,7 +728,8 @@ function renderRestricted(){
   if(!isAdmin && !restrictedUnlocked){
     const wrap = document.createElement('div'); wrap.className = 'spines-wrap';
     const line = document.createElement('div'); line.className = 'shelf-line';
-    line.innerHTML = '<div class="plank"></div>';
+    const inner = document.createElement('div'); inner.className = 'shelf-line-inner';
+    inner.innerHTML = '<div class="plank"></div>';
     const slot = document.createElement('div'); slot.className='spine-slot';
     const spine = document.createElement('div');
     spine.className = 'spine locked'; spine.tabIndex = 0;
@@ -732,7 +737,7 @@ function renderRestricted(){
     spine.innerHTML = `<span class="gold-rule"></span><span class="title-txt">Enter Password</span><span class="gold-rule"></span>`;
     spine.addEventListener('click', openPasswordPrompt);
     spine.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPasswordPrompt(); } });
-    slot.appendChild(spine); line.appendChild(slot); wrap.appendChild(line);
+    slot.appendChild(spine); inner.appendChild(slot); line.appendChild(inner); wrap.appendChild(line);
     row.appendChild(wrap);
   } else {
     const shelves = buildShelvesForBooks(-1, PRIVATE_LIBRARY, isAdmin ? ()=>addBook(-1) : null, 'Add a private book', 'Restricted');
