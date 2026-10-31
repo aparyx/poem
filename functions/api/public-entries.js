@@ -1,0 +1,2 @@
+import {json} from "../_lib/auth.js";
+export async function onRequestGet({env}){if(!env.DB)return json({entries:[]},503);const {results=[]}=await env.DB.prepare("SELECT id,title,subtitle,category,date,excerpt,tags,body FROM entries WHERE status='published' ORDER BY date DESC,updated_at DESC").all();return json({entries:results.map(e=>({...e,tags:JSON.parse(e.tags||"[]")}))},{headers:{"cache-control":"public, max-age=60, s-maxage=300"}})}

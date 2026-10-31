@@ -1,0 +1,2 @@
+import {json,sameOrigin} from "../_lib/auth.js";
+export async function onRequestPost({request}){if(!sameOrigin(request))return json({error:"Request rejected."},403);return json({ok:true},{headers:{"set-cookie":"ad_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0"}})}
