@@ -1,42 +1,32 @@
 # The Unquiet Archive
 
-A literary archive for Ad. The public pages are static HTML/CSS/JavaScript. Cloudflare Pages Functions provide the private writing API, and Cloudflare D1 stores entries.
+A personal literary library for poems, fiction, and fragments. Public reading pages run on Cloudflare Pages. The private author room uses Pages Functions and Cloudflare D1.
 
-## Pages
-- `index.html`: landing page
-- `archive.html`: category browsing and search
-- `entry.html?id=<slug>`: individual published entry
-- `search.html`: dedicated search
-- `admin/`: private author dashboard
-- `404.html`: custom not-found page
+## Add your writing
 
-## Cloudflare Pages setup
+Visit `/admin/` on the live site and sign in. Choose **New piece**, enter a title, choose Poetry, Fiction, or Fragments, paste the complete writing, then save it as a draft. Enable **Publish to public archive** only when you want readers to see it. You can return to edit or delete a piece later. Drafts are never returned by the public API.
 
-The private library requires Cloudflare configuration before it can be used. No password or session secret is stored in this repository.
+You can also send a poem or story to the site maintainer in this chat and ask for it to be added. Confirm its title, category, date, and whether it should be published or kept as a draft.
 
-1. In Cloudflare, open Workers & Pages and connect this GitHub repository as a Pages project. Use `main` as the production branch, leave the build command empty, and set the build output directory to `.` (repository root).
-2. Create a D1 database, for example named `unquiet-archive`.
-3. In the Pages project settings, add a D1 database binding named **DB** and select that database.
-4. Apply the SQL in `migrations/0001_initial.sql` to the D1 database using its Console, or Wrangler:
-   `npx wrangler d1 execute unquiet-archive --remote --file=migrations/0001_initial.sql`
-5. In Pages project Settings > Variables and Secrets, create these as **encrypted secrets** for Production (and Preview too if you want preview login):
-   - `ADMIN_PASSWORD`: the passphrase you want to use for the private library
-   - `SESSION_SECRET`: a separate, randomly generated secret of at least 32 random bytes. Do not reuse your login passphrase.
-6. Trigger a new deployment after adding the binding and secrets.
-7. Visit `/admin/` on the deployed site.
+## Cloudflare setup
 
-## Private library security
+The Pages project is connected to GitHub repository `aparyx/poem`, with `main` as production branch and an empty build command. The D1 database binding is named `DB`.
 
-- Passphrase verification happens in a Pages Function. The browser never receives the configured passphrase.
-- The login session is an HMAC-signed, eight-hour cookie with Secure, HttpOnly and SameSite=Strict attributes.
-- Write operations require a valid session and same-origin request.
-- Failed logins are limited to eight attempts per IP per 15-minute window using D1.
-- Drafts are only returned by the authenticated API. The public API returns published entries only.
-- Entry bodies are limited to 50,000 characters. IDs use lowercase URL-safe slugs.
-- This is designed for one author, not multiple accounts or public registration.
+Required encrypted Pages secrets:
+- `ADMIN_PASSWORD`: your private author-room passphrase.
+- `SESSION_SECRET`: a separate random secret with at least 32 bytes of entropy. Never reuse the passphrase.
 
-## Important
-A Git merge alone cannot create your Cloudflare D1 database or add encrypted Cloudflare secrets. Until the Cloudflare steps above are completed, `/admin/` will show that the private library is not configured. Do not put credentials in GitHub files, commits, or Pages build variables that are exposed to client-side code.
+Create these under Pages > Settings > Variables and Secrets for Production (and Preview if needed). Do not put either value in this repository.
 
-## Content workflow
-Open `/admin/`, sign in, create a piece, choose Poetry, Fiction, or Fragments, and save it as a draft. Tick “Publish to public archive” only when it is ready. Drafts stay in D1 and are not sent by the public API.
+## Security notes
+
+- The passphrase is checked only by a server-side Pages Function.
+- Sessions use an HMAC-signed eight-hour cookie marked Secure, HttpOnly, and SameSite=Strict.
+- Write requests require a valid session and same-origin origin.
+- Login failures are rate-limited using D1.
+- Public endpoints return published entries only.
+- The dashboard is intended for one author, not public accounts.
+
+## Licensing
+
+The original website code is MIT-licensed. The poems, fiction, and fragments are not included in that license and remain the author's work. See [RIGHTS.md](./RIGHTS.md) for the font and content rights summary.
