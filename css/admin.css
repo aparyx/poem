@@ -19,3 +19,10 @@
 .editor-actions .publish-check{display:flex;align-items:center;gap:8px;margin:0 auto 0 0;color:var(--muted)}
 .publish-check input{accent-color:var(--accent)}
 @media(max-width:750px){.admin-wrap{padding:48px 0 65px}.admin-label{display:none}.workspace-grid{grid-template-columns:1fr;gap:30px}.workspace-head{align-items:flex-start;gap:12px}.workspace-head h1{font-size:48px}.two-fields{grid-template-columns:1fr}.editor-actions .publish-check{width:100%}}
+
+:root{color-scheme:dark}
+.admin-wrap input:not([type=checkbox]),.admin-wrap select,.admin-wrap textarea{background:#1d1d18;color:var(--ink);border-color:var(--line)}
+.admin-wrap input::placeholder,.admin-wrap textarea::placeholder{color:var(--faint)}
+.admin-button,.quiet-button{background:var(--accent);border-color:var(--accent);color:#17150f}
+.quiet-button{background:transparent;color:var(--accent);border-color:var(--line)}
+.workspace-head,.draft-item{border-color:var(--line)}.draft-item{color:var(--ink)}
