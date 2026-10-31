@@ -1,0 +1,2 @@
+import {json,validSession} from "../_lib/auth.js";
+export async function onRequestGet({request,env}){if(!env.DB||!env.ADMIN_PASSWORD||!env.SESSION_SECRET)return json({configured:false},503);return json({authenticated:await validSession(request,env)})}
