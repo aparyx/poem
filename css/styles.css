@@ -133,3 +133,28 @@ nav a{font-size:9px;letter-spacing:.12em}
 #article .entry-body{font-size:18px;line-height:2;color:#403a32}
 @media(max-width:800px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.book-stage{min-height:240px}.hero-grid{gap:28px}}
 @media(max-width:650px){.header{height:70px}.hero-grid{grid-template-columns:1fr;padding:58px 0 40px;gap:30px}.hero h1{font-size:clamp(52px,13vw,72px)}.hero-note{max-width:310px}.book-stage{min-height:225px;max-width:360px;margin:0 auto;width:100%}.book{width:112px;height:163px}.book.book-two{width:108px;height:155px;transform:translate(66px,17px) rotate(8deg)}.book.book-three{width:102px;height:146px;transform:translate(-61px,25px) rotate(-1deg)}.collection-grid{gap:9px}.collection-card{min-height:195px;padding:15px 13px}.collection-card h3{font-size:23px}.collection-card .collection-symbol{font-size:43px}.entry-card{padding:17px 10px}.entry-card h2{font-size:24px}}
+
+/* Night library: warm charcoal, parchment ink, and restrained brass */
+:root{color-scheme:dark;--bg:#151512;--paper:#1d1d18;--surface:#22221c;--ink:#e8e2d6;--muted:#aaa294;--faint:#777164;--line:#39372f;--accent:#b49a72;--accent-2:#c6a779}
+body{background-color:var(--bg);background-image:radial-gradient(#c6a7790b .7px,transparent .7px);color:var(--ink)}
+::selection{background:#65533b;color:#fff8e9}
+.skip:focus{background:var(--ink);color:#151512}
+.header{border-bottom-color:var(--line)}
+.brand{color:var(--ink)}.brand span,.dot{color:var(--accent-2)}
+nav a{color:#aaa294}nav a:hover,.text-link:hover{color:#e0c49a}
+.micro,.num,.text-link,.arrow{color:var(--accent)}
+.topline,.bottomline{color:#827b6e}
+.hero-note{border-left-color:#655a48}.hero-note p{color:#c4b9a7}.hero-note small{color:#928979}
+.statement{border-top-color:var(--line)}.statement-detail{color:var(--muted)}.byline{color:var(--accent)}
+.archive{border-top-color:var(--line)}
+.collection-card{background:#1d1d18;border-color:#494438;box-shadow:inset 0 0 0 1px #ffffff03}
+.collection-card:before{border-color:#353229}
+.collection-card:hover{background:#23221c;border-color:#8b7757;box-shadow:0 14px 28px #0005}
+.collection-card p{color:#aaa294}.collection-card .card-foot{color:#8f8779}
+.collection-card.poetry{--card-accent:#c18c80}.collection-card.fiction{--card-accent:#a9b08a}.collection-card.essays{--card-accent:#c6a779}.collection-card.fragments{--card-accent:#9baab0}
+.shelf-note{color:#8f8779}
+.intermission{background:#202019;border-color:var(--line)}.intermission p{color:#d1c7b7}.giant-mark{color:var(--accent)}
+.seal{border-color:#71654f;color:var(--accent)}
+.about-right p,.closing>p:not(.micro){color:var(--muted)}.signature{color:var(--accent)}
+.footer{border-top-color:var(--line);color:#827b6e}.footer .brand{color:var(--ink)}
+@media(max-width:700px){nav{background:#1d1d18;border-color:var(--line)}nav a{border-bottom-color:var(--line)}.menu{color:var(--muted)}}
