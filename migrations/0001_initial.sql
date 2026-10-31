@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS entries (id TEXT PRIMARY KEY, title TEXT NOT NULL, subtitle TEXT NOT NULL DEFAULT '', category TEXT NOT NULL CHECK(category IN ('poetry','fiction','essays','fragments')), date TEXT NOT NULL DEFAULT '', excerpt TEXT NOT NULL DEFAULT '', tags TEXT NOT NULL DEFAULT '[]', body TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','published')), updated_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_entries_status_date ON entries(status,date DESC);
+CREATE TABLE IF NOT EXISTS login_attempts (id INTEGER PRIMARY KEY AUTOINCREMENT, ip_hash TEXT NOT NULL, attempted_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_login_attempts_ip_time ON login_attempts(ip_hash,attempted_at);
