@@ -14,7 +14,7 @@ A literary archive for Ad. The public pages are static HTML/CSS/JavaScript. Clou
 
 The private library requires Cloudflare configuration before it can be used. No password or session secret is stored in this repository.
 
-1. In Cloudflare, open Workers & Pages and connect this GitHub repository as a Pages project. Use `main` as the production branch, leave the build command empty, and set the build output directory to `/` (repository root).
+1. In Cloudflare, open Workers & Pages and connect this GitHub repository as a Pages project. Use `main` as the production branch, leave the build command empty, and set the build output directory to `.` (repository root).
 2. Create a D1 database, for example named `unquiet-archive`.
 3. In the Pages project settings, add a D1 database binding named **DB** and select that database.
 4. Apply the SQL in `migrations/0001_initial.sql` to the D1 database using its Console, or Wrangler:
