@@ -39,4 +39,4 @@ The private library requires Cloudflare configuration before it can be used. No 
 A Git merge alone cannot create your Cloudflare D1 database or add encrypted Cloudflare secrets. Until the Cloudflare steps above are completed, `/admin/` will show that the private library is not configured. Do not put credentials in GitHub files, commits, or Pages build variables that are exposed to client-side code.
 
 ## Content workflow
-Open `/admin/`, sign in, create a piece, choose a category, and save it as a draft. Tick “Publish to public archive” only when it is ready. Drafts stay in D1 and are not sent by the public API.
+Open `/admin/`, sign in, create a piece, choose Poetry, Fiction, or Fragments, and save it as a draft. Tick “Publish to public archive” only when it is ready. Drafts stay in D1 and are not sent by the public API.
