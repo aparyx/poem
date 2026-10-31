@@ -1,5 +1,5 @@
 import {json,requireAuth,sameOrigin} from "../_lib/auth.js";
-const allowed=["poetry","fiction","essays","fragments"];
+const allowed=["poetry","fiction","fragments"];
 const clean=(v,n)=>typeof v==="string"?v.trim().slice(0,n):"";
 function good(b){return b&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(b.id||"")&&clean(b.title,180)&&allowed.includes(b.category)&&clean(b.body,50000)}
 function tagJson(b){return JSON.stringify(Array.isArray(b.tags)?b.tags.slice(0,20).map(x=>clean(x,40)):[])}
