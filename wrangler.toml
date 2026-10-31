@@ -1,0 +1,9 @@
+name = "the-unquiet-archive"
+compatibility_date = "2026-10-31"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "unquiet-archive"
+database_id = "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"
+migrations_dir = "migrations"
