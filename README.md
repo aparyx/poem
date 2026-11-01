@@ -20,6 +20,9 @@ Create these under Pages > Settings > Variables and Secrets for Production (and 
 
 ## Security notes
 
+- Static pages set a Content Security Policy, anti-framing, MIME-sniffing, referrer, transport-security, and browser-permission headers. Admin routes are marked noindex.
+- API JSON responses also set no-store, no-sniff, anti-framing, and referrer headers because Pages `_headers` rules do not apply to Functions responses.
+- The homepage intentionally avoids publishing a city-level location.
 - The passphrase is checked only by a server-side Pages Function.
 - Sessions use an HMAC-signed eight-hour cookie marked Secure, HttpOnly, and SameSite=Strict.
 - Write requests require a valid session and same-origin origin.
