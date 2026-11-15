@@ -12,8 +12,11 @@ export async function onRequestGet({ params, env }) {
   const category = String(params.category || "");
   if (!LABELS[category]) return new Response("Not found.", { status: 404 });
   if (!env.DB) return new Response("Archive temporarily unavailable.", { status: 503 });
+  const ordering = category === "fragments"
+    ? "CASE WHEN id='on-fragments' THEN 0 ELSE 1 END, date DESC, updated_at DESC"
+    : "date DESC, updated_at DESC";
   const { results = [] } = await env.DB.prepare(
-    "SELECT id,title,subtitle,excerpt,date FROM entries WHERE status='published' AND category=? ORDER BY date DESC,updated_at DESC"
+    `SELECT id,title,subtitle,excerpt,date FROM entries WHERE status='published' AND category=? ORDER BY ${ordering}`
   ).bind(category).all();
   const list = results.map((e) => `<a class="entry-card" href="/entry/${encodeURIComponent(e.id)}"><span class="entry-meta">${esc((e.date || "").toUpperCase())}</span><span><h2>${esc(e.title)}</h2><p>${esc(e.excerpt || e.subtitle || "")}</p></span><span class="entry-arrow">↗</span></a>`).join("");
   const title = LABELS[category];
