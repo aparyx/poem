@@ -158,4 +158,20 @@ nav a{color:#aaa294}nav a:hover,.text-link:hover{color:#e0c49a}
 .about-right p,.closing>p:not(.micro){color:var(--muted)}.signature{color:var(--accent)}
 .footer{border-top-color:var(--line);color:#827b6e}.footer .brand{color:var(--ink)}
 @media(max-width:700px){nav{background:#1d1d18;border-color:var(--line)}nav a{border-bottom-color:var(--line)}.menu{color:var(--muted)}}
-\n@media(max-width:420px){.collection-grid{grid-template-columns:1fr}.collection-card{min-height:175px}.topline,.bottomline{gap:12px}.topline span,.bottomline span{max-width:48%}.hero h1{overflow-wrap:anywhere}.footer{font-size:7px}}\n
+
+@media(max-width:420px){.collection-grid{grid-template-columns:1fr}.collection-card{min-height:175px}.topline,.bottomline{gap:12px}.topline span,.bottomline span{max-width:48%}.hero h1{overflow-wrap:anywhere}.footer{font-size:7px}}
+
+/* Contact link and compact footer layout */
+.discord-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font:8px var(--mono);letter-spacing:.09em;white-space:nowrap}
+.discord-link:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.footer{gap:12px;flex-wrap:wrap;padding-block:14px}
+@media(max-width:700px){
+  .footer{justify-content:space-between;row-gap:14px}
+  .footer>*{width:calc(50% - 8px)}
+  .footer .discord-link{justify-content:flex-end}
+  .footer span:nth-child(2){text-align:left}
+}
+@media(max-width:420px){
+  .footer{font-size:7px}
+  .discord-link{font-size:7px;letter-spacing:.04em}
+}
