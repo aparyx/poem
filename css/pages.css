@@ -112,3 +112,6 @@
   #article .entry-body{font-size:17px;line-height:1.85}
   .reader-end{font-size:13px}
 }
+
+.page-heading>.text-link{grid-column:2;grid-row:3;justify-self:start}
+@media(max-width:700px){.page-heading>.text-link{grid-column:auto;grid-row:auto}}
