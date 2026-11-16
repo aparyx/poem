@@ -136,3 +136,16 @@
   #article .entry-body{font-size:17px;line-height:1.85}
   .reader-end{font-size:13px}
 }
+
+
+/* Keep search controls and archive counts on the same reading axis as entry titles */
+@media(min-width:701px){
+  .search-form,
+  .filters,
+  .archive-tools,
+  .page-shell>.result-count,
+  .page-shell>.micro,
+  .page-shell>.text-link{
+    margin-left:144px;
+  }
+}
