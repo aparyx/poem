@@ -288,7 +288,3 @@ nav a:hover,.text-link:hover{color:var(--accent)}
   *,*::before,*::after{transition:none!important}
 }
 
-
-/* Keep reading width deliberately editorial on large desktop screens */
-:root{--max:1320px}
-@media(min-width:1500px){:root{--max:1320px}}
