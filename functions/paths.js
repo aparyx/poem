@@ -25,7 +25,7 @@ export async function onRequestGet({ env }) {
     return `<article class="path-card">
       <figure class="path-card-visual">
         <img src="${esc(path.image)}" alt="${esc(path.imageAlt)}" loading="lazy">
-        <figcaption>Photo: ${esc(path.credit)}</figcaption>
+        <figcaption>Photo: <a href="${esc(path.creditUrl)}" target="_blank" rel="noopener noreferrer">${esc(path.credit)}</a></figcaption>
       </figure>
       <div class="path-card-heading">
         <span class="path-index">0${index + 1} / READING PATH</span>
@@ -56,7 +56,7 @@ export async function onRequestGet({ env }) {
 <div class="page-heading"><p class="micro">READING PATHS</p><h1>Follow a<br><i>thread.</i></h1><p class="page-intro">I put these pieces together because they seem to speak to one another. Read them in order, or don't.</p></div>
 <section class="path-grid" aria-label="Curated reading paths">${renderedPaths || '<p class="empty-state">The paths are still taking shape. The full archive is open in the meantime.</p>'}</section>
 <section class="chance-panel">
-  <figure class="chance-image"><img src="https://images.unsplash.com/photo-1597591406871-b57baac13802?auto=format&fit=crop&w=900&q=80" alt="Dice resting on a wooden table" loading="lazy"><figcaption>Photo: Zhuo Cheng You / Unsplash</figcaption></figure>
+  <figure class="chance-image"><img src="https://images.unsplash.com/photo-1597591406871-b57baac13802?auto=format&fit=crop&w=900&q=80" alt="Dice resting on a wooden table" loading="lazy"><figcaption>Photo: <a href="https://unsplash.com/photos/white-dice-on-brown-wooden-table-2WE_V_dh0B0" target="_blank" rel="noopener noreferrer">Zhuo Cheng You / Unsplash</a></figcaption></figure>
   <div class="chance-copy"><p class="micro">NO PLAN REQUIRED</p><h2>Leave it to<br><i>chance.</i></h2><p>A random page from anywhere in the archive. See where you land.</p><a class="chance-link" href="/random">PICK A PAGE FOR ME <span>↗</span></a></div>
 </section>
 </main><footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
