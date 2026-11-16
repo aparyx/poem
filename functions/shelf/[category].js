@@ -1,5 +1,10 @@
 const ORIGIN = "https://aprashanna.com.np";
 const LABELS = { poetry: "Poetry", fiction: "Fiction", fragments: "Fragments" };
+const SHELF_VISUALS = {
+  poetry: { src: "https://images.unsplash.com/photo-1755401106338-fb095e1e3399?auto=format&fit=crop&w=1400&q=82", alt: "A dried flower resting on old books", credit: "Anya Chernykh / Unsplash" },
+  fiction: { src: "https://images.unsplash.com/photo-1770131748870-d5c659ea1434?auto=format&fit=crop&w=1400&q=82", alt: "An ornate library with tall bookshelves and a large window", credit: "Ahmet Yüksek / Unsplash" },
+  fragments: { src: "https://images.unsplash.com/photo-1756993263826-9b4bae15e2b2?auto=format&fit=crop&w=1400&q=82", alt: "An old desk with an inkwell and scattered papers", credit: "K. K. / Unsplash" }
+};
 const DESCRIPTIONS = {
   poetry: "Original poems on love, loneliness, memory, humanity, grief, and the difficult business of being alive.",
   fiction: "Original short fiction, mysteries, and imagined lives from The Unquiet Archive.",
@@ -21,7 +26,7 @@ export async function onRequestGet({ params, env }) {
   const list = results.map((e) => `<a class="entry-card" href="/entry/${encodeURIComponent(e.id)}"><span class="entry-meta">${(e.date ? esc(String(e.date).toUpperCase()) : "UNDATED")}</span><span><h2>${esc(e.title)}</h2><p>${esc(e.excerpt || e.subtitle || "")}</p></span><span class="entry-arrow">↗</span></a>`).join("");
   const title = LABELS[category];
   const url = ORIGIN + "/shelf/" + category;
-  const description = DESCRIPTIONS[category];
+  const description = DESCRIPTIONS[category];\n  const visual = SHELF_VISUALS[category];
   const html = `<!doctype html><html lang="en"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script>
@@ -43,13 +48,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website"><meta property="og:site_name" content="The Unquiet Archive"><meta property="og:title" content="${title} — The Unquiet Archive"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${url}">
 <title>${title} — The Unquiet Archive</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116human02"><link rel="stylesheet" href="/css/pages.css?v=20261116human02"><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
+<link rel="stylesheet" href="/css/styles.css?v=20261116photo01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo01"><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --><a class="skip" href="#main">Skip to content</a><header class="header"><a class="brand" href="/">ad<span>.</span></a><button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive.html">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
-<main id="main" class="wrap page-shell"><div class="page-kicker"><span>THE UNQUIET ARCHIVE</span><span>THE COLLECTION</span></div><div class="page-heading"><p class="micro">THE SHELVES</p><h1>${title}<br><i>in the archive.</i></h1><p class="page-intro">${esc(description)}</p></div><section class="entry-list">${list || '<p class="page-intro">This shelf is quiet for now.</p>'}</section><p class="micro">${results.length} PUBLISHED WORKS</p><a class="text-link" href="/archive.html">EXPLORE THE COMPLETE ARCHIVE ↗</a></main>
+<main id="main" class="wrap page-shell"><div class="page-kicker"><span>THE UNQUIET ARCHIVE</span><span>THE COLLECTION</span></div><div class="page-heading"><p class="micro">THE SHELVES</p><h1>${title}<br><i>in the archive.</i></h1><p class="page-intro">${esc(description)}</p></div><figure class="shelf-header-photo"><img src="${visual.src}" alt="${esc(visual.alt)}"><figcaption>Photo: ${esc(visual.credit)}</figcaption></figure><section class="entry-list">${list || '<p class="page-intro">This shelf is quiet for now.</p>'}</section><p class="micro">${results.length} PUBLISHED WORKS</p><a class="text-link" href="/archive.html">EXPLORE THE COMPLETE ARCHIVE ↗</a></main>
 <footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
   return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=0, s-maxage=60, must-revalidate", "x-content-type-options": "nosniff", "referrer-policy": "no-referrer", "x-frame-options": "DENY", "strict-transport-security": "max-age=31536000; includeSubDomains", "content-security-policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests" } });
 }
