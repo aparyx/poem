@@ -26,7 +26,8 @@ export async function onRequestGet({ params, env }) {
   const list = results.map((e) => `<a class="entry-card" href="/entry/${encodeURIComponent(e.id)}"><span class="entry-meta">${(e.date ? esc(String(e.date).toUpperCase()) : "UNDATED")}</span><span><h2>${esc(e.title)}</h2><p>${esc(e.excerpt || e.subtitle || "")}</p></span><span class="entry-arrow">↗</span></a>`).join("");
   const title = LABELS[category];
   const url = ORIGIN + "/shelf/" + category;
-  const description = DESCRIPTIONS[category];\n  const visual = SHELF_VISUALS[category];
+  const description = DESCRIPTIONS[category];
+  const visual = SHELF_VISUALS[category];
   const html = `<!doctype html><html lang="en"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script>
