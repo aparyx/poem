@@ -23,9 +23,15 @@ export async function onRequestGet({ env }) {
     const entries = path.ids.map((id) => byId.get(id)).filter(Boolean);
     if (entries.length < 2) return "";
     return `<article class="path-card">
-      <div class="path-card-top"><span class="path-index">0${index + 1} / A WAY THROUGH</span><span class="path-count">${entries.length} PAGES</span></div>
-      <h2>${esc(path.title)}</h2><p class="path-note">${esc(path.note)}</p>
-      <ol class="path-list">${entries.map((entry) => `<li><a href="/entry/${encodeURIComponent(entry.id)}"><span>${esc(entry.title)}</span><small>${categoryLabel(entry.category)}</small><b aria-hidden="true">↗</b></a></li>`).join("")}</ol>
+      <div class="path-card-heading">
+        <span class="path-index">0${index + 1} / READING PATH</span>
+        <h2>${esc(path.title)}</h2>
+        <p class="path-note">${esc(path.note)}</p>
+      </div>
+      <div class="path-card-pages">
+        <span class="path-count">${entries.length} PIECES</span>
+        <ol class="path-list">${entries.map((entry) => `<li><a href="/entry/${encodeURIComponent(entry.id)}"><span>${esc(entry.title)}</span><small>${categoryLabel(entry.category)}</small><b aria-hidden="true">↗</b></a></li>`).join("")}</ol>
+      </div>
     </article>`;
   }).filter(Boolean).join("");
   const html = `<!doctype html><html lang="en"><head>
@@ -35,7 +41,7 @@ export async function onRequestGet({ env }) {
 <title>Reading Paths — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116discover01"><link rel="stylesheet" href="/css/pages.css?v=20261116discover01">
+<link rel="stylesheet" href="/css/styles.css?v=20261116human01"><link rel="stylesheet" href="/css/pages.css?v=20261116discover01">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-CX700WJ4RW');</script>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-NNZZZ7MR');</script>
 </head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
