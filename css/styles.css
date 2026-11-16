@@ -815,3 +815,102 @@ nav a{font-size:9px;letter-spacing:.06em}
   .discover-image-wrap{height:180px}
   .discover-rss{text-align:left}
 }
+
+/* A quiet, tactile background: layered light and a very fine paper grain */
+html{background:#171713}
+body{
+  position:relative;
+  isolation:isolate;
+  background-color:#171713;
+  background-image:
+    radial-gradient(ellipse 78% 48% at 13% 3%,rgba(135,99,57,.13),transparent 72%),
+    radial-gradient(ellipse 58% 52% at 92% 48%,rgba(91,76,52,.075),transparent 75%),
+    radial-gradient(ellipse 80% 60% at 48% 100%,rgba(103,72,43,.055),transparent 75%),
+    linear-gradient(180deg,#191914 0%,#171713 46%,#141410 100%);
+  background-attachment:fixed;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+  mix-blend-mode:soft-light;
+}
+main{position:relative}
+.hero-photo,.shelf-image-wrap,.discover-image-wrap{
+  box-shadow:0 12px 34px rgba(0,0,0,.16);
+}
+
+/* Featured passage: a proper editorial spread, not a line stretched across empty space */
+.poem-feature{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(190px,.64fr) minmax(0,1.36fr);
+  gap:clamp(30px,5vw,74px);
+  align-items:center;
+  margin-block:18px 22px;
+  padding:42px clamp(20px,3.5vw,48px) 44px;
+  border-top:1px solid rgba(181,141,97,.35);
+  border-bottom:1px solid rgba(181,141,97,.28);
+  background:
+    linear-gradient(105deg,rgba(39,33,25,.78),rgba(27,25,20,.42) 58%,rgba(23,23,19,.18)),
+    radial-gradient(ellipse at 12% 45%,rgba(134,99,59,.14),transparent 70%);
+}
+.poem-feature:before{
+  content:"";
+  position:absolute;
+  top:28px;bottom:28px;left:0;
+  width:2px;
+  background:linear-gradient(180deg,transparent,var(--accent) 18%,var(--accent) 82%,transparent);
+}
+.poem-feature-meta{position:relative;z-index:1}
+.poem-feature-meta .micro{margin:0 0 13px}
+.poem-feature-meta h2{
+  margin:0 0 8px;
+  font:400 clamp(25px,2.7vw,34px)/1.04 var(--serif);
+  letter-spacing:-.025em;
+}
+.poem-feature-meta p:not(.micro){
+  max-width:270px;margin:0;
+  color:var(--muted);font:11px/1.75 var(--sans);
+}
+.poem-feature-meta .text-link{margin-top:13px}
+.poem-feature-quote{
+  margin:0;
+  max-width:820px;
+  color:#e4dac9;
+  font:400 clamp(29px,3.25vw,45px)/1.18 var(--serif);
+  letter-spacing:-.025em;
+  text-wrap:pretty;
+}
+.poem-feature-index{
+  position:absolute;right:clamp(20px,3.5vw,48px);top:15px;
+  color:var(--faint);font:7px var(--mono);letter-spacing:.13em;
+}
+@media(max-width:900px){
+  .poem-feature{grid-template-columns:minmax(170px,.75fr) minmax(0,1.25fr);gap:25px}
+  .poem-feature-quote{font-size:clamp(27px,3.3vw,36px)}
+}
+@media(max-width:700px){
+  body{background-attachment:scroll}
+  .poem-feature{
+    grid-template-columns:1fr;
+    gap:18px;
+    margin-block:10px 15px;
+    padding:27px 19px 29px;
+  }
+  .poem-feature:before{top:18px;bottom:18px}
+  .poem-feature-index{top:12px;right:17px;font-size:6px}
+  .poem-feature-meta .micro{margin-bottom:10px}
+  .poem-feature-meta h2{font-size:26px}
+  .poem-feature-meta p:not(.micro){max-width:330px;font-size:10px}
+  .poem-feature-meta .text-link{margin-top:9px}
+  .poem-feature-quote{
+    font-size:clamp(25px,7vw,32px);
+    line-height:1.22;
+  }
+}
