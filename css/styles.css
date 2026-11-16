@@ -634,3 +634,124 @@ nav a{font-size:9px;letter-spacing:.06em}
   .door-number{font-size:7px}
   .hero-index blockquote{font-size:23px}
 }
+
+/* Photo-led home: editorial imagery, not template-shaped illustration */
+.hero{padding-top:14px}
+.hero-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(28px,4.5vw,64px);align-items:center;padding:34px 0}
+.hero-copy{max-width:560px}
+.hero-copy .micro{margin:0 0 16px}
+.hero h1{font:400 clamp(48px,5.2vw,72px)/.98 var(--serif);max-width:590px;letter-spacing:-.035em}
+.hero-deck{max-width:410px;margin:18px 0 20px;font:italic 17px/1.55 var(--serif);color:#c9bead}
+.hero-link{display:inline-flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--accent);color:var(--accent);font:8px var(--mono);letter-spacing:.09em}
+.hero-link span{font-size:14px}
+.hero-photo{position:relative;margin:0;min-width:0;height:clamp(300px,33vw,430px);border:1px solid #594a38;overflow:hidden;background:#242019}
+.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#17171324,transparent 35%,#1717131a),linear-gradient(0deg,#17171388,transparent 24%);pointer-events:none}
+.hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:sepia(.12) saturate(.72) brightness(.78) contrast(1.02)}
+.hero-photo figcaption{position:absolute;z-index:1;right:12px;bottom:10px;color:#e5d8c5;font:7px var(--mono);letter-spacing:.06em;text-shadow:0 1px 5px #000}
+.bottomline{padding:10px 0}
+.statement{padding:34px 0 40px}
+.statement blockquote{font-size:clamp(25px,2.8vw,36px)}
+.statement-detail{font-size:11px;color:var(--faint)}
+.collection-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border:0}
+.collection-card{display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:0;padding:0;gap:0;border:1px solid var(--line);background:#211f1a!important;box-shadow:none!important;overflow:hidden;transition:border-color .22s,transform .22s}
+.collection-card:before{display:none}
+.collection-card:hover{transform:translateY(-3px);padding:0;border-color:#8a704f;background:#211f1a!important;box-shadow:0 8px 18px #0003!important}
+.shelf-image-wrap,.discover-image-wrap{position:relative;display:block;overflow:hidden;background:#29251e}
+.shelf-image-wrap{height:clamp(130px,13vw,180px)}
+.shelf-photo,.discover-image-wrap img{display:block;width:100%;height:100%;object-fit:cover;filter:sepia(.17) saturate(.67) brightness(.75) contrast(1.02);transition:transform .55s ease,filter .35s ease}
+.collection-card:hover .shelf-photo,.discover-door:hover .discover-image-wrap img{transform:scale(1.035);filter:sepia(.1) saturate(.78) brightness(.83)}
+.photo-credit{position:absolute;left:9px;bottom:8px;padding:3px 5px;background:#171510a8;color:#e3d6c2;font:7px var(--mono);letter-spacing:.035em;text-shadow:0 1px 4px #000}
+.collection-card .shelf-copy{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:14px 15px 13px}
+.collection-card .num{font:7px var(--mono);letter-spacing:.1em;color:var(--accent);margin:0 0 8px}
+.collection-card h3{font:400 26px/1.02 var(--serif);letter-spacing:-.02em;margin:0 0 5px;color:var(--ink)}
+.collection-card p{color:var(--muted);font:11px/1.6 var(--sans);margin:0;min-height:34px}
+.collection-card .card-foot{display:block;text-align:left;margin-top:14px;color:var(--accent);font:7px var(--mono);letter-spacing:.08em}
+.shelf-note{margin:14px 0 0}
+.archive>.text-link{margin-left:0}
+.discover{grid-template-columns:1fr;gap:19px;padding:46px 0 48px}
+.discover-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.7fr);column-gap:34px;align-items:end}
+.discover-heading .micro{grid-column:1/-1;margin-bottom:4px}
+.discover-heading h2{grid-column:1;margin:7px 0 0;font:400 clamp(34px,3.4vw,45px)/1 var(--serif)}
+.discover-heading p:last-child{grid-column:2;grid-row:2;justify-self:end;max-width:340px;margin:0 0 3px}
+.discover-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border:0}
+.discover-door{min-width:0;min-height:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:#211f1a;box-shadow:none!important;transform:none!important;transition:border-color .22s,transform .22s}
+.discover-door:before{display:none}
+.discover-door:hover{padding:0;transform:translateY(-3px)!important;border-color:#8a704f;background:#211f1a}
+.discover-image-wrap{height:clamp(112px,11.5vw,155px);width:100%}
+.door-copy{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:13px 14px 14px;min-height:135px}
+.door-number{color:var(--accent);font:7px var(--mono);letter-spacing:.1em;margin:0 0 8px}
+.door-copy h3{font:400 23px/1.04 var(--serif);letter-spacing:-.02em;margin:0 0 6px}
+.door-copy p{max-width:270px;color:var(--muted);font:10px/1.6 var(--sans);margin:0}
+.door-action{margin-top:auto;padding-top:13px;color:var(--accent);font:7px var(--mono);letter-spacing:.075em}
+.discover-door:hover .door-action{color:var(--ink)}
+.rss-link{font:8px var(--mono);letter-spacing:.06em;color:var(--accent)}
+.intermission{background:#1c1b16}
+.intermission-inner{padding:25px 0}
+.intermission p{font-size:clamp(19px,2.2vw,25px)}
+.statement-detail{font-size:11px}
+.about{padding:48px 0}
+.about-right p{font-size:12px;line-height:1.8}
+.closing{padding:32px 0 38px}
+.photo-credits{border-top:1px solid var(--line);padding:10px 0;color:var(--faint);font:7px var(--mono);letter-spacing:.045em}
+.photo-credits summary{cursor:pointer;list-style:none}
+.photo-credits summary::-webkit-details-marker{display:none}
+.photo-credits summary:after{content:" +";color:var(--accent)}
+.photo-credits[open] summary:after{content:" −"}
+.photo-credits .credit-list{display:flex;flex-wrap:wrap;gap:6px 15px;padding:12px 0 2px}
+.photo-credits a{color:var(--muted);text-decoration:underline;text-decoration-color:#62543e;text-underline-offset:3px}
+.photo-credits a:hover{color:var(--accent)}
+@media(max-width:900px){
+ .hero-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;padding:45px 0}
+ .hero h1{font-size:clamp(44px,5.5vw,60px)}
+ .hero-photo{height:310px}
+ .collection-grid{gap:11px}
+ .collection-card h3{font-size:23px}
+ .collection-card .shelf-copy{padding:12px}
+ .discover-list{gap:11px}
+ .door-copy{padding:12px}
+ .door-copy h3{font-size:21px}
+}
+@media(max-width:700px){
+ .hero-grid{grid-template-columns:1fr;gap:23px;padding:37px 0 28px}
+ .hero-copy{max-width:560px}
+ .hero h1{font-size:clamp(45px,10vw,59px)}
+ .hero-deck{font-size:16px;margin:15px 0 16px}
+ .hero-photo{height:clamp(210px,58vw,310px)}
+ .topline,.bottomline{font-size:7px}
+ .statement{grid-template-columns:1fr;gap:12px;padding:27px 0 32px}
+ .statement blockquote{font-size:27px}
+ .archive{padding:40px 0 42px}
+ .section-head{margin-bottom:17px}
+ .section-head h2{font-size:37px}
+ .collection-grid{grid-template-columns:1fr;gap:12px}
+ .collection-card{display:grid;grid-template-columns:42% minmax(0,1fr);grid-template-rows:1fr;min-height:145px}
+ .shelf-image-wrap{height:100%;min-height:145px}
+ .collection-card .shelf-copy{padding:13px 14px;justify-content:center}
+ .collection-card h3{font-size:24px}
+ .collection-card p{font-size:10px;min-height:0}
+ .collection-card .card-foot{margin-top:11px}
+ .discover{padding:36px 0 38px;gap:15px}
+ .discover-heading{display:block}
+ .discover-heading h2{font-size:36px;margin-top:9px}
+ .discover-heading p:last-child{margin-top:10px;max-width:430px;font-size:11px}
+ .discover-list{grid-template-columns:1fr;gap:12px}
+ .discover-door{display:grid;grid-template-columns:40% minmax(0,1fr);min-height:132px}
+ .discover-image-wrap{height:100%;min-height:132px}
+ .door-copy{min-height:0;padding:12px 13px}
+ .door-copy h3{font-size:23px}
+ .door-copy p{font-size:10px}
+ .door-action{padding-top:10px}
+ .intermission-inner{padding:22px 0}
+ .about{padding:38px 0}
+ .closing{padding:28px 0 32px}
+ .footer{gap:10px}
+}
+@media(max-width:420px){
+ .hero-photo{height:210px}
+ .collection-card{grid-template-columns:39% minmax(0,1fr)}
+ .collection-card .shelf-copy{padding:11px}
+ .collection-card h3{font-size:22px}
+ .discover-door{grid-template-columns:37% minmax(0,1fr)}
+ .door-copy{padding:10px}
+ .door-copy h3{font-size:21px}
+}
