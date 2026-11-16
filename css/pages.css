@@ -184,3 +184,17 @@
   .entry-card h2{font-size:19px}
   .entry-card p{font-size:8.8px}
 }
+
+
+@media(min-width:701px){
+  .page-shell>.micro,
+  .page-shell>.text-link{
+    margin-left:126px;
+  }
+}
+@media(max-width:700px){
+  .page-shell>.micro,
+  .page-shell>.text-link{
+    margin-left:0;
+  }
+}
