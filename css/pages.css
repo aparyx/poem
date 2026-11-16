@@ -444,3 +444,23 @@
 @media(max-width:700px){
   .shelf-header-photo{height:190px;margin-bottom:22px}
 }
+
+
+/* Fresh, unfiltered photographs on the shelf and reading-path pages */
+.shelf-header-photo img,
+.path-card-visual img,
+.chance-image img{filter:none!important}
+.shelf-header-photo figcaption,
+.path-card-visual figcaption,
+.chance-image figcaption{
+  background:#171713b8;
+  color:#e8dfd0;
+  text-shadow:none;
+  font:7px var(--mono);
+}
+.shelf-header-photo figcaption a,
+.path-card-visual figcaption a,
+.chance-image figcaption a{color:inherit;text-decoration:none}
+.shelf-header-photo figcaption a:hover,
+.path-card-visual figcaption a:hover,
+.chance-image figcaption a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
