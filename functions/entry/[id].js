@@ -61,20 +61,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>${title} — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116finish01"><link rel="stylesheet" href="/css/pages.css?v=20261116finish04">
-<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
+<link rel="stylesheet" href="/css/styles.css?v=20261116discover01"><link rel="stylesheet" href="/css/pages.css?v=20261116discover01">
+<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --><a class="skip" href="#main">Skip to content</a><header class="header"><a class="brand" href="/">ad<span>.</span></a>
-<button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive.html">THE ARCHIVE</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
+<button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive.html">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
 <main id="main" class="wrap reader"><a class="back-link" href="/archive.html">← RETURN TO THE ARCHIVE</a><article>
 <p class="micro">${esc(category.toUpperCase())}</p><h1>${title}</h1>${entry.subtitle ? '<p class="entry-subtitle">' + esc(entry.subtitle) + '</p>' : ''}
 <p class="entry-info">${esc(entry.date || "")}</p><div class="entry-body">${paragraphs}</div>
 ${tags.length ? '<p class="micro">THEMES · ' + tags.map(esc).join(' / ') + '</p>' : ''}</article>
 <div class="reader-end"><span>— AD</span><a class="text-link" href="/archive.html">CONTINUE READING ↗</a></div></main>
-<footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
+<footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
 <script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
   return new Response(html, {
     headers: {
