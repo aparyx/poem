@@ -203,7 +203,7 @@ nav a:hover,.text-link:hover{color:var(--accent)}
 }
 .discord-link:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
 @media(min-width:1500px){
-  :root{--max:1180px}
+  :root{--max:1320px}
   .hero h1{font-size:84px}
 }
 @media(max-width:900px){
