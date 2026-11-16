@@ -1,23 +1,34 @@
-.page-shell{min-height:calc(100vh - 150px);padding-top:25px;padding-bottom:66px}
+/* Archive, category, search and reading page layouts */
+.page-shell{
+  min-height:calc(100vh - 150px);
+  min-height:calc(100svh - 150px);
+  padding-top:25px;
+  padding-bottom:66px;
+}
 .page-kicker{
   display:flex;justify-content:space-between;gap:14px;color:var(--faint);
   font-size:7px;border-bottom:1px solid var(--line);padding-bottom:11px;
 }
 .page-heading{
-  display:grid;grid-template-columns:minmax(170px,.72fr) minmax(0,1.28fr);
-  column-gap:clamp(28px,5vw,64px);align-items:start;padding:43px 0 26px;
+  display:grid;grid-template-columns:126px minmax(0,1fr);
+  column-gap:18px;align-items:start;padding:43px 0 26px;
 }
-.page-heading .micro{grid-column:1;grid-row:1/3;padding-top:9px}
+.page-heading .micro{
+  grid-column:1;grid-row:1;padding:8px 0 0 14px;margin:0;
+}
 .page-heading h1{
-  grid-column:2;grid-row:1;font:400 clamp(48px,5.2vw,65px)/.98 var(--serif);
+  grid-column:2;grid-row:1;max-width:760px;
+  font:400 clamp(48px,5.2vw,66px)/.98 var(--serif);
   letter-spacing:-.04em;margin:0;
 }
+.page-heading h1 i{color:var(--accent);font-weight:400}
 .page-intro{
-  grid-column:2;grid-row:2;max-width:500px;color:var(--muted);
+  grid-column:2;grid-row:2;max-width:700px;color:var(--muted);
   font-size:12px;line-height:1.8;margin:10px 0 0;
 }
+.page-heading>.text-link{grid-column:2;grid-row:3;justify-self:start}
 .search-form{
-  display:flex;max-width:720px;border-bottom:1px solid #615747;
+  display:flex;max-width:760px;border-bottom:1px solid #615747;
   margin:10px 0 20px;transition:border-color .2s;
 }
 .search-form:focus-within{border-color:var(--accent)}
@@ -33,7 +44,8 @@
 .filters{display:flex;gap:18px;flex-wrap:wrap}
 .filter{
   border:0;border-bottom:1px solid transparent;background:none;color:var(--faint);
-  padding:8px 0 7px;font-size:7px;cursor:pointer;transition:color .2s,border-color .2s;
+  padding:8px 0 7px;font-size:7px;cursor:pointer;
+  transition:color .2s,border-color .2s;
 }
 .filter.active,.filter:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .archive-tools{
@@ -45,13 +57,19 @@
 .entry-list{border-top:1px solid var(--line)}
 .entry-card{
   display:grid;grid-template-columns:112px minmax(0,1fr) 22px;
-  gap:18px;align-items:center;padding:17px 14px;border-bottom:1px solid var(--line);
-  transition:background .2s,border-color .2s;
+  gap:18px;align-items:center;padding:17px 14px;
+  border-bottom:1px solid var(--line);transition:background .2s,border-color .2s;
 }
 .entry-card:hover{background:#201f19}
-.entry-meta{font-size:7px;color:var(--accent);letter-spacing:.07em}
+.entry-meta{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:7px;color:var(--accent);letter-spacing:.07em;
+}
 .entry-card h2{font:400 26px/1.12 var(--serif);margin:0 0 4px;color:var(--ink)}
-.entry-card p{color:var(--muted);font-size:10px;line-height:1.6;margin:0;max-width:650px}
+.entry-card p{
+  color:var(--muted);font-size:10px;line-height:1.6;
+  margin:0;max-width:760px;
+}
 .entry-arrow{color:var(--accent);font-size:16px;text-align:right}
 .entry-card:hover h2{color:#dfc49a}
 .empty-state{padding:38px 0;text-align:center;color:var(--muted)}
@@ -64,6 +82,7 @@
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0,0,0,0);white-space:nowrap;border:0;
 }
+/* Narrow reading measure for long-form work */
 .reader{min-height:80vh;padding-top:28px;padding-bottom:64px;max-width:790px}
 .back-link{font-size:7px;letter-spacing:.09em;color:var(--accent)}
 #article{padding:45px 0 42px}
@@ -77,8 +96,7 @@
 }
 #article .entry-subtitle{font:italic 18px/1.45 var(--serif);color:var(--muted);margin:0}
 #article .entry-info{
-  font:7px var(--mono);color:var(--faint);letter-spacing:.1em;
-  margin:18px 0 30px;
+  font:7px var(--mono);color:var(--faint);letter-spacing:.1em;margin:18px 0 30px;
 }
 #article .entry-body{
   max-width:720px;font:19px/1.9 var(--serif);
@@ -92,16 +110,22 @@
   color:var(--accent);font:italic 15px var(--serif);
 }
 .reader-end .text-link{margin:0}
+@media(max-width:900px){
+  .page-heading h1{font-size:clamp(46px,6vw,58px)}
+  .entry-card h2{font-size:25px}
+}
 @media(max-width:700px){
   .page-shell{padding-top:20px;padding-bottom:54px}
   .page-heading{display:block;padding:35px 0 21px}
-  .page-heading .micro{margin-bottom:13px}
+  .page-heading .micro{padding:0;margin:0 0 13px}
   .page-heading h1{font-size:clamp(43px,11vw,58px)}
   .page-intro{margin-top:10px;font-size:11px}
   .filters{gap:12px}
   .archive-tools{align-items:flex-start}
   .archive-tools .text-link{font-size:7px}
-  .entry-card{grid-template-columns:minmax(0,1fr) 18px;gap:6px;padding:15px 9px}
+  .entry-card{
+    grid-template-columns:minmax(0,1fr) 18px;gap:6px;padding:15px 9px;
+  }
   .entry-meta{grid-column:1}
   .entry-card h2{font-size:23px}
   .entry-card p{font-size:9px}
@@ -111,57 +135,4 @@
   #article h1{font-size:43px}
   #article .entry-body{font-size:17px;line-height:1.85}
   .reader-end{font-size:13px}
-}
-
-.page-heading>.text-link{grid-column:2;grid-row:3;justify-self:start}
-@media(max-width:700px){.page-heading>.text-link{grid-column:auto;grid-row:auto}}
-
-
-/* Editorial alignment: align section title with the actual reading column */
-@media(min-width:701px){
-  .page-heading{
-    grid-template-columns:clamp(112px,10vw,140px) minmax(0,1fr);
-    column-gap:clamp(18px,2vw,24px);
-  }
-  .page-heading h1,
-  .page-heading .page-intro,
-  .page-heading>.text-link{
-    max-width:720px;
-  }
-  .page-heading .micro{
-    padding-top:8px;
-  }
-}
-
-
-/* Final heading alignment: label, title and description share the list's text column */
-.page-heading{
-  grid-template-columns:112px minmax(0,1fr);
-  column-gap:18px;
-}
-.page-heading .micro{
-  grid-column:2;
-  grid-row:1;
-  padding-top:0;
-  margin:0 0 14px;
-}
-.page-heading h1{
-  grid-column:2;
-  grid-row:2;
-}
-.page-heading .page-intro{
-  grid-column:2;
-  grid-row:3;
-}
-.page-heading>.text-link{
-  grid-column:2;
-  grid-row:4;
-}
-@media(max-width:700px){
-  .page-heading{display:block}
-  .page-heading .micro{margin:0 0 13px}
-  .page-heading h1,.page-heading .page-intro,.page-heading>.text-link{
-    grid-column:auto;
-    grid-row:auto;
-  }
 }
