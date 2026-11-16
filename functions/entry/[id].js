@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>${title} — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116finish01"><link rel="stylesheet" href="/css/pages.css?v=20261116finish02">
+<link rel="stylesheet" href="/css/styles.css?v=20261116finish01"><link rel="stylesheet" href="/css/pages.css?v=20261116finish03">
 <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
