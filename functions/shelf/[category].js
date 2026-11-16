@@ -18,7 +18,7 @@ export async function onRequestGet({ params, env }) {
   const { results = [] } = await env.DB.prepare(
     `SELECT id,title,subtitle,excerpt,date FROM entries WHERE status='published' AND category=? ORDER BY ${ordering}`
   ).bind(category).all();
-  const list = results.map((e) => `<a class="entry-card" href="/entry/${encodeURIComponent(e.id)}"><span class="entry-meta">${esc((e.date || "").toUpperCase())}</span><span><h2>${esc(e.title)}</h2><p>${esc(e.excerpt || e.subtitle || "")}</p></span><span class="entry-arrow">↗</span></a>`).join("");
+  const list = results.map((e) => `<a class="entry-card" href="/entry/${encodeURIComponent(e.id)}"><span class="entry-meta">${(e.date ? esc(String(e.date).toUpperCase()) : "UNDATED")}</span><span><h2>${esc(e.title)}</h2><p>${esc(e.excerpt || e.subtitle || "")}</p></span><span class="entry-arrow">↗</span></a>`).join("");
   const title = LABELS[category];
   const url = ORIGIN + "/shelf/" + category;
   const description = DESCRIPTIONS[category];
