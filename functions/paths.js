@@ -1,8 +1,8 @@
 const ORIGIN = "https://aprashanna.com.np";
 const PATHS = [
-  { title: "Love, Belief & Letting Go", note: "A small passage through trust, heartbreak, and the difficult work of beginning again.", ids: ["love-rests-upon-belief-20261109", "the-broken-man", "another-beginning-20261115"] },
-  { title: "The Weight of Being Human", note: "Pieces about identity, judgment, tenderness, and the strange expectations we place on ourselves.", ids: ["a-man-with-nothing", "the-sin-we-hate", "what-a-life-we-live", "when-a-human-loses-his-tears", "the-cruelty-of-kindness"] },
-  { title: "The Quiet Things We Carry", note: "Dreams, clouds, solitude, and the thoughts that remain after the noise has passed.", ids: ["the-girl-in-my-dream", "clouds-20261109", "on-fragments", "another-horizon"] }
+  { title: "Love, Belief & Letting Go", note: "Three pieces about what we believe, what hurts, and what it takes to begin again.", ids: ["love-rests-upon-belief-20261109", "the-broken-man", "another-beginning-20261115"] },
+  { title: "The Weight of Being Human", note: "From feeling like nothing to asking what makes us human.", ids: ["a-man-with-nothing", "the-sin-we-hate", "what-a-life-we-live", "when-a-human-loses-his-tears", "the-cruelty-of-kindness"] },
+  { title: "The Quiet Things We Carry", note: "Clouds, dreams, and the thoughts that don't quite leave.", ids: ["the-girl-in-my-dream", "clouds-20261109", "on-fragments", "another-horizon"] }
 ];
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const categoryLabel = (value) => ({ poetry: "POETRY", fiction: "FICTION", fragments: "FRAGMENT" }[value] || "WRITING");
@@ -41,7 +41,7 @@ export async function onRequestGet({ env }) {
 <title>Reading Paths — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116human01"><link rel="stylesheet" href="/css/pages.css?v=20261116human01">
+<link rel="stylesheet" href="/css/styles.css?v=20261116human02"><link rel="stylesheet" href="/css/pages.css?v=20261116human01">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-CX700WJ4RW');</script>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-NNZZZ7MR');</script>
 </head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -49,9 +49,9 @@ export async function onRequestGet({ env }) {
 <header class="header"><a class="brand" href="/">ad<span>.</span></a><button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive.html">THE ARCHIVE</a><a href="/paths" aria-current="page">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
 <main id="main" class="wrap page-shell paths-page">
 <div class="page-kicker"><span>THE UNQUIET ARCHIVE</span><span>READ WITHOUT A MAP</span></div>
-<div class="page-heading"><p class="micro">READING PATHS</p><h1>Follow a<br><i>thread.</i></h1><p class="page-intro">These are invitations, not categories. Follow a path in order, skip around, or leave it halfway through. The writing decides where it belongs.</p></div>
+<div class="page-heading"><p class="micro">READING PATHS</p><h1>Follow a<br><i>thread.</i></h1><p class="page-intro">I put these pieces together because they seem to speak to one another. Read them in order, or don't.</p></div>
 <section class="path-grid" aria-label="Curated reading paths">${renderedPaths || '<p class="empty-state">The paths are still taking shape. The full archive is open in the meantime.</p>'}</section>
-<section class="chance-panel"><div><p class="micro">NO PLAN REQUIRED</p><h2>Leave it to<br><i>chance.</i></h2><p>Let the archive choose a page for you. Any published piece, from any shelf.</p></div><a class="chance-link" href="/random">OPEN A RANDOM PAGE <span>↗</span></a></section>
+<section class="chance-panel"><div><p class="micro">NO PLAN REQUIRED</p><h2>Leave it to<br><i>chance.</i></h2><p>A random page from anywhere in the archive. See where you land.</p></div><a class="chance-link" href="/random">PICK A PAGE FOR ME <span>↗</span></a></section>
 </main><footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
   return new Response(html, { headers });
 }
