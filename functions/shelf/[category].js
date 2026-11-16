@@ -43,7 +43,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website"><meta property="og:site_name" content="The Unquiet Archive"><meta property="og:title" content="${title} — The Unquiet Archive"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${url}">
 <title>${title} — The Unquiet Archive</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116finish01"><link rel="stylesheet" href="/css/pages.css?v=20261116finish03"></head>
+<link rel="stylesheet" href="/css/styles.css?v=20261116finish01"><link rel="stylesheet" href="/css/pages.css?v=20261116finish04"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
