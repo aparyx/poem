@@ -79,7 +79,7 @@ ${tags.length ? '<p class="micro">THEMES · ' + tags.map(esc).join(' / ') + '</p
   return new Response(html, {
     headers: {
       "content-type": "text/html; charset=utf-8",
-      "cache-control": "public, max-age=60, s-maxage=300",
+      "cache-control": "public, max-age=0, s-maxage=60, must-revalidate",
       "x-content-type-options": "nosniff",
       "referrer-policy": "no-referrer",
       "x-frame-options": "DENY",
