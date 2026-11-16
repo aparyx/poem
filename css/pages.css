@@ -132,3 +132,36 @@
     padding-top:8px;
   }
 }
+
+
+/* Final heading alignment: label, title and description share the list's text column */
+.page-heading{
+  grid-template-columns:112px minmax(0,1fr);
+  column-gap:18px;
+}
+.page-heading .micro{
+  grid-column:2;
+  grid-row:1;
+  padding-top:0;
+  margin:0 0 14px;
+}
+.page-heading h1{
+  grid-column:2;
+  grid-row:2;
+}
+.page-heading .page-intro{
+  grid-column:2;
+  grid-row:3;
+}
+.page-heading>.text-link{
+  grid-column:2;
+  grid-row:4;
+}
+@media(max-width:700px){
+  .page-heading{display:block}
+  .page-heading .micro{margin:0 0 13px}
+  .page-heading h1,.page-heading .page-intro,.page-heading>.text-link{
+    grid-column:auto;
+    grid-row:auto;
+  }
+}
