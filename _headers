@@ -15,3 +15,6 @@
 
 /api/*
   Cache-Control: no-store
+
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
