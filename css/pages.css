@@ -188,13 +188,15 @@
 
 @media(min-width:701px){
   .page-shell>.micro,
-  .page-shell>.text-link{
+  .page-shell>.text-link,
+  .page-shell>.result-count{
     margin-left:126px;
   }
 }
 @media(max-width:700px){
   .page-shell>.micro,
-  .page-shell>.text-link{
+  .page-shell>.text-link,
+  .page-shell>.result-count{
     margin-left:0;
   }
 }
