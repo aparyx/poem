@@ -8,6 +8,7 @@ export async function onRequestGet({ env }) {
   const urls = [
     { loc: ORIGIN + "/", changefreq: "weekly", priority: "1.0" },
     { loc: ORIGIN + "/archive.html", changefreq: "weekly", priority: "0.9" },
+    { loc: ORIGIN + "/paths", changefreq: "monthly", priority: "0.8" },
     { loc: ORIGIN + "/shelf/poetry", changefreq: "weekly", priority: "0.8" },
     { loc: ORIGIN + "/shelf/fragments", changefreq: "weekly", priority: "0.8" },
     { loc: ORIGIN + "/shelf/fiction", changefreq: "weekly", priority: "0.7" },
