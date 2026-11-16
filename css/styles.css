@@ -280,3 +280,8 @@ nav a:hover,.text-link:hover{color:var(--accent)}
   html{scroll-behavior:auto}
   *,*::before,*::after{transition:none!important}
 }
+
+
+/* Keep reading width deliberately editorial on large desktop screens */
+:root{--max:1160px}
+@media(min-width:1500px){:root{--max:1160px}}
