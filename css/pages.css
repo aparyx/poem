@@ -350,3 +350,7 @@
   .chance-panel{grid-template-columns:1fr;gap:15px;padding:22px 2px}
   .chance-link{width:100%}
 }
+
+
+/* The page keeps its own character; no artificial margin labels */
+.page-shell:before,.page-shell:after{content:none!important;display:none!important}
