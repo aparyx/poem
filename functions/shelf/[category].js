@@ -43,7 +43,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website"><meta property="og:site_name" content="The Unquiet Archive"><meta property="og:title" content="${title} — The Unquiet Archive"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${url}">
 <title>${title} — The Unquiet Archive</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116human01"><link rel="stylesheet" href="/css/pages.css?v=20261116human01"><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
+<link rel="stylesheet" href="/css/styles.css?v=20261116human02"><link rel="stylesheet" href="/css/pages.css?v=20261116human02"><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
