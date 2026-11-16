@@ -60,8 +60,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${title} — The Unquiet Archive"><meta name="twitter:description" content="${description}">
 <title>${title} — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css?v=20261116discover01"><link rel="stylesheet" href="/css/pages.css?v=20261116discover01">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css?v=20261116human01"><link rel="stylesheet" href="/css/pages.css?v=20261116human01">
 <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
