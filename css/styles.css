@@ -13,7 +13,7 @@
   --sans:"DM Sans",Arial,sans-serif;
   --mono:"DM Mono",monospace;
   --g:clamp(22px,4vw,56px);
-  --max:1160px;
+  --max:1320px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
@@ -283,5 +283,5 @@ nav a:hover,.text-link:hover{color:var(--accent)}
 
 
 /* Keep reading width deliberately editorial on large desktop screens */
-:root{--max:1160px}
-@media(min-width:1500px){:root{--max:1160px}}
+:root{--max:1320px}
+@media(min-width:1500px){:root{--max:1320px}}
