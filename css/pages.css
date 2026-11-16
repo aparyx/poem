@@ -115,3 +115,20 @@
 
 .page-heading>.text-link{grid-column:2;grid-row:3;justify-self:start}
 @media(max-width:700px){.page-heading>.text-link{grid-column:auto;grid-row:auto}}
+
+
+/* Editorial alignment: align section title with the actual reading column */
+@media(min-width:701px){
+  .page-heading{
+    grid-template-columns:clamp(112px,10vw,140px) minmax(0,1fr);
+    column-gap:clamp(18px,2vw,24px);
+  }
+  .page-heading h1,
+  .page-heading .page-intro,
+  .page-heading>.text-link{
+    max-width:720px;
+  }
+  .page-heading .micro{
+    padding-top:8px;
+  }
+}
