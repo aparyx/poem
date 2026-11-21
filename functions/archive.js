@@ -74,7 +74,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="entry-list" id="entries" aria-live="polite">${cards || '<p class="page-intro">No published writing here yet.</p>'}</section>
 <div class="empty-state" id="empty" hidden><span class="empty-mark">∅</span><h2>The shelf is quiet.</h2><p>No published writing here yet. The empty space is intentional. No words will be invented to fill it.</p><a class="text-link" href="/">BACK TO THE BEGINNING ↑</a></div>
 </main>
-<footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b id="year">2026</b> AD</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
+<footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b id="year">2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
 <script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
   return new Response(html, {
     headers: {
