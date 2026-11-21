@@ -58,6 +58,6 @@ export async function onRequestGet({ env }) {
   <figure class="chance-image"><img src="https://images.unsplash.com/photo-1597591406871-b57baac13802?auto=format&fit=crop&w=900&q=80" alt="Dice resting on a wooden table" loading="lazy"></figure>
   <div class="chance-copy"><p class="micro">NO PLAN REQUIRED</p><h2>Leave it to<br><i>chance.</i></h2><p>A random page from anywhere in the archive. See where you land.</p><a class="chance-link" href="/random">PICK A PAGE FOR ME <span>↗</span></a></div>
 </section>
-</main><footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
+</main><footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b>2026</b> AD</span></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
   return new Response(html, { headers });
 }
