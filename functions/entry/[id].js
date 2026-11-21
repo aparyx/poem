@@ -24,6 +24,9 @@ export async function onRequestGet({ params, env }) {
   const paragraphs = String(entry.body || "").split(/\n\s*\n/).map((p) =>
     "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>"
   ).join("");
+  const entryImage = entry.id === "the-person-we-become-20261121"
+    ? '<figure class="entry-inline-image"><img src="https://images.unsplash.com/photo-1672488948494-74c5e5ce3d46?auto=format&fit=crop&w=1100&q=82" alt="A solitary figure walking along a misty forest path, with the trees fading into the distance." loading="eager"><figcaption>Photograph by <a href="https://unsplash.com/photos/person-walking-through-a-misty-forest-with-sunbeams-tShk_bW2PtU" target="_blank" rel="noopener noreferrer">Zetong Li</a> / Unsplash</figcaption></figure>'
+    : "";
   const tags = (() => { try { return JSON.parse(entry.tags || "[]"); } catch { return []; } })();
   const schema = {
     "@context": "https://schema.org",
@@ -62,6 +65,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/styles.css?v=20261116psych01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo02">
+${entryImage ? '<style>.entry-inline-image{float:right;width:min(41%,300px);margin:0 0 1.5rem 2rem;padding:0}.entry-inline-image img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.72) brightness(.88)}.entry-inline-image figcaption{margin-top:9px;color:var(--faint);font:8px/1.5 var(--mono);letter-spacing:.04em}.entry-inline-image figcaption a{color:var(--accent);text-decoration:none}@media(max-width:600px){.entry-inline-image{float:none;width:100%;max-width:420px;margin:0 auto 2rem}.entry-inline-image img{aspect-ratio:16/10}}</style>' : ''}
 <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -71,7 +75,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
 <main id="main" class="wrap reader"><a class="back-link" href="/archive">← RETURN TO THE ARCHIVE</a><article>
 <p class="micro">${esc(category.toUpperCase())}</p><h1>${title}</h1>${entry.subtitle ? '<p class="entry-subtitle">' + esc(entry.subtitle) + '</p>' : ''}
-<p class="entry-info">${esc(entry.date || "")}</p><div class="entry-body">${paragraphs}</div>
+<p class="entry-info">${esc(entry.date || "")}</p><div class="entry-body">${entryImage}${paragraphs}</div>
 ${tags.length ? '<p class="micro">THEMES · ' + tags.map(esc).join(' / ') + '</p>' : ''}</article>
 <div class="reader-end"><span>— AD</span><a class="text-link" href="/archive">CONTINUE READING ↗</a></div></main>
 <footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><a class="rss-link" href="/feed.xml">FOLLOW VIA RSS ↗</a><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
