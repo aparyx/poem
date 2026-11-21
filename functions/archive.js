@@ -18,6 +18,22 @@ export async function onRequestGet({ env }) {
   const description = "Browse original poetry, fiction, and fragments in The Unquiet Archive by Ad. Explore writing on memory, loneliness, love, belief, and the human condition.";
   const html = `<!doctype html>
 <html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CX700WJ4RW');
+</script>
+<!-- End Google tag -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NNZZZ7MR');</script>
+<!-- End Google Tag Manager -->
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#151512"><meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${ORIGIN}/archive">
@@ -42,6 +58,10 @@ export async function onRequestGet({ env }) {
 <link rel="stylesheet" href="/css/styles.css?v=20261116psych01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo02">
 <link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml">
 <script src="/js/archive.js" defer></script></head><body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <a class="skip" href="#main">Skip to content</a>
 <header class="header"><a class="brand" href="/">ad<span>.</span></a><button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button>
 <nav id="nav"><a href="/archive">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
