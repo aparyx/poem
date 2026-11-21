@@ -24,45 +24,6 @@ export async function onRequestGet({ params, env }) {
   const paragraphs = String(entry.body || "").split(/\n\s*\n/).map((p) =>
     "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>"
   ).join("");
-  // Distinct Unsplash photographs, chosen to echo each poem's central image.
-  const POEM_IMAGES = {
-    "the-person-we-become-20261121": {
-      src: "https://images.unsplash.com/photo-1672488948494-74c5e5ce3d46?auto=format&fit=crop&w=1100&q=82",
-      alt: "A solitary figure walking along a misty forest path that disappears into the trees."
-    },
-    "memories-20261117": {
-      src: "https://images.unsplash.com/photo-1528569937393-ee892b976859?auto=format&fit=crop&w=1100&q=82",
-      alt: "An old family photo album being opened, its black-and-white photographs holding the past."
-    },
-    "the-girl-in-my-dream": {
-      src: "https://images.unsplash.com/photo-1777383504729-bd8364d28de8?auto=format&fit=crop&w=1100&q=82",
-      alt: "Warm morning light falling through sheer curtains onto an empty bed."
-    },
-    "the-broken-man": {
-      src: "https://images.unsplash.com/photo-1577558071727-08bf96d5d5e2?auto=format&fit=crop&w=1100&q=82",
-      alt: "A solitary figure seen through rain-speckled glass in a dim room."
-    },
-    "the-cruelty-of-kindness": {
-      src: "https://images.unsplash.com/photo-1753910259860-510bfc72789b?auto=format&fit=crop&w=1100&q=82",
-      alt: "A delicate purple flower bending beneath a layer of frost."
-    },
-    "the-sin-we-hate": {
-      src: "https://images.unsplash.com/photo-1699453223822-d2a91b7a9309?auto=format&fit=crop&w=1100&q=82",
-      alt: "A dim cathedral interior with deep shadows and a narrow trace of stained-glass colour."
-    },
-    "another-horizon": {
-      src: "https://images.unsplash.com/photo-1566570217868-c123d5d7afbd?auto=format&fit=crop&w=1100&q=82",
-      alt: "The sun rising over a calm, open sea."
-    },
-    "when-a-human-loses-his-tears": {
-      src: "https://images.unsplash.com/photo-1725038874273-50e386caeb9a?auto=format&fit=crop&w=1100&q=82",
-      alt: "Raindrops gathering on a window against a blurred, indistinct world."
-    }
-  };
-  const poemImage = entry.category === "poetry" ? POEM_IMAGES[entry.id] : null;
-  const entryImage = poemImage
-    ? '<figure class="entry-inline-image"><img src="' + esc(poemImage.src) + '" alt="' + esc(poemImage.alt) + '" loading="eager"></figure>'
-    : "";
   const tags = (() => { try { return JSON.parse(entry.tags || "[]"); } catch { return []; } })();
   const schema = {
     "@context": "https://schema.org",
@@ -101,7 +62,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/styles.css?v=20261116psych01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo02">
-${entryImage ? '<style>.entry-inline-image{float:right;width:min(40%,320px);margin:0 0 1.6rem 2rem;padding:0}.entry-inline-image img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.72) brightness(.88);border-radius:2px}@media(max-width:600px){.entry-inline-image{float:none;width:100%;max-width:420px;margin:0 auto 2rem}.entry-inline-image img{aspect-ratio:16/10}}</style>' : ''}
 <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -111,7 +71,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
 <main id="main" class="wrap reader"><a class="back-link" href="/archive">← RETURN TO THE ARCHIVE</a><article>
 <p class="micro">${esc(category.toUpperCase())}</p><h1>${title}</h1>${entry.subtitle ? '<p class="entry-subtitle">' + esc(entry.subtitle) + '</p>' : ''}
-<p class="entry-info">${esc(entry.date || "")}</p><div class="entry-body">${entryImage}${paragraphs}</div>
+<p class="entry-info">${esc(entry.date || "")}</p><div class="entry-body">${paragraphs}</div>
 ${tags.length ? '<p class="micro">THEMES · ' + tags.map(esc).join(' / ') + '</p>' : ''}</article>
 <div class="reader-end"><span>— AD</span><a class="text-link" href="/archive">CONTINUE READING ↗</a></div></main>
 <footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer>
