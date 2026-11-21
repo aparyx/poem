@@ -40,7 +40,7 @@ export async function onRequestGet({ env }) {
   const html = `<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151512">
 <meta name="description" content="Follow a few reading paths through The Unquiet Archive. Invitations across poems, fiction and fragments, not genre rules.">
-<link rel="canonical" href="${ORIGIN}/paths"><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="${ORIGIN}/feed.xml">
+<link rel="canonical" href="${ORIGIN}/paths">
 <title>Reading Paths — The Unquiet Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
