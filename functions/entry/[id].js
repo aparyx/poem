@@ -102,7 +102,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/styles.css?v=20261116psych01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo02">
 ${entryImage ? '<style>.entry-inline-image{float:right;width:min(40%,320px);margin:0 0 1.6rem 2rem;padding:0}.entry-inline-image img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.72) brightness(.88);border-radius:2px}@media(max-width:600px){.entry-inline-image{float:none;width:100%;max-width:420px;margin:0 auto 2rem}.entry-inline-image img{aspect-ratio:16/10}}</style>' : ''}
-<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script><link rel="alternate" type="application/rss+xml" title="The Unquiet Archive — RSS" href="/feed.xml"></head>
+<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
