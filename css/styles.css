@@ -914,3 +914,20 @@ main{position:relative}
     line-height:1.22;
   }
 }
+
+
+/* Small readability polish: keep the editorial scale, clarify the quiet labels */
+@media (min-width: 701px) {
+  nav a {
+    color: #b8ae9e;
+    font-size: 10px;
+  }
+  .topline,
+  .bottomline {
+    color: #918878;
+    font-size: 9px;
+  }
+  .hero-copy > .micro {
+    font-size: 9px;
+  }
+}
