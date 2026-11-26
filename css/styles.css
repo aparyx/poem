@@ -1269,3 +1269,50 @@ nav a:hover{color:#e0b77b}
 @media(prefers-reduced-motion:reduce){
   .hero-link,.shelf-photo,.discover-image-wrap img{transition:none!important}
 }
+
+
+/* Responsive correction: the legacy named grid areas must not leak into photo cards. */
+@media(max-width:900px){
+  .discover{grid-template-columns:1fr;gap:20px}
+  .discover-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.8fr);align-items:end;gap:8px 24px}
+  .discover-heading .micro{grid-column:1/-1}
+  .discover-heading h2{grid-column:1;grid-row:2}
+  .discover-heading p:last-child{grid-column:2;grid-row:2;justify-self:end}
+  .discover-list{grid-template-columns:1fr;gap:14px}
+  .discover-door{
+    display:grid;
+    grid-template-columns:minmax(0,38%) minmax(0,1fr);
+    grid-template-areas:none;
+    align-items:stretch;
+    min-height:178px;
+  }
+  .discover-image-wrap{
+    grid-area:auto;
+    width:100%;
+    height:auto;
+    min-height:178px;
+    align-self:stretch;
+  }
+  .door-copy{
+    grid-area:auto;
+    min-height:178px;
+    justify-content:center;
+  }
+}
+@media(max-width:700px){
+  .discover{gap:15px}
+  .discover-heading{display:block}
+  .discover-heading h2{margin-top:9px}
+  .discover-heading p:last-child{margin-top:10px;max-width:430px}
+  .discover-list{grid-template-columns:1fr;gap:13px}
+  .discover-door{
+    grid-template-columns:minmax(0,40%) minmax(0,1fr);
+    min-height:148px;
+  }
+  .discover-image-wrap,.door-copy{min-height:148px}
+  .door-copy{padding:13px}
+}
+@media(max-width:420px){
+  .discover-door{grid-template-columns:minmax(0,37%) minmax(0,1fr)}
+  .door-copy{padding:10px}
+}
