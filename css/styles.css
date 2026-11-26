@@ -1316,3 +1316,33 @@ nav a:hover{color:#e0b77b}
   .discover-door{grid-template-columns:minmax(0,37%) minmax(0,1fr)}
   .door-copy{padding:10px}
 }
+
+
+/* Tablet portrait: give collection shelves enough width for their descriptions. */
+@media (min-width:701px) and (max-width:900px){
+  .collection-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .collection-card{
+    display:grid;
+    grid-template-columns:minmax(0,38%) minmax(0,1fr);
+    align-items:stretch;
+    min-height:158px;
+    padding:0;
+  }
+  .collection-card:hover{padding:0}
+  .shelf-image-wrap{
+    height:auto;
+    min-height:158px;
+  }
+  .collection-card .shelf-copy{
+    min-height:0;
+    justify-content:center;
+    padding:16px 18px;
+  }
+  .collection-card h3{font-size:27px}
+  .collection-card p{font-size:11px}
+  .collection-card .card-foot{margin-top:12px}
+}
