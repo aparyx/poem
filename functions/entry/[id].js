@@ -16,8 +16,6 @@ export async function onRequestGet({ params, env }) {
     "SELECT id,title,subtitle,category,date,excerpt,tags,body FROM entries WHERE id=? AND status='published' LIMIT 1"
   ).bind(id).first();
   if (!entry) return new Response("Not found.", { status: 404 });
-  const nonceBytes = crypto.getRandomValues(new Uint8Array(16));
-  const nonce = btoa(String.fromCharCode(...nonceBytes));
 
   const title = esc(entry.title);
   const description = esc((entry.excerpt || entry.subtitle || entry.body || "").replace(/\s+/g, " ").slice(0, 155));
@@ -42,7 +40,7 @@ export async function onRequestGet({ params, env }) {
 <html lang="en"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script>
-<script nonce="${nonce}">
+<script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -50,7 +48,7 @@ export async function onRequestGet({ params, env }) {
 </script>
 <!-- End Google tag -->
 <!-- Google Tag Manager -->
-<script nonce="${nonce}">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -64,7 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/styles.css?v=20261116psych01"><link rel="stylesheet" href="/css/pages.css?v=20261116photo02">
-<script nonce="${nonce}" type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
+<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script></head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNZZZ7MR"
@@ -86,7 +84,7 @@ ${tags.length ? '<p class="micro">THEMES · ' + tags.map(esc).join(' / ') + '</p
       "referrer-policy": "no-referrer",
       "x-frame-options": "DENY",
       "strict-transport-security": "max-age=31536000; includeSubDomains",
-      "content-security-policy": `default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; form-action 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://www.google.com https://stats.g.doubleclick.net https://cloudflareinsights.com; upgrade-insecure-requests`
+      "content-security-policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests"
     }
   });
 }
