@@ -8,7 +8,8 @@ export async function onRequestGet({ env }) {
   ).all();
   const items = results.map((entry) => {
     const link = SITE + "/entry/" + encodeURIComponent(entry.id);
-    const description = [entry.subtitle, entry.excerpt].filter(Boolean).join("&#10;&#10;");
+    // Use literal newlines. Pre-escaped XML entities would be escaped a second time.
+    const description = [entry.subtitle, entry.excerpt].filter(Boolean).join("\n\n");
     const pubDate = entry.date ? new Date(entry.date + "T00:00:00Z").toUTCString() : "";
     return `<item><title>${escapeXml(entry.title)}</title><link>${escapeXml(link)}</link><guid isPermaLink="true">${escapeXml(link)}</guid>${pubDate ? `<pubDate>${pubDate}</pubDate>` : ""}<description>${escapeXml(description)}</description>${entry.category ? `<category>${escapeXml(entry.category)}</category>` : ""}</item>`;
   }).join("\n");
