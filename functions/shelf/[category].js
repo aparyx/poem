@@ -17,6 +17,8 @@ export async function onRequestGet({ params, env }) {
   const category = String(params.category || "");
   if (!LABELS[category]) return new Response("Not found.", { status: 404 });
   if (!env.DB) return new Response("Archive temporarily unavailable.", { status: 503 });
+  const nonceBytes = crypto.getRandomValues(new Uint8Array(16));
+  const nonce = btoa(String.fromCharCode(...nonceBytes));
   const ordering = category === "fragments"
     ? "CASE WHEN id='on-fragments' THEN 0 ELSE 1 END, date DESC, updated_at DESC"
     : "date DESC, updated_at DESC";
@@ -31,7 +33,7 @@ export async function onRequestGet({ params, env }) {
   const html = `<!doctype html><html lang="en"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CX700WJ4RW"></script>
-<script>
+<script nonce="${nonce}">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -39,7 +41,7 @@ export async function onRequestGet({ params, env }) {
 </script>
 <!-- End Google tag -->
 <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script nonce="${nonce}">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -57,5 +59,5 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --><a class="skip" href="#main">Skip to content</a><header class="header"><a class="brand" href="/">ad<span>.</span></a><button class="menu" aria-expanded="false" aria-controls="nav">MENU <b>☰</b></button><nav id="nav"><a href="/archive">THE ARCHIVE</a><a href="/paths">DISCOVER</a><a href="/#manifesto">A NOTE</a><a href="/#about">ABOUT</a><a href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT / DISCORD ↗</a></nav></header>
 <main id="main" class="wrap page-shell"><div class="page-kicker"><span>THE UNQUIET ARCHIVE</span><span>THE COLLECTION</span></div><div class="page-heading"><p class="micro">THE SHELVES</p><h1>${title}<br><i>in the archive.</i></h1><p class="page-intro">${esc(description)}</p></div><figure class="shelf-header-photo"><img src="${visual.src}" alt="${esc(visual.alt)}"></figure><section class="entry-list">${list || '<p class="page-intro">This shelf is quiet for now.</p>'}</section><p class="micro">${results.length} PUBLISHED WORKS</p><a class="text-link" href="/archive">EXPLORE THE COMPLETE ARCHIVE ↗</a></main>
 <footer class="footer wrap"><a class="brand" href="/">ad<span>.</span></a><span>AN ARCHIVE OF WORDS & OTHERWISE</span><span>© <b>2026</b> AD</span><a class="discord-link" href="https://discord.com/users/1367853427375214646" target="_blank" rel="noopener noreferrer">CONTACT VIA DISCORD ↗</a></footer><script src="/js/main.js?v=20261115editorial" defer></script></body></html>`;
-  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=0, s-maxage=60, must-revalidate", "x-content-type-options": "nosniff", "referrer-policy": "no-referrer", "x-frame-options": "DENY", "strict-transport-security": "max-age=31536000; includeSubDomains", "content-security-policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests" } });
+  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=0, s-maxage=60, must-revalidate", "x-content-type-options": "nosniff", "referrer-policy": "no-referrer", "x-frame-options": "DENY", "strict-transport-security": "max-age=31536000; includeSubDomains", "content-security-policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; form-action 'self'; script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://www.google.com https://stats.g.doubleclick.net https://cloudflareinsights.com; upgrade-insecure-requests" } });
 }
